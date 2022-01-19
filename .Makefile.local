@@ -1,4 +1,11 @@
 # bootstrap setup
 
+define PACKAGE_LIST
+	cmake
+	git-delta
+	libvterm
+endef
+
+
 bootstrap:
-	brew install git-delta
+	brew install $(shell echo $(PACKAGE_LIST))
