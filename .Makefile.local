@@ -1,0 +1,4 @@
+# bootstrap setup
+
+bootstrap:
+	brew install git-delta
