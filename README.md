@@ -11,10 +11,9 @@
        Copyright (c) 2022 S. Varrette <sebastien.varrette@gmail.com>
 
 Personal settings and customization for [Spacemacs](https://www.spacemacs.org/), the Emacs distribution I'm now using.
-See my previous emacs settings: `Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) for Emacs 24.
+See my previous emacs settings: [`Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) for Emacs 24.
 
-## Setup (Mac OS X)
-
+## Setup (Mac OS 
 See also [Spacemacs Practicalli](https://practical.li/spacemacs/)
 
 1. Install Emacs (See [emacs-plus](https://github.com/d12frosted/homebrew-emacs-plus) for more information.)
@@ -49,4 +48,14 @@ brew install --cask font-source-code-pro
 $> mkdir -p ~/git/github.com/Falkor/
 $> cd ~/git/github.com/Falkor/
 $> git clone git@github.com:Falkor/spacemacs-config.git
+```
+
+## Extra software installation 
+
+### Magit
+
+Install [Delta](https://dandavison.github.io/delta/installation.html)
+
+```bash 
+brew install git-delta
 ```
