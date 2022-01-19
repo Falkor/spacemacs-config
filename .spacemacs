@@ -38,7 +38,8 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (auto-completion :variables
+     (ansible
+      auto-completion :variables
                       auto-completion-complete-with-key-sequence-delay 0.2
                       auto-completion-enable-help-tooltip 'manual
                       auto-completion-enable-sort-by-usage t
@@ -53,6 +54,7 @@ This function should only modify configuration layer settings."
           git-enable-magit-delta-plugin t   ;; brew install git-delta
           git-enable-magit-gitflow-plugin t ;; brew install git-flow
           )
+     github
      helm
      ;; lsp
      markdown
@@ -61,14 +63,16 @@ This function should only modify configuration layer settings."
           osx-option-as 'none       ;; Very important to allow for all keys \
           osx-right-option-as 'meta)
      python
+     spacemacs-project
      themes-megapack
      ;; org
-     ;;(shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-term-shell "/bin/zsh"
+            shell-default-shell vterm   ;; brew install libvterm
+            shell-default-height 30
+            shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
-     version-control
      (treemacs :variables
                treemacs-lock-width t
                treemacs-use-git-mode 'deferred
@@ -76,6 +80,7 @@ This function should only modify configuration layer settings."
                treemacs-use-follow-mode t
                treemacs-use-filewatch-mode t
                treemacs-use-follow-mode 'tag)
+     version-control
      )
 
 
@@ -89,6 +94,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    '(
+     color-theme-solarized
      doom-themes
      solo-jazz-theme)
 
