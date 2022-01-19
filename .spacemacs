@@ -49,7 +49,10 @@ This function should only modify configuration layer settings."
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
      emacs-lisp
-     git
+     (git :variables
+          git-enable-magit-delta-plugin t   ;; brew install git-delta
+          git-enable-magit-gitflow-plugin t ;; brew install git-flow
+          )
      helm
      ;; lsp
      markdown
