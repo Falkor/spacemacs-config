@@ -69,9 +69,11 @@ This function should only modify configuration layer settings."
      ;; org
      (shell :variables
             shell-default-term-shell "/bin/bash"
-            shell-default-shell multi-term   ;; brew install libvterm
+            shell-default-shell 'multi-term   ;; brew install libvterm
+            multi-term-program "/bin/bash"
             shell-default-height 30
-            shell-default-position 'bottom)
+            shell-default-position 'bottom
+            close-window-with-terminal t)
      ;; spell-checking
      ;; syntax-checking
      (treemacs :variables
@@ -95,7 +97,6 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    '(
-     color-theme-solarized
      doom-themes
      solo-jazz-theme)
 
@@ -602,6 +603,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; kill buffer
   (spacemacs/set-leader-keys "b k" 'spacemacs/kill-this-buffer)
+
+  ;; run shell
+  (spacemacs/set-leader-keys "$" 'spacemacs/default-pop-shell)
+
+  ;; projectile
+  (global-set-key (kbd "C-x C-p") 'helm-projectile)                ;; SPC p h
+  (global-set-key (kbd "C-x C-o") 'helm-projectile-switch-project) ;; SPC p l 
+
+  ;; Compile - 'SPC c m' to run helm-make 
+  (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
+  (global-set-key (kbd "<f6>")     'compile)
+
   )
 
 
