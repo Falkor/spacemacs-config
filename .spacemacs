@@ -632,16 +632,16 @@ before packages are loaded."
     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
 
-  ;; ===========================
-  ;; === Custom Key bindings ===
-  ;; ===========================
+  ;; ==============================
+  ;; === Personnal Key bindings ===
+  ;; ==============================
   ;; Beginning / End of line
   (global-set-key (kbd "<home>") 'beginning-of-line)
   (global-set-key (kbd "<end>")  'end-of-line)
   (global-set-key (kbd "C-e")    'end-of-line)
 
   ;; comment/uncomment line  SPC c l
-  (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines) 
+  (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
 
   ;; Move from one buffer to another using 'C-<' and 'C->' OR better: SPC b p and SPC b n
   (global-set-key (kbd "C-<") 'previous-buffer)
@@ -660,19 +660,13 @@ before packages are loaded."
 
   ;; projectile
   (global-set-key (kbd "C-x C-p") 'helm-projectile)                ;; SPC p h
-  (global-set-key (kbd "C-x C-o") 'helm-projectile-switch-project) ;; SPC p l 
+  (global-set-key (kbd "C-x C-o") 'helm-projectile-switch-project) ;; SPC p l
 
   ;; Compile - 'SPC c m' to run helm-make
   (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
   (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
   (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
   (global-set-key (kbd "<f6>")     'compile)
-
-  ;; ============================
-  ;; === Final Customizations ===
-  ;; ============================  
-
-
   )
 
 
