@@ -49,7 +49,7 @@ This function should only modify configuration layer settings."
      (better-defaults :variables
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
-     drt-indent
+     dtrt-indent
      emacs-lisp
      (git :variables
           git-enable-magit-delta-plugin t   ;; brew install git-delta
@@ -100,7 +100,8 @@ This function should only modify configuration layer settings."
    '(
      bury-successful-compilation
      doom-themes
-     solo-jazz-theme)
+     solo-jazz-theme
+     ws-butler)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -191,7 +192,7 @@ It should only modify the values of Spacemacs settings."
    ;; to `emacs-version'. (default 'emacs-version)
    dotspacemacs-elpa-subdirectory 'emacs-version
 
-   ;; One of `vim', `emacs' or `hybrid'. 
+   ;; One of `vim', `emacs' or `hybrid'.
    ;; `hybrid' is like `vim' except that `insert state' is replaced by the
    ;; `hybrid state' with `emacs' key bindings. The value can also be a list
    ;; with `:variables' keyword (similar to layers). Check the editing styles
@@ -521,7 +522,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'trailing
 
    ;; If non-nil activate `clean-aindent-mode' which tries to correct
    ;; virtual indentation of simple modes. This can interfere with mode specific
@@ -596,10 +597,16 @@ before packages are loaded."
   (setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
   (xterm-mouse-mode -1)
+  ;; show trailing whitespace
+  (add-hook 'prog-mode-hook (lambda ()
+                              (setq show-trailing-whitespace t)))
+
   ;; Delete trailing whitespace etc.
-  (ws-butler-mode 1)
+  ;; (ws-butler-mode 1)
   ;; Make cursor the width of the character it is under i.e. full width of a TAB
   (setq x-stretch-cursor t)
+  ;; Better highlight matching parenthesis
+
 
   ;; =============================
   ;; === Layers Customizations ===
@@ -618,7 +625,7 @@ before packages are loaded."
   (setq-default git-magit-status-fullscreen t)
   (setq magit-commit-all-when-nothing-staged t)
 
-  ;; -- Treemacs 
+  ;; -- Treemacs
   ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826
   ;; Single Click in Treemacs
   (with-eval-after-load 'treemacs
