@@ -4,6 +4,12 @@ define PACKAGE_LIST
 	cmake
 	git-delta
 	libvterm
+  shellcheck
+endef
+
+define NPM_PACKAGE_LIST
+  bash-language-server
+  vmd
 endef
 
 
