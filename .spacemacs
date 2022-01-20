@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
           )
      github
      helm
+     latex
      ;; lsp
      markdown
      multiple-cursors
@@ -67,8 +68,8 @@ This function should only modify configuration layer settings."
      themes-megapack
      ;; org
      (shell :variables
-            shell-default-term-shell "/bin/zsh"
-            shell-default-shell vterm   ;; brew install libvterm
+            shell-default-term-shell "/bin/bash"
+            shell-default-shell multi-term   ;; brew install libvterm
             shell-default-height 30
             shell-default-position 'bottom)
      ;; spell-checking
@@ -577,6 +578,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; =============================
   ;; Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
   (setq-default git-magit-status-fullscreen t)
+  (setq magit-commit-all-when-nothing-staged t)
 
   ;; ===========================
   ;; === Custom Key bindings ===
