@@ -641,7 +641,9 @@ before packages are loaded."
 
   ;; -- Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
   (setq-default git-magit-status-fullscreen t)
-  (setq magit-commit-all-when-nothing-staged t)
+  (setq magit-commit-arguments '("--signoff")
+        magit-commit-all-when-nothing-staged t)
+
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
 
