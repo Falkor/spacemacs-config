@@ -97,6 +97,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    '(
+     bury-successful-compilation
      doom-themes
      solo-jazz-theme)
 
@@ -590,7 +591,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (global-set-key (kbd "C-e")    'end-of-line)
 
   ;; comment/uncomment line  SPC c l
-  (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines) ; DOES NOT WORK 
+  (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines) 
 
   ;; Move from one buffer to another using 'C-<' and 'C->' OR better: SPC b p and SPC b n
   (global-set-key (kbd "C-<") 'previous-buffer)
