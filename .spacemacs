@@ -65,6 +65,7 @@ This function should only modify configuration layer settings."
           osx-option-as 'none       ;; Very important to allow for all keys \
           osx-right-option-as 'meta)
      python
+     spacemacs-default
      spacemacs-project
      themes-megapack
      ;; org
@@ -596,7 +597,15 @@ before packages are loaded."
   ;; ===============
   (setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
-  (xterm-mouse-mode -1)
+  ;;(xterm-mouse-mode -1)
+
+  ;; Correct copy-paste to clipboard
+  (setq select-enable-clipboard t)
+  ;; after mouse selection in X11, you can paste by `yank' in emacs
+  ;;(Setq x-select-enable-primary t)
+  (setq mouse-drag-copy-region  t)
+
+
   ;; show trailing whitespace
   (add-hook 'prog-mode-hook (lambda ()
                               (setq show-trailing-whitespace t)))
