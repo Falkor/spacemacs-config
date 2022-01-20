@@ -65,8 +65,6 @@ This function should only modify configuration layer settings."
           osx-option-as 'none       ;; Very important to allow for all keys \
           osx-right-option-as 'meta)
      python
-     spacemacs-default
-     spacemacs-project
      themes-megapack
      ;; org
      (shell :variables
@@ -101,6 +99,7 @@ This function should only modify configuration layer settings."
    '(
      bury-successful-compilation
      doom-themes
+     mic-paren
      solo-jazz-theme
      ws-butler)
 
@@ -108,7 +107,9 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(
+                                    highlight-parentheses
+                                    )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -595,16 +596,17 @@ before packages are loaded."
   ;; ===============
   ;; === Display ===
   ;; ===============
+  ;; Emacs-like movement of cursor with Evil
+  (setq evil-cross-lines t)
   (setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
-  ;;(xterm-mouse-mode -1)
+  (xterm-mouse-mode -1)
 
   ;; Correct copy-paste to clipboard
   (setq select-enable-clipboard t)
   ;; after mouse selection in X11, you can paste by `yank' in emacs
   ;;(Setq x-select-enable-primary t)
   (setq mouse-drag-copy-region  t)
-
 
   ;; show trailing whitespace
   (add-hook 'prog-mode-hook (lambda ()
@@ -615,7 +617,14 @@ before packages are loaded."
   ;; Make cursor the width of the character it is under i.e. full width of a TAB
   (setq x-stretch-cursor t)
   ;; Better highlight matching parenthesis
-
+  ;;(set-face-attribute 'show-paren-match nil :foreground "white" :background "red")
+  (use-package mic-paren
+    :config
+    (setq blink-matching-paren nil)
+    (paren-activate))
+  ;; Turn this off to stop it interfering with mic-paren.
+  ;;(set-face-attribute 'sp-show-pair-match-face nil    :foreground 'unspecified :background 'unspecified)
+  ;;(set-face-attribute 'sp-show-pair-mismatch-face nil :foreground 'unspecified :background 'unspecified)
 
   ;; =============================
   ;; === Layers Customizations ===
@@ -644,17 +653,49 @@ before packages are loaded."
   ;; ==============================
   ;; === Personnal Key bindings ===
   ;; ==============================
+  ;;
+  ;; Shift-arrow to also select text in normal mode
+  ;; Alernative: v for visual then arrow
+  (define-key evil-normal-state-map (kbd "S-<left>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (backward-char)))
+  (define-key evil-normal-state-map (kbd "S-<right>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (forward-char)))
+  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
+  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
+
   ;; Beginning / End of line
   (global-set-key (kbd "<home>") 'beginning-of-line)
   (global-set-key (kbd "<end>")  'end-of-line)
-  (global-set-key (kbd "C-e")    'end-of-line)
+  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+  ;; revert C-w to delete previous word even in insert
+  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
 
   ;; comment/uncomment line  SPC c l
   (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
 
+  ;; === Buffer/Window change
   ;; Move from one buffer to another using 'C-<' and 'C->' OR better: SPC b p and SPC b n
   (global-set-key (kbd "C-<") 'previous-buffer)
   (global-set-key (kbd "C->") 'next-buffer)
+  ;; === Window switching   SPC w w
+  (global-set-key [C-prior] 'other-window)
+  (global-set-key [C-next]  'other-window)
+
+  ;; === Kill this buffer ===
+  (global-set-key (kbd "C-q") 'kill-this-buffer)
+
+
+
 
   ;; === Font size ===
   ;; I may prefer C-+ and C-- for window enlarge/schrink
@@ -670,6 +711,8 @@ before packages are loaded."
   ;; projectile
   (global-set-key (kbd "C-x C-p") 'helm-projectile)                ;; SPC p h
   (global-set-key (kbd "C-x C-o") 'helm-projectile-switch-project) ;; SPC p l
+  ;; open recent files SPC f r
+  (global-set-key (kbd "C-x C-r") 'lazy-helm/helm-recentf)
 
   ;; Compile - 'SPC c m' to run helm-make
   (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
@@ -713,7 +756,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry transient pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode lsp-treemacs bui lsp-mode lv cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic keycast guide-key vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company solo-jazz-theme zonokai-emacs zenburn-theme zen-and-art-theme ws-butler writeroom-mode winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection string-edit spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme restart-emacs request rebecca-theme rainbow-delimiters railscasts-theme quickrun purple-haze-theme professional-theme popwin planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pcre2el password-generator paradox overseer organic-green-theme org-superstar open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum link-hint light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gandalf-theme font-lock+ flycheck-package flycheck-elsa flx-ido flatui-theme flatland-theme farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emr elisp-slime-nav editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes django-theme dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode chocolate-theme cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line)))
+   '(mic-paren yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry transient pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode lsp-treemacs bui lsp-mode lv cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic keycast guide-key vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company solo-jazz-theme zonokai-emacs zenburn-theme zen-and-art-theme ws-butler writeroom-mode winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection string-edit spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme restart-emacs request rebecca-theme rainbow-delimiters railscasts-theme quickrun purple-haze-theme professional-theme popwin planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pcre2el password-generator paradox overseer organic-green-theme org-superstar open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum link-hint light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gandalf-theme font-lock+ flycheck-package flycheck-elsa flx-ido flatui-theme flatland-theme farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emr elisp-slime-nav editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes django-theme dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode chocolate-theme cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
