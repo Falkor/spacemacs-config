@@ -49,6 +49,7 @@ This function should only modify configuration layer settings."
      (better-defaults :variables
                       better-defaults-move-to-beginning-of-code-first t
                       better-defaults-move-to-end-of-code-first t)
+     drt-indent
      emacs-lisp
      (git :variables
           git-enable-magit-delta-plugin t   ;; brew install git-delta
@@ -570,17 +571,59 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+
+  )
+
+
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called only while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included in the
+dump."
+)
+
+
+(defun dotspacemacs/user-config ()
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
   ;; ===============
   ;; === Display ===
   ;; ===============
   (setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
+  ;; Use Mouse to copy/paste
+  (xterm-mouse-mode -1)
+  ;; Delete trailing whitespace etc.
+  (ws-butler-mode 1)
+  ;; Make cursor the width of the character it is under i.e. full width of a TAB
+  (setq x-stretch-cursor t)
 
   ;; =============================
   ;; === Layers Customizations ===
   ;; =============================
-  ;; Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
+  ;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
+  (use-package bury-successful-compilation
+    :config (bury-successful-compilation 1))
+  (setq compilation-window-height 10)
+
+  ;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
+  (add-hook 'prog-mode-hook #'(lambda ()
+                                (dtrt-indent-mode)
+                                (dtrt-indent-adapt)))
+
+  ;; -- Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
   (setq-default git-magit-status-fullscreen t)
   (setq magit-commit-all-when-nothing-staged t)
+
+  ;; -- Treemacs 
+  ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826
+  ;; Single Click in Treemacs
+  (with-eval-after-load 'treemacs
+    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+
 
   ;; ===========================
   ;; === Custom Key bindings ===
@@ -612,33 +655,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (global-set-key (kbd "C-x C-p") 'helm-projectile)                ;; SPC p h
   (global-set-key (kbd "C-x C-o") 'helm-projectile-switch-project) ;; SPC p l 
 
-  ;; Compile - 'SPC c m' to run helm-make 
+  ;; Compile - 'SPC c m' to run helm-make
+  (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
+  (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
   (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
   (global-set-key (kbd "<f6>")     'compile)
 
+  ;; ============================
+  ;; === Final Customizations ===
+  ;; ============================  
+
+
   )
-
-
-(defun dotspacemacs/user-load ()
-  "Library to load while dumping.
-This function is called only while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included in the
-dump."
-)
-
-
-(defun dotspacemacs/user-config ()
-  "Configuration for user code:
-This function is called at the very end of Spacemacs startup, after layer
-configuration.
-Put your configuration code here, except for variables that should be set
-before packages are loaded."
-
-  ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826
-  ;; Single Click in Treemacs
-  (with-eval-after-load 'treemacs
-    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
-)
 
 
 ;; Do not write anything past this comment. This is where Emacs will
