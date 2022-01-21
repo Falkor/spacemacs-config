@@ -2,6 +2,12 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; Definitions of my personal layers
+;; (defconst falkor/spacemacs-dir
+;;   )
+
+
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -38,8 +44,8 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (ansible
-      auto-completion :variables
+      ansible
+      (auto-completion :variables
                       auto-completion-complete-with-key-sequence-delay 0.2
                       auto-completion-enable-help-tooltip 'manual
                       auto-completion-enable-sort-by-usage t
@@ -57,9 +63,16 @@ This function should only modify configuration layer settings."
           )
      github
      helm
+     html
      latex
-     ;; lsp
-     markdown
+     (lsp :variables
+          ;; default segments
+          lsp-modeline-code-actions-segments '(count icon))
+     (markdown :variables
+               markdown-open-command (concat dotspacemacs-directory "markdown_open")
+               markdown-italic-underscore t
+               markdown-live-preview-engine 'vmd
+     )
      multiple-cursors
      (osx :variables
           osx-option-as 'none       ;; Very important to allow for all keys \
@@ -80,7 +93,7 @@ This function should only modify configuration layer settings."
      ;; syntax-checking
      (templates :variables
                 templates-use-default-templates nil
-                templates-private-directory (concat spacemacs-directory "templates"))
+                templates-private-directory (concat dotspacemacs-directory "templates"))
      (treemacs :variables
                treemacs-lock-width t
                treemacs-use-git-mode 'deferred
