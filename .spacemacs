@@ -126,7 +126,7 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(
-                                    highlight-parentheses
+                                    ;;highlight-parentheses
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -642,13 +642,25 @@ before packages are loaded."
   (setq x-stretch-cursor t)
   ;; Better highlight matching parenthesis
   ;;(set-face-attribute 'show-paren-match nil :foreground "white" :background "red")
-  (use-package mic-paren
-    :config
-    (setq blink-matching-paren nil)
-    (paren-activate))
+  ;;(require 'paren)
+  ;;(show-paren-mode t)
+  ;;(setq show-paren-style 'expression)
+  ;;(set-face-background 'show-paren-match-face "turquoise")
+  ;;(set-face-foreground 'show-paren-mismatch-face "red")
+  ;;(set-face-attribute 'show-paren-mismatch-face nil
+  ;;                    :weight 'bold :underline t :overline nil :slant 'normal)
   ;; Turn this off to stop it interfering with mic-paren.
   ;;(set-face-attribute 'sp-show-pair-match-face nil    :foreground 'unspecified :background 'unspecified)
   ;;(set-face-attribute 'sp-show-pair-mismatch-face nil :foreground 'unspecified :background 'unspecified)
+  ;; show matching parenthesis, even if found outside the present screen.
+  ;; see http://www.emacswiki.org/emacs/MicParen
+  ;; (require 'mic-paren)                    ; loading
+  ;; (paren-activate)                        ; activating
+  (use-package mic-paren
+    :init
+    (setq show-paren-delay 0)
+    :config
+    (show-paren-mode +1))
 
   ;; =============================
   ;; === Layers Customizations ===
