@@ -709,11 +709,17 @@ before packages are loaded."
   ;; see http://www.emacswiki.org/emacs/MicParen
   ;; (require 'mic-paren)                    ; loading
   ;; (paren-activate)                        ; activating
-  (use-package mic-paren
-    :init
-    (setq show-paren-delay 0)
-    :config
-    (show-paren-mode +1))
+  ;; (use-package mic-paren
+  ;;   :init
+  ;;   (setq show-paren-delay 0)
+  ;;   :config
+  ;;   (show-paren-mode +1))
+
+  ;; Better vim-compliant search with <up> and <down> key
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
 
   ;; =============================
   ;; === Layers Customizations ===
@@ -748,6 +754,9 @@ before packages are loaded."
   ;; ==============================
   ;; undo on C-z instead of suspend-frame
   (global-set-key (kbd "C-z") 'undo-tree-undo)
+
+  ;; better search  SPC s s
+  (global-set-key (kbd "C-s") 'helm-swoop-without-pre-input)
 
   ;; Shift-arrow to also select text in normal mode
   ;; Alernative: v for visual then arrow
