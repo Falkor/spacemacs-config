@@ -695,6 +695,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
+  (spaceline-toggle-all-the-icons-buffer-position-on)
   ;; ===============
   ;; === Display ===
   ;; ===============
