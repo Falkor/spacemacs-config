@@ -74,8 +74,13 @@ This function should only modify configuration layer settings."
             shell-default-height 30
             shell-default-position 'bottom
             close-window-with-terminal t)
+     (shell-scripts :variables
+                    shell-scripts-format-on-save t)
      ;; spell-checking
      ;; syntax-checking
+     (templates :variables
+                templates-use-default-templates nil
+                templates-private-directory (concat spacemacs-directory "templates"))
      (treemacs :variables
                treemacs-lock-width t
                treemacs-use-git-mode 'deferred
@@ -586,6 +591,12 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
 )
 
+(defun falkor/markdown-preview-file ()
+  "run Marked on the current file and revert the buffer"
+  (interactive)
+  (shell-command
+   (format "open -a /Applications/Marked.app %s"
+           (shell-quote-argument (buffer-file-name)))))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -657,7 +668,9 @@ before packages are loaded."
   ;; ==============================
   ;; === Personnal Key bindings ===
   ;; ==============================
-  ;;
+  ;; undo on C-z instead of suspend-frame
+  (global-set-key (kbd "C-z") 'undo-tree-undo)
+
   ;; Shift-arrow to also select text in normal mode
   ;; Alernative: v for visual then arrow
   (define-key evil-normal-state-map (kbd "S-<left>")
@@ -699,7 +712,9 @@ before packages are loaded."
   (global-set-key (kbd "C-q") 'kill-this-buffer)
 
 
-
+  ;; Markdown preview with Marked 2
+  (eval-after-load 'markdown-mode
+    '(define-key markdown-mode-map (kbd "C-c C-v") 'falkor/markdown-preview-file))
 
   ;; === Font size ===
   ;; I may prefer C-+ and C-- for window enlarge/schrink

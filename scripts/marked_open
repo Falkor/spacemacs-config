@@ -1,0 +1,27 @@
+#! /bin/bash
+# Time-stamp: <Wed 2021-04-14 17:32 svarrette>
+################################################################################
+# Open a file with Marked 2 - https://marked2app.com/
+################################################################################
+CMD_PREFIX=
+
+print_error_and_exit() { error $*; exit 1; }
+usage() {
+    cat <<EOF
+NAME
+  $(basename $0): Open a [markdown] file passed as parameter with Marked2
+USAGE
+  $0 <path/to/file>.md
+EOF
+}
+
+################################################################################
+# Check for options
+while [ $# -ge 1 ]; do
+    case $1 in
+        -h | --help) usage; exit 0;;
+        -n | --noop | --dry-run) CMD_PREFIX=echo;;
+        *) OPTS=$*; break;;
+    esac
+    shift
+done
