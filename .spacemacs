@@ -1,10 +1,41 @@
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
+;;; Setup -*- lexical-binding: t; -*-
+;;; Time-stamp: <Fri 2022-01-21 22:47 svarrette>
+;;;; Commentary
 
-;; Definitions of my personal layers
-;; (defconst falkor/spacemacs-dir
-;;   )
+;;  _____     _ _              _       ____
+;; |  ___|_ _| | | _____  _ __( )___  / ___| _ __   __ _  ___ ___ _ __ ___   __ _  ___ ___
+;; | |_ / _` | | |/ / _ \| '__|// __| \___ \| '_ \ / _` |/ __/ _ \ '_ ` _ \ / _` |/ __/ __|
+;; |  _| (_| | |   < (_) | |    \__ \  ___) | |_) | (_| | (_|  __/ | | | | | (_| | (__\__ \
+;; |_|  \__,_|_|_|\_\___/|_|    |___/ |____/| .__/ \__,_|\___\___|_| |_| |_|\__,_|\___|___/
+;;                                          |_|
+;;
+;;         Copyright (c) Sebastien Varrrette <sebastien.varrrette@gmail.com>
+;;
+;; -- Sebastien Varrette aka Falkor's Spacemacs Configuration --
+;; -- MIT License --
+;; -- Emacs 27.1 ~ Spacemacs Dev Branch 0.999.x ~ pkgs updated: 1/21/19 --
+;; -- http://modernemacs.com --
+;;
+;; Personal layers host most of my configuration - see README.
+;; Ligatures and icons require installation - see README.
+;; Resources:
+;;   - https://github.com/Falkor/emacs-config2 (previous Emacs config)
+;;   - https://github.com/ekaschalk/.spacemacs.d
+
+;;;; Constants
+
+(defconst linux?   (eq system-type 'gnu/linux) "Are we on a linux machine?")
+(defconst mac?     (eq system-type 'darwin)    "Are we on a macOS machine?")
+(defconst windows? (not (or linux? mac?))      "Are we on windows machine?")
+
+;; Helper function for root path
+(defun get-conf-path(path)
+  "Appends argument at the end of emacs-root using expand-file-name"
+  (expand-file-name path user-emacs-directory))
+(defun spacemacs/get-conf-path(path)
+  "Appends argument at the end of emacs-root using expand-file-name"
+  (expand-file-name path dotspacemacs-directory))
+
 
 
 
@@ -34,7 +65,7 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
