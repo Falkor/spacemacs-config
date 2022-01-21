@@ -91,7 +91,7 @@ This function should only modify configuration layer settings."
      (shell-scripts :variables
                     shell-scripts-format-on-save t)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
      (templates :variables
                 templates-use-default-templates nil
                 templates-private-directory (concat dotspacemacs-directory "templates"))
@@ -591,7 +591,7 @@ See the header of this file for more information."
 ;; to be placed in a dedicated layer
 ;; Adapted from: https://gist.github.com/synic/0357fdc2dcc777d89d1e
 (defun save-framegeometry ()
-  "Gets the current frame's geometry and saves to ~/.emacs.d/framegeometry."
+  "Gets the current frame's geometry and save to ~/.emacs.d/framegeometry."
   (let (
         (framegeometry-left (frame-parameter (selected-frame) 'left))
         (framegeometry-top (frame-parameter (selected-frame) 'top))
@@ -623,8 +623,7 @@ See the header of this file for more information."
         (write-file framegeometry-file))))
   )
 (defun load-framegeometry ()
-  "Loads ~/.emacs.d/framegeometry which should load the previous frame's
-geometry."
+  "Loads ~/.emacs.d/framegeometry which should load the previous frame's geometry."
   (let ((framegeometry-file (expand-file-name (concat user-emacs-directory ".framegeometry"))))
     (when (file-readable-p framegeometry-file)
       (load-file framegeometry-file)))
@@ -641,8 +640,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (if window-system
       (progn
         (add-hook 'after-init-hook 'load-framegeometry)
-        (add-hook 'kill-emacs-hook 'save-framegeometry))
-    )
+        (add-hook 'kill-emacs-hook 'save-framegeometry)))
   )
 
 
@@ -690,6 +688,12 @@ before packages are loaded."
   ;; Make cursor the width of the character it is under i.e. full width of a TAB
   (setq x-stretch-cursor t)
   ;; Better highlight matching parenthesis
+  (use-package rainbow-delimiters)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;; to enable it in all programming-related modes
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+		                  :foreground "red"
+		                  :inherit 'error
+		                  :box t)
   ;;(set-face-attribute 'show-paren-match nil :foreground "white" :background "red")
   ;;(require 'paren)
   ;;(show-paren-mode t)
@@ -785,12 +789,11 @@ before packages are loaded."
   ;; === Kill this buffer ===
   (global-set-key (kbd "C-q") 'kill-this-buffer)
 
-
   ;; Markdown preview with Marked 2
   (eval-after-load 'markdown-mode
     '(define-key markdown-mode-map (kbd "C-c C-v") 'falkor/markdown-preview-file))
 
-  ;; === Font size ===
+  ;; Font size
   ;; I may prefer C-+ and C-- for window enlarge/schrink
   (global-set-key (kbd "C-+")    'text-scale-increase)
   (global-set-key (kbd "C--")    'text-scale-decrease)
@@ -846,6 +849,7 @@ This function is called at the very end of Spacemacs initialization."
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
+ '(next-error-recenter '(4))
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
