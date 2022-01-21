@@ -4,6 +4,7 @@
 # Open a file with Marked 2 - https://marked2app.com/
 ################################################################################
 CMD_PREFIX=
+APP="/Applications/Marked.app"
 
 print_error_and_exit() { error $*; exit 1; }
 usage() {
@@ -25,3 +26,6 @@ while [ $# -ge 1 ]; do
     esac
     shift
 done
+[ ! -d "${APP}" ] && print_error_and_exit "Unable to find application file '${APP}'"
+
+${CMD_PREFIX} open -a "${APP}" ${OPTS}
