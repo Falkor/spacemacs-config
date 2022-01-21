@@ -106,6 +106,8 @@ This function should only modify configuration layer settings."
                markdown-live-preview-engine 'vmd
      )
      multiple-cursors
+     (org :variables
+          org-enable-github-support t)
      (osx :variables
           osx-option-as 'none       ;; Very important to allow for all keys \
           osx-right-option-as 'meta)
@@ -672,6 +674,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (progn
         (add-hook 'after-init-hook 'load-framegeometry)
         (add-hook 'kill-emacs-hook 'save-framegeometry)))
+  (setq evil-want-keybinding nil)
+
   )
 
 
@@ -704,7 +708,7 @@ before packages are loaded."
   (setq evil-cross-lines t)
   ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
-  (xterm-mouse-mode -1)
+  ;; (xterm-mouse-mode -1)
 
   ;; Correct copy-paste to clipboard
   (setq select-enable-clipboard t)
@@ -752,7 +756,9 @@ before packages are loaded."
   (evil-select-search-module 'evil-search-module 'evil-search)
   ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
   ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
-
+  ;; helm-swoop
+  (setq helm-swoop-use-fuzzy-match t)
+  (setq helm-swoop-use-line-number-face t)
 
   ;; =============================
   ;; === Layers Customizations ===
@@ -790,6 +796,8 @@ before packages are loaded."
 
   ;; better search  SPC s s
   (global-set-key (kbd "C-s") 'helm-swoop-without-pre-input)
+  ;; better replace withe Anzu - https://github.com/emacsorphanage/anzu
+  (global-set-key (kbd "H-s") 'anzu-query-replace)
 
   ;; Shift-arrow to also select text in normal mode
   ;; Alernative: v for visual then arrow
