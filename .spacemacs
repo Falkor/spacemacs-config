@@ -152,6 +152,7 @@ This function should only modify configuration layer settings."
      bury-successful-compilation
      doom-themes
      mic-paren
+     time-stamp
      solo-jazz-theme
      ws-butler)
 
@@ -865,6 +866,20 @@ before packages are loaded."
   (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
   (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
   (global-set-key (kbd "<f6>")     'compile)
+
+  ;; ===========================
+  ;; === Complementary Tools ===
+  ;; ===========================
+  (use-package time-stamp
+    :init
+    (progn
+      ;; format of the string inserted by `M-x time-stamp'
+      (setq time-stamp-format "%3a %:y-%02m-%02d %02H:%02M %u")
+                                        ; `Weekday YYYY-MM-DD HH:MM USER'
+
+      ;; update time stamps every time you save a buffer
+      (add-hook 'write-file-hooks 'time-stamp)))
+
   )
 
 
