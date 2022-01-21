@@ -67,6 +67,7 @@ This function should only modify configuration layer settings."
      latex
      (lsp :variables
           ;; default segments
+
           lsp-modeline-code-actions-segments '(count icon))
      (markdown :variables
                markdown-open-command (concat dotspacemacs-directory "markdown_open")
@@ -586,6 +587,50 @@ See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
 )
 
+;; === Restore geometry functions ===
+;; to be placed in a dedicated layer
+;; Adapted from: https://gist.github.com/synic/0357fdc2dcc777d89d1e
+(defun save-framegeometry ()
+  "Gets the current frame's geometry and saves to ~/.emacs.d/framegeometry."
+  (let (
+        (framegeometry-left (frame-parameter (selected-frame) 'left))
+        (framegeometry-top (frame-parameter (selected-frame) 'top))
+        (framegeometry-width (frame-parameter (selected-frame) 'width))
+        (framegeometry-height (frame-parameter (selected-frame) 'height))
+        (framegeometry-file (expand-file-name (concat user-emacs-directory ".framegeometry")))
+        )
+
+    (when (not (number-or-marker-p framegeometry-left))
+      (setq framegeometry-left 0))
+    (when (not (number-or-marker-p framegeometry-top))
+      (setq framegeometry-top 0))
+    (when (not (number-or-marker-p framegeometry-width))
+      (setq framegeometry-width 0))
+    (when (not (number-or-marker-p framegeometry-height))
+      (setq framegeometry-height 0))
+
+    (with-temp-buffer
+      (insert
+       ";;; This is the previous emacs frame's geometry.\n"
+       ";;; Last generated " (current-time-string) ".\n"
+       "(setq initial-frame-alist\n"
+       "      '(\n"
+       (format "        (top . %d)\n" (max framegeometry-top 0))
+       (format "        (left . %d)\n" (max framegeometry-left 0))
+       (format "        (width . %d)\n" (max framegeometry-width 0))
+       (format "        (height . %d)))\n" (max framegeometry-height 0)))
+      (when (file-writable-p framegeometry-file)
+        (write-file framegeometry-file))))
+  )
+(defun load-framegeometry ()
+  "Loads ~/.emacs.d/framegeometry which should load the previous frame's
+geometry."
+  (let ((framegeometry-file (expand-file-name (concat user-emacs-directory ".framegeometry"))))
+    (when (file-readable-p framegeometry-file)
+      (load-file framegeometry-file)))
+  )
+
+
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
@@ -593,7 +638,11 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-
+  (if window-system
+      (progn
+        (add-hook 'after-init-hook 'load-framegeometry)
+        (add-hook 'kill-emacs-hook 'save-framegeometry))
+    )
   )
 
 
@@ -622,7 +671,7 @@ before packages are loaded."
   ;; ===============
   ;; Emacs-like movement of cursor with Evil
   (setq evil-cross-lines t)
-  (setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
+  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
   (xterm-mouse-mode -1)
 
