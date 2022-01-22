@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Fri 2022-01-21 22:47 svarrette>
+;;; Time-stamp: <Sat 2022-01-22 10:41 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -29,14 +29,18 @@
 (defconst windows? (not (or linux? mac?))      "Are we on windows machine?")
 
 ;; Helper function for root path
-(defun get-conf-path(path)
-  "Appends argument at the end of emacs-root using expand-file-name"
-  (expand-file-name path user-emacs-directory))
 (defun spacemacs/get-conf-path(path)
-  "Appends argument at the end of emacs-root using expand-file-name"
+  "Appends argument at the end of user-emacs-directory (~/.config/emacs)
+   using expand-file-name"
+  (expand-file-name path user-emacs-directory))
+(defun falkor/get-conf-path(path)
+  "Appends argument at the end of dotspacemacs-directory (~/.spacemacs.d)
+   using expand-file-name"
   (expand-file-name path dotspacemacs-directory))
 
-
+;; ============================ Let's go! ============================
+(load (falkor/get-conf-path "settings/layers"))
+(require 'falkor/configuration-layers)
 
 
 (defun dotspacemacs/layers ()
@@ -67,77 +71,8 @@ This function should only modify configuration layer settings."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
-   ;; List of configuration layers to load.
-   dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-      ansible
-      (auto-completion :variables
-                      auto-completion-complete-with-key-sequence-delay 0.2
-                      auto-completion-enable-help-tooltip 'manual
-                      auto-completion-enable-sort-by-usage t
-                      :disabled-for
-                      org
-                      git)
-     (better-defaults :variables
-                      better-defaults-move-to-beginning-of-code-first t
-                      better-defaults-move-to-end-of-code-first t)
-     dtrt-indent
-     emacs-lisp
-     (git :variables
-          git-enable-magit-delta-plugin t   ;; brew install git-delta
-          git-enable-magit-gitflow-plugin t ;; brew install git-flow
-          )
-     github
-     helm
-     html
-     latex
-     (lsp :variables
-          ;; default segments
-
-          lsp-modeline-code-actions-segments '(count icon))
-     (markdown :variables
-               markdown-open-command (concat dotspacemacs-directory "markdown_open")
-               markdown-italic-underscore t
-               markdown-live-preview-engine 'vmd
-     )
-     multiple-cursors
-     (org :variables
-          org-enable-github-support t)
-     (osx :variables
-          osx-option-as 'none       ;; Very important to allow for all keys \
-          osx-right-option-as 'meta)
-     python
-     themes-megapack
-     ;; org
-     (shell :variables
-            shell-default-term-shell "/bin/bash"
-            shell-default-shell 'multi-term   ;; brew install libvterm
-            multi-term-program "/bin/bash"
-            shell-default-height 30
-            shell-default-position 'bottom
-            close-window-with-terminal t)
-     (shell-scripts :variables
-                    shell-scripts-format-on-save t)
-     ;; spell-checking
-     syntax-checking
-     (templates :variables
-                templates-use-default-templates nil
-                templates-private-directory (concat dotspacemacs-directory "templates"))
-     (treemacs :variables
-               treemacs-lock-width t
-               treemacs-use-git-mode 'deferred
-               treemacs-use-all-the-icons-theme t
-               treemacs-use-follow-mode t
-               treemacs-use-filewatch-mode t
-               treemacs-use-follow-mode 'tag)
-     version-control
-     )
-
+   ;; List of configuration layers to load -- see settings/layers.el
+   dotspacemacs-configuration-layers falkor/dotspacemacs-configuration-layers
 
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -147,22 +82,14 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages
-   '(
-     bury-successful-compilation
-     doom-themes
-     mic-paren
-     time-stamp
-     solo-jazz-theme
-     ws-butler)
+   ;;  see settings/layers.el
+   dotspacemacs-additional-packages  falkor/dotspacemacs-additional-packages
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(
-                                    ;;highlight-parentheses
-                                    )
+   dotspacemacs-excluded-packages falkor/dotspacemacs-excluded-packages
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
