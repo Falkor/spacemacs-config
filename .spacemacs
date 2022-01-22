@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sat 2022-01-22 18:22 svarrette>
+;;; Time-stamp: <Sat 2022-01-22 21:36 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -74,8 +74,9 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load -- see settings/layers.el
-   dotspacemacs-configuration-layers falkor/dotspacemacs-configuration-layers
-
+   dotspacemacs-configuration-layers (append falkor/dotspacemacs-configuration-layers
+                                             '(savegeometry)
+                                             )
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
@@ -341,7 +342,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.2
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -550,49 +551,6 @@ See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
 )
 
-;; === Restore geometry functions ===
-;; to be placed in a dedicated layer
-;; Adapted from: https://gist.github.com/synic/0357fdc2dcc777d89d1e
-(defun save-framegeometry ()
-  "Gets the current frame's geometry and save to ~/.emacs.d/framegeometry."
-  (let (
-        (framegeometry-left (frame-parameter (selected-frame) 'left))
-        (framegeometry-top (frame-parameter (selected-frame) 'top))
-        (framegeometry-width (frame-parameter (selected-frame) 'width))
-        (framegeometry-height (frame-parameter (selected-frame) 'height))
-        (framegeometry-file (expand-file-name (concat user-emacs-directory ".framegeometry")))
-        )
-
-    (when (not (number-or-marker-p framegeometry-left))
-      (setq framegeometry-left 0))
-    (when (not (number-or-marker-p framegeometry-top))
-      (setq framegeometry-top 0))
-    (when (not (number-or-marker-p framegeometry-width))
-      (setq framegeometry-width 0))
-    (when (not (number-or-marker-p framegeometry-height))
-      (setq framegeometry-height 0))
-
-    (with-temp-buffer
-      (insert
-       ";;; This is the previous emacs frame's geometry.\n"
-       ";;; Last generated " (current-time-string) ".\n"
-       "(setq initial-frame-alist\n"
-       "      '(\n"
-       (format "        (top . %d)\n" (max framegeometry-top 0))
-       (format "        (left . %d)\n" (max framegeometry-left 0))
-       (format "        (width . %d)\n" (max framegeometry-width 0))
-       (format "        (height . %d)))\n" (max framegeometry-height 0)))
-      (when (file-writable-p framegeometry-file)
-        (write-file framegeometry-file))))
-  )
-(defun load-framegeometry ()
-  "Loads ~/.emacs.d/framegeometry which should load the previous frame's geometry."
-  (let ((framegeometry-file (expand-file-name (concat user-emacs-directory ".framegeometry"))))
-    (when (file-readable-p framegeometry-file)
-      (load-file framegeometry-file)))
-  )
-
-
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
@@ -600,11 +558,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  (if window-system
-      (progn
-        (add-hook 'after-init-hook 'load-framegeometry)
-        (add-hook 'kill-emacs-hook 'save-framegeometry)))
-  (setq evil-want-keybinding nil)
+   (setq evil-want-keybinding nil)
 
   )
 
