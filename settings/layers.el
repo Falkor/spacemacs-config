@@ -1,4 +1,8 @@
-;; -*- mode: emacs-lisp; -*-
+;;; Falkor's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
+;;; Time-stamp: <Sat 2022-01-22 17:53 svarrette>
+;;;; Commentary
+
+
 ;; Time-stamp: <Sat 2022-01-22 10:41 svarrette>
 ;;
 ;; Defines the layers to configure
@@ -91,6 +95,8 @@
     ws-butler
     ))
 
+;; List of packages that cannot be updated.
+(defvar falkor/dotspacemacs-frozen-packages '())
+
 ;; A list of packages that will not be installed and loaded.
-(defvar falkor/dotspacemacs-excluded-packages
-  '())
+(defvar falkor/dotspacemacs-excluded-packages '())

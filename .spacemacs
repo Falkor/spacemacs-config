@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sat 2022-01-22 10:41 svarrette>
+;;; Time-stamp: <Sat 2022-01-22 18:22 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -41,7 +41,9 @@
 ;; ============================ Let's go! ============================
 (load (falkor/get-conf-path "settings/layers"))
 (require 'falkor/configuration-layers)
-
+(setq falkor/private-settings (falkor/get-conf-path "settings/private.el"))
+(when (file-exists-p falkor/private-settings)
+  (load falkor/private-settings))
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -700,6 +702,18 @@ before packages are loaded."
   (add-hook 'prog-mode-hook #'(lambda ()
                                 (dtrt-indent-mode)
                                 (dtrt-indent-adapt)))
+
+  ;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
+  (setq calendar-location-name "Thionville, France"
+        calendar-latitude 49.3
+        calendar-longitude 6.2)
+  ;; OpenWeatherMap API key, to define in settings/private.el
+  ;; (setq sunshine-appid "your-apikey")
+  ;; Get you city ID from city.list.json.gz under http://bulk.openweathermap.org/sample/
+  (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
+  (setq sunshine-units      'metric)
+  (setq sunshine-show-icons t)
+
 
   ;; -- Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
   (setq-default git-magit-status-fullscreen t)
