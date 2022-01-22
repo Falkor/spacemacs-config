@@ -13,6 +13,12 @@
 Personal settings and customization for [Spacemacs](https://www.spacemacs.org/), the Emacs distribution I'm now using.
 See my previous emacs settings: [`Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) for Emacs 24.
 
+This repository hosts also local [spacemacs layers](http://spacemacs.org/doc/LAYERS.html) (see also [explaination on layers](http://www.modernemacs.com/post/migrate-layers/)):
+
+* `savegeometry`: save and restore window position and sie between Emacs launches
+* `falkor`: my own customization
+
+
 ## Setup (Mac OS)
 
 See also [Spacemacs Practicalli](https://practical.li/spacemacs/)
@@ -20,9 +26,13 @@ See also [Spacemacs Practicalli](https://practical.li/spacemacs/)
 1. Install Emacs (See [emacs-plus](https://github.com/d12frosted/homebrew-emacs-plus) for more information.)
 
 ```bash
+# Option 1 - emacs-plus - may lead to blinkering windows
 brew tap d12frosted/emacs-plus
-brew install emacs-plus
+brew install emacs-plus --with-spacemacs-icon
 brew linkapps emacs-plus
+# Option 2 - emacs-mac
+brew tap railwaycat/emacsmacport
+brew install --cask emacs-mac-spacemacs-icon
 ```
 
 2. Clone Spacemacs into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) _i.e_ `~/.config/emacs`
