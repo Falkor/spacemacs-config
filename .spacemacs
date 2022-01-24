@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-01-24 14:51 svarrette>
+;;; Time-stamp: <Mon 2022-01-24 15:03 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -606,6 +606,12 @@ before packages are loaded."
   (evil-select-search-module 'evil-search-module 'evil-search)
   ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
   ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
+  ;; DO to insert mode on double-click DOES NOT WORK
+  ;; (define-key evil-normal-state-map [double-mouse-1]
+  ;;   (lambda ((custom-set-variables
+  ;;     (interactive)
+  ;;     (evil-insert)))
 
   ;; Reminder: From visual mode:  three different "visual" states:
   ;;    Char: 'v'   from normal mode
