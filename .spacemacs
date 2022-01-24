@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sat 2022-01-22 21:36 svarrette>
+;;; Time-stamp: <Mon 2022-01-24 10:02 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -33,17 +33,17 @@
   "Appends argument at the end of user-emacs-directory (~/.config/emacs)
    using expand-file-name"
   (expand-file-name path user-emacs-directory))
-(defun falkor/get-conf-path(path)
+(defun local/get-conf-path(path)
   "Appends argument at the end of dotspacemacs-directory (~/.spacemacs.d)
    using expand-file-name"
   (expand-file-name path dotspacemacs-directory))
 
 ;; ============================ Let's go! ============================
-(load (falkor/get-conf-path "settings/layers"))
-(require 'falkor/configuration-layers)
-(setq falkor/private-settings (falkor/get-conf-path "settings/private.el"))
-(when (file-exists-p falkor/private-settings)
-  (load falkor/private-settings))
+(load (local/get-conf-path "settings/layers"))
+(require 'local-settings/configuration-layers)
+(setq local/private-settings (local/get-conf-path "settings/private.el"))
+(when (file-exists-p local/private-settings)
+  (load local/private-settings))
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -74,9 +74,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load -- see settings/layers.el
-   dotspacemacs-configuration-layers (append falkor/dotspacemacs-configuration-layers
-                                             '(savegeometry)
-                                             )
+   dotspacemacs-configuration-layers local-settings/dotspacemacs-configuration-layers
+
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
@@ -86,13 +85,13 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    ;;  see settings/layers.el
-   dotspacemacs-additional-packages  falkor/dotspacemacs-additional-packages
+   dotspacemacs-additional-packages  local-settings/dotspacemacs-additional-packages
 
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages  falkor/dotspacemacs-frozen-packages
+   dotspacemacs-frozen-packages  local-settings/dotspacemacs-frozen-packages
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages falkor/dotspacemacs-excluded-packages
+   dotspacemacs-excluded-packages local-settings/dotspacemacs-excluded-packages
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -562,7 +561,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   )
 
-
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
@@ -570,12 +568,6 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
 )
 
-(defun falkor/markdown-preview-file ()
-  "run Marked on the current file and revert the buffer"
-  (interactive)
-  (shell-command
-   (format "open -a /Applications/Marked.app %s"
-           (shell-quote-argument (buffer-file-name)))))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -583,31 +575,113 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
-  (spaceline-toggle-all-the-icons-buffer-position-on)
-  ;; ===============
-  ;; === Display ===
-  ;; ===============
-  ;; Emacs-like movement of cursor with Evil
-  (setq evil-cross-lines t)
-  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
-  ;; Use Mouse to copy/paste
-  ;; (xterm-mouse-mode -1)
+  ;; =====================
+  ;; === Look and Feel ===
+  ;; =====================
+  ;; automatic wrapping of lines and insertion of newlines when the cursor
+  ;; goes over the column limit.
+  (setq-default fill-column 80)
 
+  ;; === Mouse settings
   ;; Correct copy-paste to clipboard
   (setq select-enable-clipboard t)
   ;; after mouse selection in X11, you can paste by `yank' in emacs
-  ;;(Setq x-select-enable-primary t)
+  ;;(setq x-select-enable-primary t)
   (setq mouse-drag-copy-region  t)
 
+  ;; === General cursor interaction
+  ;; replace highlighted text with what I type
+  (delete-selection-mode 1)
+  ;; Make cursor the width of the character it is under i.e. full width of a TAB
+  (setq x-stretch-cursor t)
   ;; show trailing whitespace
   (add-hook 'prog-mode-hook (lambda ()
                               (setq show-trailing-whitespace t)))
 
+  ;; =============
+  ;; === Evil  ===
+  ;; =============
+  ;; === Search and replace
+  ;; Better vim-compliant search with <up> and <down> key
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
+  ;; Reminder: From visual mode:  three different "visual" states:
+  ;;    Char: 'v'   from normal mode
+  ;;    Line  'S-v' from normal mode
+  ;;    Block 'C-v' from normal mode
+  ;; Shift-arrow to also select text in normal mode
+  ;; Alternative: v for visual then arrow
+  (define-key evil-normal-state-map (kbd "S-<left>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (backward-char)))
+  (define-key evil-normal-state-map (kbd "S-<right>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (forward-char)))
+  (define-key evil-normal-state-map (kbd "S-<down>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-next-line)))
+  (define-key evil-normal-state-map (kbd "S-<up>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-previous-line)))
+  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
+  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
+
+  ;; Remap C-e to end of line
+  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+
+  ;; revert C-w to delete previous word even in insert
+  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+
+  ;; Backspace in visual mode also delete selected region
+  (define-key evil-visual-state-map (kbd "<del>") 'delete-forward-char)
+
+  ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
+  (setq evil-cross-lines t)
+
+  ;; ===============
+  ;; === Display ===
+  ;; ===============
+  ;; spaceline-all-the-icons
+  ;; Custom components of the theme
+  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
+  (spaceline-toggle-all-the-icons-buffer-position-on)
+  (spaceline-toggle-all-the-icons-dedicated-on)
+  ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
+  (spaceline-toggle-all-the-icons-weather-on)
+
+  ;; !!!!!!!!!!!!!!!!
+  ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
+  ;; !! If you remove this - expect EXTREMELY degraded performance
+  ;; !! on files of more-or-less any size and of any type
+  ;; !!!!!!!!!!!!!!!!
+  (spaceline-toggle-projectile-root-off)
+  (spaceline-toggle-all-the-icons-projectile-off)
+  (spaceline-toggle-all-the-icons-buffer-id-off)
+
+
+  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
+  ;; Use Mouse to copy/paste
+  ;; (xterm-mouse-mode -1)
+
+
+
   ;; Delete trailing whitespace etc.
   ;; (ws-butler-mode 1)
-  ;; Make cursor the width of the character it is under i.e. full width of a TAB
-  (setq x-stretch-cursor t)
+
   ;; Better highlight matching parenthesis
   (use-package rainbow-delimiters)
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;; to enable it in all programming-related modes
@@ -636,20 +710,22 @@ before packages are loaded."
   ;;   :config
   ;;   (show-paren-mode +1))
 
-  ;; Better vim-compliant search with <up> and <down> key
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
-  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
-  ;; helm-swoop
+  ; helm-swoop
   (setq helm-swoop-use-fuzzy-match t)
   (setq helm-swoop-use-line-number-face t)
 
   ;; =============================
   ;; === Layers Customizations ===
   ;; =============================
+  ;; Auto-completion
+  (custom-set-faces
+   '(company-tooltip-common
+     ((t (:inherit company-tooltip :weight bold :underline nil))))
+   '(company-tooltip-common-selection
+     ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+
+
   ;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
-  (use-package bury-successful-compilation
-    :config (bury-successful-compilation 1))
   (setq compilation-window-height 10)
 
   ;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
@@ -668,11 +744,12 @@ before packages are loaded."
   (setq sunshine-units      'metric)
   (setq sunshine-show-icons t)
 
-
-  ;; -- Magit - https://develop.spacemacs.org/layers/+source-control/git/README.html
+  ;; -- [Ma]git -  https://develop.spacemacs.org/layers/LAYERS.html#git
   (setq-default git-magit-status-fullscreen t)
-  (setq magit-commit-arguments '("--signoff")
-        magit-commit-all-when-nothing-staged t)
+  (setq magit-commit-arguments '("--signoff"))
+  (setq magit-stage-all-confirm   nil)
+  (setq magit-unstage-all-confirm nil)
+  (setq magit-commit-all-when-nothing-staged t)
 
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
@@ -693,43 +770,12 @@ before packages are loaded."
   ;; better search  SPC s s
   (global-set-key (kbd "C-s") 'helm-swoop-without-pre-input)
   ;; better replace withe Anzu - https://github.com/emacsorphanage/anzu
-  (global-set-key (kbd "H-s") 'anzu-query-replace)
+  (global-set-key (kbd "H-q") 'anzu-query-replace)
 
-  ;; Shift-arrow to also select text in normal mode
-  ;; Alternative: v for visual then arrow
-  (define-key evil-normal-state-map (kbd "S-<left>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (backward-char)))
-  (define-key evil-normal-state-map (kbd "S-<right>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (forward-char)))
-  (define-key evil-normal-state-map (kbd "S-<down>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-next-line)))
-  (define-key evil-normal-state-map (kbd "S-<up>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-previous-line)))
-  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
-  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
 
   ;; Beginning / End of line
   (global-set-key (kbd "<home>") 'beginning-of-line)
   (global-set-key (kbd "<end>")  'end-of-line)
-  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-  ;; revert C-w to delete previous word even in insert
-  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
-  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
 
   ;; comment/uncomment line  SPC c l
   (global-set-key (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
@@ -775,15 +821,6 @@ before packages are loaded."
   ;; ===========================
   ;; === Complementary Tools ===
   ;; ===========================
-  (use-package time-stamp
-    :init
-    (progn
-      ;; format of the string inserted by `M-x time-stamp'
-      (setq time-stamp-format "%3a %:y-%02m-%02d %02H:%02M %u")
-                                        ; `Weekday YYYY-MM-DD HH:MM USER'
-
-      ;; update time stamps every time you save a buffer
-      (add-hook 'write-file-hooks 'time-stamp)))
 
   )
 

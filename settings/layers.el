@@ -1,17 +1,14 @@
-;;; Falkor's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Sat 2022-01-22 17:53 svarrette>
+;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
+;;; Time-stamp: <Mon 2022-01-24 09:43 svarrette>
 ;;;; Commentary
 
-
-;; Time-stamp: <Sat 2022-01-22 10:41 svarrette>
-;;
 ;; Defines the layers to configure
 ;;
 
-(provide 'falkor/configuration-layers)
+(provide 'local-settings/configuration-layers)
 
 ;;  List of configuration layers to load.
-(defvar falkor/dotspacemacs-configuration-layers
+(defvar local-settings/dotspacemacs-configuration-layers
   '(;; ----------------------------------------------------------------
     ;; press `SPC f e R' (Vim style) or `M-m f e R' (Emacs style) to
     ;; install them.
@@ -21,6 +18,7 @@
                      auto-completion-complete-with-key-sequence-delay 0.2
                      auto-completion-enable-help-tooltip 'manual
                      auto-completion-enable-sort-by-usage t
+                     auto-completion-enable-snippets-in-popup t
                      :disabled-for
                      org
                      git)
@@ -81,12 +79,16 @@
               treemacs-use-filewatch-mode t
               treemacs-use-follow-mode 'tag)
     version-control
+
+    ;;; Local layers
+    savegeometry
+    falkor     ;; ENSURE it is added at the LAST position
     )
   )
 
 ;; List of additional packages that will be installed without being wrapped
 ;; in a layer
-(defvar falkor/dotspacemacs-additional-packages
+(defvar local-settings/dotspacemacs-additional-packages
   '(bury-successful-compilation
     doom-themes
     mic-paren
@@ -96,7 +98,7 @@
     ))
 
 ;; List of packages that cannot be updated.
-(defvar falkor/dotspacemacs-frozen-packages '())
+(defvar local-settings/dotspacemacs-frozen-packages '())
 
 ;; A list of packages that will not be installed and loaded.
-(defvar falkor/dotspacemacs-excluded-packages '())
+(defvar local-settings/dotspacemacs-excluded-packages '())

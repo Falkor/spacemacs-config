@@ -1,0 +1,17 @@
+#+TITLE: falkor layer
+# Falkor's customizations settings for Spacemacs
+#+TAGS: layer|spacemacs
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#install][Install]]
+
+* Description
+This layer adds Falkor's customizations to spacemacs, which includes
+
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =falkor= to the existing =dotspacemacs-configuration-layers= list in this
+file, ideally at the **LAST** position.

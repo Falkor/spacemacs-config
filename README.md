@@ -16,7 +16,7 @@ See my previous emacs settings: [`Falkor/emacs-config2`](https://github.com/Falk
 This repository hosts also local [spacemacs layers](http://spacemacs.org/doc/LAYERS.html) (see also [explaination on layers](http://www.modernemacs.com/post/migrate-layers/)):
 
 * `savegeometry`: save and restore window position and sie between Emacs launches
-* `falkor`: my own customization
+* `falkor`: my own customizations
 
 
 ## Setup (Mac OS)
