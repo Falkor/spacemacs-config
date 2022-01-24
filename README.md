@@ -69,6 +69,10 @@ brew tap homebrew/cask-fonts
 brew install --cask font-source-code-pro font-meslo-lg-nerd-font
 ```
 
+You will also need to **disable** a keybord shortcut set by default on Mac OS for the CTRL-SPC sequence.
+Go into **System Preferences / Keybord / Shortcuts / Input Source** and uncheck the settings.
+
+
 ## Extra software installation
 
 Just run `make bootstrap`

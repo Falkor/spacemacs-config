@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-01-24 10:02 svarrette>
+;;; Time-stamp: <Mon 2022-01-24 14:51 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -285,7 +285,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
-   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-emacs-leader-key "C-SPC"  ; "M-m"
 
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
@@ -647,7 +647,7 @@ before packages are loaded."
   (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
 
   ;; Backspace in visual mode also delete selected region
-  (define-key evil-visual-state-map (kbd "<del>") 'delete-forward-char)
+  (define-key evil-visual-state-map (kbd "<backspace>") 'delete-forward-char)
 
   ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
   (setq evil-cross-lines t)
@@ -746,11 +746,20 @@ before packages are loaded."
 
   ;; -- [Ma]git -  https://develop.spacemacs.org/layers/LAYERS.html#git
   (setq-default git-magit-status-fullscreen t)
-  (setq magit-commit-arguments '("--signoff"))
+  ;; (setq magit-commit-arguments '("--signoff"))  ;; DOES NOT WORK
   (setq magit-stage-all-confirm   nil)
   (setq magit-unstage-all-confirm nil)
   (setq magit-commit-all-when-nothing-staged t)
-
+  ;; When in magit-section-movement-hook (after commit), remap the existing
+  ;; keys to something more natural to me. Existing bindings:
+  ;;   C-k to go to the section backward (magit-section-backward)
+  ;;   C-j to go to the section forward  (magit-section-forward)
+  ;;
+  ;; Other shortcuts good to know when under magit-status:
+  ;;   gt  go to untracked
+  ;;
+  (evil-define-key 'normal magit-mode-map (kbd "C-p")  'magit-section-backward)
+  (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
 
