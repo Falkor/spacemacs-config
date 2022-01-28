@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 15:54 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 16:10 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -64,6 +64,7 @@
               )
     (multiple-cursors :variables
                       multiple-cursors-backend 'evil-mc)
+    nav-flash
     (org :variables
          org-enable-github-support t)
     (osx :variables
