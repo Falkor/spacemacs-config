@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 15:28 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 18:10 svarrette>
 ;;;; Commentary
 
 ;; Special settings
@@ -151,6 +151,30 @@
   ;;   ;; Better sorting
   ;;   ;;(setq company-transformers '(company-sort-prefer-same-case-prefix)
   )
+
+
+;;;; LSP https://develop.spacemacs.org/layers/+tools/lsp/README.html
+(defun local-settings/lsp-config ()
+  "Local Spacemacs User settings for LSP"
+  (spacemacs/lsp-define-extensions "c-c++" 'refs-address
+                                   "textDocument/references"
+                                   '(plist-put (lsp--text-document-position-params) :context '(:role 128)))
+  (spacemacs/lsp-bind-extensions-for-mode mode "c-c++"
+                                          "&" 'refs-address
+                                          "R" 'refs-read
+                                          "W" 'refs-write
+                                          "c" 'callers
+                                          "C" 'callees
+                                          "v" 'vars)
+  )
+
+;;;; Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
+(defun local-settings/ranger-config ()
+  "Local Spacemacs User settings for Ranger"
+  (setq ranger-cleanup-on-disable t)
+  (setq ranger-ignored-extensions '("mkv" "iso" "mp4"))
+  )
+
 
 
 

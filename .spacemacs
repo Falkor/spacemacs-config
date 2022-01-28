@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Fri 2022-01-28 15:51 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 18:16 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -706,6 +706,12 @@ before packages are loaded."
   (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
+  ;; -- Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
+  (local-settings/ranger-config)
+
+  ;; -- Rebox - https://develop.spacemacs.org/layers/+tools/rebox/README.html
+  (setq rebox-style-loop '(71 72 73))
 
   ;; -- Treemacs
   ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826

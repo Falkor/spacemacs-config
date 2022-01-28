@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 16:10 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 18:28 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -29,9 +29,22 @@
     (better-defaults :variables
                      better-defaults-move-to-beginning-of-code-first t
                      better-defaults-move-to-end-of-code-first t)
+    bibtex
+    (c-c++ :variables
+           c-c++-backend 'lsp-clangd
+           c-c++-dap-adapters '(dap-lldb dap-cpptools)
+           c-c++-enable-organize-includes-on-save t
+           c-c++-enable-auto-newline t)
+    common-lisp
     copy-as-format
+    csv
+    (dash :variables
+          dash-autoload-common-docsets nil)
+    dap
     dtrt-indent
     ;;emacs-lisp
+    ess
+    evil-better-jumper
     (geolocation :variables
                  ;; geolocation-enable-automatic-theme-changer t
                  geolocation-enable-location-service t
@@ -41,10 +54,18 @@
          git-enable-magit-gitflow-plugin t ;; brew install git-flow
          )
     github
+    (go :variables
+        go-backend 'go-mode
+        go-format-before-save t)
+    gpu
+    graphviz
     helm
     helpful
     html
-    latex
+    (java :variables
+          java-backend 'meghanada)
+    (latex :variables
+           latex-enable-magic nil)
     ;; lsp configured SEPARATELY outside the default layer within settings/user-config.el
     ;; LSP is not compliant with company-lsp : see https://github.com/tigersoldier/company-lsp/issues/119
     (lsp :variables
@@ -57,6 +78,10 @@
          lsp-ui-remap-xref-keybindings t
          lsp-navigation 'peek
          )
+    (lua :variables
+         lua-backend 'lsp
+         lua-lsp-server 'lua-lsp
+         lsp-clients-luarocks-bin-dir "/usr/local")
     (markdown :variables
               markdown-open-command (concat dotspacemacs-directory "markdown_open")
               markdown-italic-underscore t
@@ -70,7 +95,30 @@
     (osx :variables
          osx-option-as 'none       ;; Very important to allow for all keys \
          osx-right-option-as 'meta)
-    python
+    pass
+    perl5
+    php
+    prettier
+    protobuf
+    puppet
+    (python :variables
+            python-formatter 'black
+            python-format-on-save t
+            ;; python-save-before-test nil
+            python-sort-imports-on-save t
+            )
+    (ranger :variables
+            ranger-override-dired 'ranger
+            ranger-show-preview t)
+    rebox
+    restructuredtext
+    (ruby :variables
+          ruby-backend         'lsp
+          ruby-enable-enh-ruby-mode t
+          ruby-prettier-on-save t
+          ruby-test-runner     'rspec
+          ruby-version-manager 'rvm
+          )
     themes-megapack
     ;; org
     (shell :variables
@@ -82,6 +130,8 @@
            close-window-with-terminal t)
     (shell-scripts :variables
                    shell-scripts-format-on-save t)
+    (solidity :variables
+              solidity-flycheck-solc-checker-active t)
     ;; spell-checking
     syntax-checking
     (templates :variables
@@ -94,7 +144,12 @@
               treemacs-use-follow-mode t
               treemacs-use-filewatch-mode t
               treemacs-use-follow-mode 'tag)
+    vagrant
     version-control
+    vue
+    (xclipboard :variables
+                xclipboard-enable-cliphist t)
+    yaml
 
     ;;; Local layers
     savegeometry

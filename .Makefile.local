@@ -1,17 +1,36 @@
+# -*- mode: makefile; -*-
+
 # bootstrap setup
 
 define PACKAGE_LIST
+	black
 	cmake
+	dash5
+	flake8
 	git-delta
+  gopls
+	ipython
 	libvterm
+  luarocks
+	prettier
+  rtags
   shellcheck
+	solargraph
+  solidity
+	sqlite3
 endef
 
 define NPM_PACKAGE_LIST
   bash-language-server
+	intelephense
   vmd
 endef
 
 
 bootstrap:
 	brew install $(shell echo $(PACKAGE_LIST))
+  npm install -g $(shell echo $(NPM_PACKAGE_LIST))
+
+# https://github.com/Alloyed/lua-lsp
+lua-setup:
+	luarocks install luacheck
