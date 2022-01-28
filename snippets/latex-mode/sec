@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: \section{name}
+# key: sec
+# binding: direct-keybinding
+# --
+%====================
+\section{${1:name}}
+\label{sec:$2}
+
+$0

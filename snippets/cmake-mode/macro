@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: macro
+# key: macro
+# --
+macro($0)
+endmacro()
