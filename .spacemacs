@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-01-24 15:03 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 15:51 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -41,6 +41,9 @@
 ;; ============================ Let's go! ============================
 (load (local/get-conf-path "settings/layers"))
 (require 'local-settings/configuration-layers)
+(load (local/get-conf-path "settings/user-config.el"))
+(require 'local-settings/user-configs)
+
 (setq local/private-settings (local/get-conf-path "settings/private.el"))
 (when (file-exists-p local/private-settings)
   (load local/private-settings))
@@ -548,7 +551,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
-)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -557,7 +560,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-   (setq evil-want-keybinding nil)
+  (setq evil-want-keybinding nil)
 
   )
 
@@ -566,7 +569,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-)
+  )
 
 
 (defun dotspacemacs/user-config ()
@@ -578,29 +581,11 @@ before packages are loaded."
   ;; =====================
   ;; === Look and Feel ===
   ;; =====================
-  ;; automatic wrapping of lines and insertion of newlines when the cursor
-  ;; goes over the column limit.
-  (setq-default fill-column 80)
+  (local-settings/look-and-feel)
 
-  ;; === Mouse settings
-  ;; Correct copy-paste to clipboard
-  (setq select-enable-clipboard t)
-  ;; after mouse selection in X11, you can paste by `yank' in emacs
-  ;;(setq x-select-enable-primary t)
-  (setq mouse-drag-copy-region  t)
-
-  ;; === General cursor interaction
-  ;; replace highlighted text with what I type
-  (delete-selection-mode 1)
-  ;; Make cursor the width of the character it is under i.e. full width of a TAB
-  (setq x-stretch-cursor t)
-  ;; show trailing whitespace
-  (add-hook 'prog-mode-hook (lambda ()
-                              (setq show-trailing-whitespace t)))
-
-  ;; =============
-  ;; === Evil  ===
-  ;; =============
+  ;; ====================================
+  ;; === Evil Bindings Customizations ===
+  ;; ====================================
   ;; === Search and replace
   ;; Better vim-compliant search with <up> and <down> key
   (evil-select-search-module 'evil-search-module 'evil-search)
@@ -661,85 +646,33 @@ before packages are loaded."
   ;; ===============
   ;; === Display ===
   ;; ===============
-  ;; spaceline-all-the-icons
-  ;; Custom components of the theme
-  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
-  (spaceline-toggle-all-the-icons-buffer-position-on)
-  (spaceline-toggle-all-the-icons-dedicated-on)
-  ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
-  (spaceline-toggle-all-the-icons-weather-on)
+  (local-settings/display)
+  (local-settings/parenthesis)
 
-  ;; !!!!!!!!!!!!!!!!
-  ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
-  ;; !! If you remove this - expect EXTREMELY degraded performance
-  ;; !! on files of more-or-less any size and of any type
-  ;; !!!!!!!!!!!!!!!!
-  (spaceline-toggle-projectile-root-off)
-  (spaceline-toggle-all-the-icons-projectile-off)
-  (spaceline-toggle-all-the-icons-buffer-id-off)
-
-
-  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
-  ;; Use Mouse to copy/paste
-  ;; (xterm-mouse-mode -1)
-
-
-
-  ;; Delete trailing whitespace etc.
-  ;; (ws-butler-mode 1)
-
-  ;; Better highlight matching parenthesis
-  (use-package rainbow-delimiters)
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;; to enable it in all programming-related modes
-  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		                  :foreground "red"
-		                  :inherit 'error
-		                  :box t)
-  ;;(set-face-attribute 'show-paren-match nil :foreground "white" :background "red")
-  ;;(require 'paren)
-  ;;(show-paren-mode t)
-  ;;(setq show-paren-style 'expression)
-  ;;(set-face-background 'show-paren-match-face "turquoise")
-  ;;(set-face-foreground 'show-paren-mismatch-face "red")
-  ;;(set-face-attribute 'show-paren-mismatch-face nil
-  ;;                    :weight 'bold :underline t :overline nil :slant 'normal)
-  ;; Turn this off to stop it interfering with mic-paren.
-  ;;(set-face-attribute 'sp-show-pair-match-face nil    :foreground 'unspecified :background 'unspecified)
-  ;;(set-face-attribute 'sp-show-pair-mismatch-face nil :foreground 'unspecified :background 'unspecified)
-  ;; show matching parenthesis, even if found outside the present screen.
-  ;; see http://www.emacswiki.org/emacs/MicParen
-  ;; (require 'mic-paren)                    ; loading
-  ;; (paren-activate)                        ; activating
-  ;; (use-package mic-paren
-  ;;   :init
-  ;;   (setq show-paren-delay 0)
-  ;;   :config
-  ;;   (show-paren-mode +1))
-
-  ; helm-swoop
-  (setq helm-swoop-use-fuzzy-match t)
-  (setq helm-swoop-use-line-number-face t)
 
   ;; =============================
   ;; === Layers Customizations ===
   ;; =============================
-  ;; Auto-completion
-  (custom-set-faces
-   '(company-tooltip-common
-     ((t (:inherit company-tooltip :weight bold :underline nil))))
-   '(company-tooltip-common-selection
-     ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+  ;;;; Auto-completion
+  (local-settings/company-lsp-config)
+  (yas-global-mode 1)
+  (global-set-key (kbd "C-<return>") 'hippie-expand)
+
+  (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
 
 
-  ;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
+  ;;;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
   (setq compilation-window-height 10)
 
-  ;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
+  ;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
+  (setq copy-as-format-default "markdown")
+
+  ;;;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
   (add-hook 'prog-mode-hook #'(lambda ()
                                 (dtrt-indent-mode)
                                 (dtrt-indent-adapt)))
 
-  ;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
+  ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
   (setq calendar-location-name "Thionville, France"
         calendar-latitude 49.3
         calendar-longitude 6.2)
@@ -749,6 +682,11 @@ before packages are loaded."
   (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
   (setq sunshine-units      'metric)
   (setq sunshine-show-icons t)
+
+  ;;;; LSP
+  ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
+  ;; (local-settings/lsp-config)
+
 
   ;; -- [Ma]git -  https://develop.spacemacs.org/layers/LAYERS.html#git
   (setq-default git-magit-status-fullscreen t)

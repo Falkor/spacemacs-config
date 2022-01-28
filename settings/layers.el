@@ -42,18 +42,28 @@
          )
     github
     helm
+    helpful
     html
     latex
+    ;; lsp configured SEPARATELY outside the default layer within settings/user-config.el
+    ;; LSP is not compliant with company-lsp : see https://github.com/tigersoldier/company-lsp/issues/119
     (lsp :variables
+         ;;
          ;; default segments
-
-         lsp-modeline-code-actions-segments '(count icon))
+         lsp-modeline-code-actions-segments '(count icon)
+         lsp-headerline-breadcrumb-enable t
+         lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols)
+         lsp-use-lsp-ui t
+         lsp-ui-remap-xref-keybindings t
+         lsp-navigation 'peek
+         )
     (markdown :variables
               markdown-open-command (concat dotspacemacs-directory "markdown_open")
               markdown-italic-underscore t
               markdown-live-preview-engine 'vmd
               )
-    multiple-cursors
+    (multiple-cursors :variables
+                      multiple-cursors-backend 'evil-mc)
     (org :variables
          org-enable-github-support t)
     (osx :variables
@@ -96,6 +106,7 @@
 (defvar local-settings/dotspacemacs-additional-packages
   '(bury-successful-compilation
     doom-themes
+    evil-smartparens
     mic-paren
     time-stamp
     solo-jazz-theme
@@ -106,4 +117,6 @@
 (defvar local-settings/dotspacemacs-frozen-packages '())
 
 ;; A list of packages that will not be installed and loaded.
-(defvar local-settings/dotspacemacs-excluded-packages '())
+(defvar local-settings/dotspacemacs-excluded-packages '(
+                                                        company-lsp
+                                                        ))
