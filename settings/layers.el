@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-01-24 09:43 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 15:54 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -15,16 +15,21 @@
     ;; ----------------------------------------------------------------
     ansible
     (auto-completion :variables
-                     auto-completion-complete-with-key-sequence-delay 0.2
+                     auto-completion-return-key-behavior 'complete
+                     ;;auto-completion-complete-with-key-sequence "C-return"
+                     auto-completion-complete-with-key-sequence-delay 0.0
                      auto-completion-enable-help-tooltip 'manual
+                     auto-completion-use-company-box t
                      auto-completion-enable-sort-by-usage t
                      auto-completion-enable-snippets-in-popup t
+                     auto-completion-tab-key-behavior 'cycle
                      :disabled-for
                      org
                      git)
     (better-defaults :variables
                      better-defaults-move-to-beginning-of-code-first t
                      better-defaults-move-to-end-of-code-first t)
+    copy-as-format
     dtrt-indent
     ;;emacs-lisp
     (geolocation :variables
