@@ -1,5 +1,5 @@
 ;;; falkor/packages.el --- falkor's layer packages file for Spacemacs.
-;; Time-stamp: <Mon 2022-01-24 09:12 svarrette>
+;; Time-stamp: <Fri 2022-01-28 15:26 svarrette>
 ;;
 ;; Copyright (c) 2022 Sebastien Varrette
 ;;
@@ -45,6 +45,7 @@
   '(;; Owned packages
     ;; all-the-icons
     bury-successful-compilation
+
     time-stamp
 
     ;; Elsehwere-owned packages

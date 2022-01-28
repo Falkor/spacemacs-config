@@ -1,5 +1,5 @@
 ;;; falkor/funcs.el --- falkor's functions for Spacemacs.
-;; Time-stamp: <Sun 2022-01-23 11:17 svarrette>
+;; Time-stamp: <Fri 2022-01-28 15:35 svarrette>
 ;;
 ;; Copyright (c) 2022 Sebastien Varrette
 ;;
@@ -36,3 +36,27 @@
   (shell-command
    (format "open -a /Applications/Marked.app %s"
            (shell-quote-argument (buffer-file-name)))))
+
+
+;;;; Global untabify
+(defun falkor/untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
+
+;; === Indentation of the full buffer ===
+;; Courtesy from http://emacsblog.org/2007/01/17/indent-whole-buffer/
+(defun falkor/indent-buffer ()
+  "Indent whole buffer"
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max))))
+
+;;;; Global cleanup: indent, untabify and delete trailing whitespace
+(defun falkor/cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer."
+  (interactive)
+  (falkor/indent-buffer)
+  (falkor/untabify-buffer)
+  (delete-trailing-whitespace))
