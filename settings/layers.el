@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 18:28 svarrette>
+;;; Time-stamp: <Fri 2022-01-28 21:37 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -119,7 +119,6 @@
           ruby-test-runner     'rspec
           ruby-version-manager 'rvm
           )
-    themes-megapack
     ;; org
     (shell :variables
            shell-default-term-shell "/bin/bash"
@@ -134,9 +133,11 @@
               solidity-flycheck-solc-checker-active t)
     ;; spell-checking
     syntax-checking
-    (templates :variables
-               templates-use-default-templates nil
-               templates-private-directory (concat dotspacemacs-directory "templates"))
+    ;; Still using auto-insert-tlkd for the moment.
+    ;; (templates :variables
+    ;;            templates-use-default-templates t
+    ;;            templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
+    themes-megapack
     (treemacs :variables
               treemacs-lock-width t
               treemacs-use-git-mode 'deferred

@@ -1,0 +1,97 @@
+%%=============================================================================
+%% %f - LaTeX style configuration for the document 
+%% Copyright (c) %y %U %a
+%%=============================================================================
+
+\usepackage[T1]{fontenc}
+%\usepackage[english]{babel}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm}
+\usepackage{amsfonts,amssymb}
+\usepackage{float}
+\usepackage{floatflt}         %% floating figures
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{tabularx}
+%%\usepackage[colorlinks=true]{hyperref}
+\usepackage{xspace}
+\usepackage[nolist]{acronym}  % for acronyms - options: [printonlyused,withpage]
+
+% \usepackage[usenames]{color} %% see http://en.wikibooks.org/wiki/LaTeX/Colors
+\usepackage{colortbl}
+
+% See http://latexcolor.com/
+\definecolor{lightgray}{gray}{0.9}
+\definecolor{bcode}{rgb}{0.91,0.91,0.91}  % color for code extract
+\definecolor{lightgray}{rgb}{.9, .9, .9}
+\definecolor{lightgreen}{rgb}{.7, 1, .7}
+\definecolor{darkgray}{rgb}{.4, .4, .4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{beamerblue}{rgb}{0.2,0.2,0.7}
+\definecolor{bluegray}{rgb}{0.4, 0.6, 0.8}
+\definecolor{cambridgeblue}{rgb}{0.64, 0.76, 0.68}
+\definecolor{carnelian}{rgb}{0.7, 0.11, 0.11} % R
+\definecolor{darkpastelgreen}{rgb}{0.01, 0.75, 0.24} % G
+
+\graphicspath{%% Add below directory(ies) to the searched paths for graphics
+  {images/}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Versionning with day and time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% months
+\def\ftoday{\number\day\space
+ \ifcase\month\or
+ january\or february\or march\or april\or may\or june\or
+ july\or august\or september\or october\or november\or december\fi
+ \space\number\year}
+%% \isodayandtime to get current date and time
+\begingroup
+\count0=\time \divide\count0by60 %% Hour
+\count2=\count0 \multiply\count2by-60 \advance\count2by\time%% Min
+\def\2#1{\ifnum#1<10 0\fi\the#1}
+\xdef\isodayandtime{\the\year-\2\month-\2\day\space\2{\count0}:%%sec
+\2{\count2}}
+\endgroup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Versionning from VERSION file via \docversion
+%%%%%%%%%%%%%%
+\def\versionfile{VERSION}
+\IfFileExists{\versionfile}{%%
+  \providecommand{\docversion}{\input{\versionfile}}
+}{%%
+  \providecommand{\docversion}{0.1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Code Listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+%% default style
+%%\lstset{numbers=left,numberstyle=\tiny,stepnumber=3,firstnumber=1,language=C++,basicstyle=\small,columns=flexible,backgroundcolor=\color{bcode},showstringspaces=false,emph={uint8_t,uint16_t,uint32_t,size_t,sig_atomic_t,time_t,clock_t,sigset_t,restrict},emphstyle=\bfseries,escapeinside={/*@}{@*/}}
+%% specific styles
+%%\lstdefinestyle{filecontent}
+%%{language=sh,emph={remoteSite,mySite,remoteserver,password_remoteSite,remoteSiteID},emphstyle=\itshape,numbers=none,commentstyle={},columns=flexible}
+%%\lstdefinestyle{command}
+%%{language=sh,emph={user@host,root@host},emphstyle=\textbf,numbers=none,commentstyle={},columns=flexible}
+
+\newcommand{\mybox}  [1]{\colorbox{bcode}{\makebox[\linewidth][l]{#1}}}
+\newcommand{\prompt} [5]{{\small \mybox{\texttt{[#1@#2]}#3\texttt{#4 #5}}}}
+\newcommand{\cmd}    [1]{{\small \mybox{~~\texttt{#1}}}}
+\newcommand{\cmdres} [1]{{\small \mybox{~~#1}}}
+
+%% ================= Bibliography style =================
+\bibliographystyle{plain}
+
+%% ================= Acronyms shortcuts =================
+\newcommand{\CC}      {\ac{CC}\xspace}
+\newcommand{\CSC}     {\ac{CSC}\xspace}
+\newcommand{\UL}      {\ac{UL}\xspace}
+
+%% =================== vspace tricks ====================
+\newcommand{\vsitem}{\vspace{0em}}
+\newcommand{\vsfig} {\vspace{-1em}}
+\newcommand{\vssec} {\vspace{0em}}
+

@@ -1,0 +1,76 @@
+#! /bin/bash
+# Time-stamp: <Wed 2021-04-14 17:23 svarrette>
+################################################################################
+# %b - %@
+################################################################################
+# cosmetics
+COLOR_BOLD="\033[1m"
+COLOR_YELLOW="\033[0;33m"
+COLOR_VIOLET="\033[0;35m"
+COLOR_RESET="\033[0m"
+# Local variables
+SCRIPTDIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TOP_DIR="$(  cd "$( dirname "${BASH_SOURCE[0]}" )" && git rev-parse --show-toplevel)"
+CMD_PREFIX=
+DEBUG=
+
+################################################################################
+info()  { echo -e "${COLOR_BOLD}$*${COLOR_RESET}"; }
+debug() { [ -n "$DEBUG" ] && echo -e "${COLOR_YELLOW}DEBUG${COLOR_RESET} $*"; }
+error() { echo -e "${COLOR_BOLD}*** ERROR *** $*${COLOR_RESET}"; }
+print_error_and_exit() { error $*; exit 1; }
+usage() {
+    cat <<EOF
+NAME
+  $(basename $0): 
+USAGE
+  $0 [-n] [--debug]
+OPTIONS:
+  -n --dry-run: Dry run mode
+  --debug:      Debug Mode
+AUTHOR
+  %U %a
+  Web page: %o 
+COPYRIGHT
+  This is free software; see the source for copying conditions. There is 
+  NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+EOF
+}
+################################################################################
+# Other toolbox functions 
+#####
+# execute a local command
+###
+execute() {
+    [ $# -eq 0 ] && print_error_and_exit "[$FUNCNAME] missing command argument"
+    debug "[$FUNCNAME] $*"
+    $CMD_PREFIX $* 
+    local exit_status=$?
+    debug "[$FUNCNAME] exit status: $exit_status"
+    return $exit_status
+}
+####
+# ask to continue. exit 1 if the answer is no
+##
+really_continue() {
+    echo -e -n "[${COLOR_VIOLET}WARNING${COLOR_BACK}] $* Are you sure you want to continue? [Y|n] "
+    read ans
+    case $ans in 
+    n*|N*) exit 1;;
+    esac
+}
+
+################################################################################
+#[ $UID -gt 0 ] && print_error_and_exit "You must be root to execute this script (current uid: $UID)"
+# Check for options
+while [ $# -ge 1 ]; do
+    case $1 in
+        -h | --help) usage; exit 0;;
+        --debug) DEBUG='--debug';;
+        -n | --dry-run) CMD_PREFIX=echo;;
+        *) OPTS=$*; break;;
+    esac
+    shift
+done
+
+${CMD_PREFIX} echo cmd ${OPTS}
