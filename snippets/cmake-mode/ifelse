@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ifelse
+# key: ife
+# --
+if($0)
+else()
+endif()

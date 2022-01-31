@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: \subsection{name}
+# key: sub
+# binding: direct-keybinding
+# --
+%---------------------------
+\subsection{${1:name}}
+\label{sub:$2}
+
+$0

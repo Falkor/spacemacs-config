@@ -1,0 +1,18 @@
+# Title: %f
+# Description: %@ 
+#
+# Copyright (c) %y [%U](mailto:%a)
+# 
+# More information on OAR admission rules: 
+#   http://wiki-oar.imag.fr/index.php/Configuration_tips#Admission_rules
+##########################################################################
+
+
+
+##########################################################################
+# eof
+#
+# Local Variables:
+# mode: cperl
+# End:
+

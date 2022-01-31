@@ -1,0 +1,15 @@
+;;; Falkor's Spacemacs private Settings -*- mode: emacs-lisp; -*-
+;;; Time-stamp: <Sat 2022-01-22 18:41 svarrette>
+;; Example of the private settings (not tracked)
+;; Instructions: copy this file as 'settings/private.el' to have them taken
+;; .             into account. ADAPT accordingly
+
+;; User configuration / Identity
+(setq user-full-name    "Firstname Lastname")
+(setq user-mail-address "<your.email@domain.org>")
+(setq user-www          "https://yourwebsire.domain.org")
+
+;; Geolocation API key
+;; see https://develop.spacemacs.org/layers/+tools/geolocation/README.html#sunshine-weather-forecast
+
+(setq sunshine-appid "XXXXX")

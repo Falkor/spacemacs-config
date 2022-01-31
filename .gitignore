@@ -1,0 +1,7 @@
+.spacemacs.env
+.auto-save-list
+*.elc
+*~
+.recentf
+.framegeometry
+
