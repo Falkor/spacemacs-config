@@ -1,5 +1,3 @@
-![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![Issues](https://img.shields.io/badge/issues-github-green.svg)](https://github.com/Falkor/spacemacs-config/issues)
-
        _____     _ _              _       ____
       |  ___|_ _| | | _____  _ __( )___  / ___| _ __   __ _  ___ ___ _ __ ___   __ _  ___ ___
       | |_ / _` | | |/ / _ \| '__|// __| \___ \| '_ \ / _` |/ __/ _ \ '_ ` _ \ / _` |/ __/ __|
@@ -16,7 +14,7 @@
 
 
 <a href="https://www.spacemacs.org/">
-  <img style="float: right;" src="https://www.spacemacs.org/img/logo.svg" alt="Spacemacs Logo" width="100"/>
+  <img align="right" style="float: right;" src="https://www.spacemacs.org/img/logo.svg" alt="Spacemacs Logo" width="100"/>
 </a>
 
 __Personal settings and customization for [Spacemacs](https://www.spacemacs.org/)__, the Emacs distribution I'm now using.
@@ -25,6 +23,8 @@ __Personal settings and customization for [Spacemacs](https://www.spacemacs.org/
 > [Spacemacs](https://www.spacemacs.org/) is a new way of experiencing Emacs -- it's a sophisticated and polished set-up, focused on ergonomics, mnemonics and consistency.
 
 It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-config2) made for Emacs 24 which is now obsoblete.
+
+![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![GitHub](https://img.shields.io/github/license/Falkor/spacemacs-config?color=green)](https://github.com/Falkor/spacemacs-config/blob/devel/LICENSE) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![GitHub issues](https://img.shields.io/github/issues/Falkor/spacemacs-config)](https://github.com/Falkor/spacemacs-config/issues) [![](https://img.shields.io/github/tag/Falkor/spacemacs-config.svg)](https://github.com/Falkor/spacemacs-config/releases) ![GitHub Repo stars](https://img.shields.io/github/stars/Falkor/spacemacs-config?style=social) ![GitHub forks](https://img.shields.io/github/forks/Falkor/spacemacs-config?style=social)
 
 <p align="center">
 <b><a href="#installation">Installation</a></b>
