@@ -16,14 +16,15 @@
 
 
 <a href="https://www.spacemacs.org/">
-  <img style="float: right;" src="https://www.spacemacs.org/img/logo.svg" alt="Spacemacs Logo" width="150"/>
+  <img style="float: right;" src="https://www.spacemacs.org/img/logo.svg" alt="Spacemacs Logo" width="100"/>
 </a>
+
 __Personal settings and customization for [Spacemacs](https://www.spacemacs.org/)__, the Emacs distribution I'm now using.
 
 > The best editor is neither Emacs nor Vim, it's Emacs and Vim!
 > [Spacemacs](https://www.spacemacs.org/) is a new way of experiencing Emacs -- it's a sophisticated and polished set-up, focused on ergonomics, mnemonics and consistency.
 
-It superseeds my previous emacs settings [`Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) for Emacs 24.
+It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-config2) made for Emacs 24 which is now obsoblete.
 
 <p align="center">
 <b><a href="#installation">Installation</a></b>
@@ -32,7 +33,7 @@ It superseeds my previous emacs settings [`Falkor/emacs-config2`](https://github
 |
 <b><a href="#usage">Usage</a></b>
 |
-<b><a href="#debugging">Debugging</a></b>
+<b><a href="#screenshots">Screenshots</a></b>
 </p>
 
 
@@ -45,7 +46,7 @@ You will have to adapt them for the other environments. See also [Spacemacs Prac
     - `emacs-plus` used to demonstrate some [flickering issues](https://github.com/syl20bnr/spacemacs/issues/12009) that may be annoying, consider `emacs-mac` port in that case.
     - You may want to run directly `make install-emacs-{plus|mac}` from this repository depending on the chosen option to run the below commands
 
-    ```bash
+```bash
 # Option 1 (emacs-plus) - 'make install-emacs-plus'
 brew tap d12frosted/emacs-plus
 brew install emacs-plus --with-spacemacs-icon
@@ -53,11 +54,11 @@ brew linkapps emacs-plus
 # Option 2 (emacs-mac) - 'make install-emacs-mac'
 brew tap railwaycat/emacsmacport
 brew install --cask emacs-mac-spacemacs-icon
-    ```
+```
 
 2. You **MUST** clone the __current__ repository into `~/.spacemacs.d`
 
-    ```bash
+```bash
 git clone https://github.com/Falkor/spacemacs-config.git ~/.spacemacs.d
 # Alternative setup (my preferred way to keep things organised):
 #     clone into ~/git/github.com/Falkor/spacemacs-config and symlink where appropriate
@@ -65,7 +66,7 @@ mkdir -p ~/git/github.com/Falkor/
 cd ~/git/github.com/Falkor/
 git clone https://github.com/Falkor/spacemacs-config.git
 ln -s ~/git/github.com/Falkor/spacemacs-config ~/.spacemacs.d
-    ```
+```
 
 3. __Install Spacemacs__ into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) _i.e_ `~/.config/spacemacs` and ensure ``~/.config/emacs` points to that directory.
     - use symbolic links for `~/.config/emacs` to quickly switch between spacemacs and any other setup (Ex: [Doom Emacs](https://github.com/hlissner/doom-emacs), [My previous `Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) ... )
@@ -73,7 +74,7 @@ ln -s ~/git/github.com/Falkor/spacemacs-config ~/.spacemacs.d
     - alternatively, you can clone it into the default emacs configuration directory `~/.emacs.d`
     - You may want to run directly: `make install-spacemacs`
 
-    ```bash
+```bash
 cd ~/.spacemacs.d
 make install-spacemacs
 ### In details, default XDG-compliant installation
@@ -82,24 +83,24 @@ git clone https://github.com/syl20bnr/spacemacs ~/.config/spacemacs
 ln -s ~/.config/spacemacs  ~/.config/emacs   # emacs config expected in ~/.config/emacs
 cd ~/.config/spacemacs
 git checkout develop
-    ```
+```
 
 4. __Install some nice fonts__ (required for the [Spacelines-all-the-icons](https://github.com/domtronn/spaceline-all-the-icons.el) mode-line)
     - You may want to run directly: `make install-fonts-darwin`
 
-    ```bash
+```bash
 brew tap homebrew/cask-fonts
 brew install --cask font-source-code-pro font-meslo-lg-nerd-font
-    ```
+```
 
 5. You will also need to **disable** a keybord shortcut set by default on Mac OS for the CTRL-SPC sequence.
     - Go into **System Preferences / Keybord / Shortcuts / Input Source** and uncheck the settings.
 
 6. Finally, you will have to install a few system packages required for the different [layers](settings/layers.el) to work properly. Just run:
 
-    ```bash
+```bash
 make bootstrap
-    ```
+```
 
 This will install the following packages:
 
@@ -202,4 +203,4 @@ Idem but un normal state (`ESC`)
 
 ![](doc/images/screenshot_falkor_spacemacs_modeline_normal.png)
 
-[▲ back to top](#)
+[▲ back to top](#readme)
