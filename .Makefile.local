@@ -1,8 +1,21 @@
 # -*- mode: makefile; -*-
+# Custom Makefile rules in complement to the default one.
 
-# bootstrap setup
+UNAME := $(shell uname)
 
-define PACKAGE_LIST
+USER_EMACS_DIRECTORY = $(HOME)/.config/spacemacs
+
+SETUP_TARGETS += bootstrap
+CLEAN_TARGETS += clean-elc-settings
+
+EMACS							= emacs
+EMACS_BATCH				= $(EMACS) -Q -batch -f batch-byte-compile
+DIRS							= settings
+SETTINGS_SOURCES	= $(shell find settings   -name '*.el')
+SETTINGS_TARGETS	= $(patsubst %.el,%.elc, $(SETTINGS_SOURCES))
+
+# List of complementary packages to install on Mac OS X with Homebrew
+define Darvin_PACKAGE_LIST
 	black
 	cmake
 	dash5
@@ -19,6 +32,12 @@ define PACKAGE_LIST
   solidity
 	sqlite3
 endef
+define Linux_PACKAGE_LIST
+	# TODO
+endef
+define Windows_PACKAGE_LIST
+	# TODO
+endef
 
 define NPM_PACKAGE_LIST
   bash-language-server
@@ -26,11 +45,72 @@ define NPM_PACKAGE_LIST
   vmd
 endef
 
+### General information
+info-emacs:
+	@echo "EMACS            = $(EMACS)"
+	@echo "EMACS_BATCH      = $(EMACS_BATCH)"
+	@echo "DIRS             = $(DIRS)"
+	@echo "SETTINGS_SOURCES = $(SETTINGS_SOURCES)"
+	@echo "SETTINGS_TARGETS = $(SETTINGS_TARGETS)"
+	@echo
+	@echo "Darvin_PACKAGE_LIST  = $(shell echo $(Darvin_PACKAGE_LIST))"
+	@echo "Linux_PACKAGE_LIST   = $(shell echo $(Linux_PACKAGE_LIST))"
+	@echo "Windows_PACKAGE_LIST = $(shell echo $(Windows_PACKAGE_LIST))"
 
-bootstrap:
-	brew install $(shell echo $(PACKAGE_LIST))
-  npm install -g $(shell echo $(NPM_PACKAGE_LIST))
+
+### Install emacs with homebrew
+install-emacs-plus:
+	brew tap d12frosted/emacs-plus
+	brew install emacs-plus --with-spacemacs-icon
+	brew linkapps emacs-plus
+install-emacs-mac:
+	brew tap railwaycat/emacsmacport
+	brew install --cask emacs-mac-spacemacs-icon
+
+### install spacemacs
+install-spacemacs: setup-xdg
+	@if [ -d "$(USER_EMACS_DIRECTORY)" ]; then \
+		echo "=> pulling latest commits into '$(USER_EMACS_DIRECTORY)'"; \
+		git -C $(USER_EMACS_DIRECTORY) pull origin; \
+	else \
+		git clone https://github.com/syl20bnr/spacemacs $(USER_EMACS_DIRECTORY); \
+	fi
+	@if [ ! -e "$(HOME)/.config/emacs" ]; then \
+		ln -s $(USER_EMACS_DIRECTORY) ~/.config/emacs; \
+	fi
+install-fonts-darwin:
+	brew tap homebrew/cask-fonts
+	brew install --cask font-source-code-pro font-meslo-lg-nerd-font
+
+
+### Setup and install dependency packages
+bootstrap: bootstrap-$(shell echo $(UNAME) | tr A-Z a-z)
+
+
+bootstrap-darwin: install-fonts-darwin
+	@echo brew install $(shell   echo $(Darvin_PACKAGE_LIST))
+	@echo npm install -g $(shell echo $(NPM_PACKAGE_LIST))
+
+# NOT YET SUPPORTED
+bootstrap-linux:
+	@echo "You MUST define properly Linux_PACKAGE_LIST in .Makefile.local"
+	@echo "{yum | apt | ... } install  $(shell   echo $(Linux_PACKAGE_LIST))"
+bootstrap-windows:
+	@echo "You MUST define properly Windows_PACKAGE_LIST in .Makefile.local"
+	@echo "choco install   $(shell   echo $(Windows_PACKAGE_LIST))"
+
 
 # https://github.com/Alloyed/lua-lsp
-lua-setup:
+setup-lua:
 	luarocks install luacheck
+
+
+### Byte compilation
+compile:  $(patsubst %,compile-%, $(DIRS))
+compile-settings: $(SETTINGS_TARGETS)
+
+%.elc: %.el
+	@echo $(EMACS_BATCH) $<
+
+clean-settings:
+	rm -rf $(SETTINGS_TARGETS)
