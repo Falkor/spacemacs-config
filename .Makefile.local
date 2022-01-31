@@ -112,5 +112,5 @@ compile-settings: $(SETTINGS_TARGETS)
 %.elc: %.el
 	@echo $(EMACS_BATCH) $<
 
-clean-settings:
+clean-elc-settings:
 	rm -rf $(SETTINGS_TARGETS)
