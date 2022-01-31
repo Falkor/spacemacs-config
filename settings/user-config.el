@@ -1,66 +1,18 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 18:10 svarrette>
+;;; Time-stamp: <Mon 2022-01-31 19:14 svarrette>
 ;;;; Commentary
 
-;; Special settings
+;; Special settings, in alphabetical order
 ;;
 
 (provide 'local-settings/user-configs)
 
-;;;; === Display ====
-(defun local-settings/display ()
-  "Local Spacemacs User settings for general Look and Feel"
-  ;; spaceline-all-the-icons
-  ;; Custom components of the theme
-  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
-  (spaceline-toggle-all-the-icons-buffer-position-on)
-  (spaceline-toggle-all-the-icons-dedicated-on)
-  ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
-  (spaceline-toggle-all-the-icons-weather-on)
-
-  ;; !!!!!!!!!!!!!!!!
-  ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
-  ;; !! If you remove this - expect EXTREMELY degraded performance
-  ;; !! on files of more-or-less any size and of any type
-  ;; !!!!!!!!!!!!!!!!
-  (spaceline-toggle-projectile-root-off)
-  (spaceline-toggle-all-the-icons-projectile-off)
-  (spaceline-toggle-all-the-icons-buffer-id-off)
-
-
-  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
-  ;; Use Mouse to copy/paste
-  ;; (xterm-mouse-mode -1)
-
-
-  )
-
-;;;; === General Look and Feel ===
-(defun local-settings/look-and-feel ()
-  "Local Spacemacs User settings for general Look and Feel"
-  ;; automatic wrapping of lines and insertion of newlines when the cursor
-  ;; goes over the column limit.
-  (setq-default fill-column 80)
-
-  ;; === Mouse settings
-  ;; Correct copy-paste to clipboard
-  (setq select-enable-clipboard t)
-  ;; after mouse selection in X11, you can paste by `yank' in emacs
-  ;;(setq x-select-enable-primary t)
-  (setq mouse-drag-copy-region  t)
-
-  ;; === General cursor interaction
-  ;; replace highlighted text with what I type
-  (delete-selection-mode 1)
-  ;; Make cursor the width of the character it is under i.e. full width of a TAB
-  (setq x-stretch-cursor t)
-  ;; show trailing whitespace
-  (add-hook 'prog-mode-hook (lambda ()
-                              (setq show-trailing-whitespace t)))
-
-                                        ; helm-swoop
-  (setq helm-swoop-use-fuzzy-match t)
-  (setq helm-swoop-use-line-number-face t)
+;;;; ==== User Reserved Key bindings (SPC o [...])
+(defun local-settings/keybindings-user-reserved ()
+  "User reserved key bindings (under SPC o), guaranteed to never conflict with
+Spacemacs default key bindings. "
+  ;; (define-key evil-normal-state-map (kbd "SPC o t") 'org-table-create) ;;DOES
+  ;; NOT WORK
   )
 
 
@@ -153,6 +105,65 @@
   )
 
 
+;;;; === Display ====
+(defun local-settings/display ()
+  "Local Spacemacs User settings for general Look and Feel"
+  ;; spaceline-all-the-icons
+  ;; Custom components of the theme
+  ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
+  (spaceline-toggle-all-the-icons-buffer-position-on)
+  (spaceline-toggle-all-the-icons-dedicated-on)
+  ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
+  (spaceline-toggle-all-the-icons-weather-on)
+
+  ;; !!!!!!!!!!!!!!!!
+  ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
+  ;; !! If you remove this - expect EXTREMELY degraded performance
+  ;; !! on files of more-or-less any size and of any type
+  ;; !!!!!!!!!!!!!!!!
+  (spaceline-toggle-projectile-root-off)
+  (spaceline-toggle-all-the-icons-projectile-off)
+  (spaceline-toggle-all-the-icons-buffer-id-off)
+
+
+  ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
+  ;; Use Mouse to copy/paste
+  ;; (xterm-mouse-mode -1)
+
+
+  )
+
+;;;; === General Look and Feel ===
+(defun local-settings/look-and-feel ()
+  "Local Spacemacs User settings for general Look and Feel"
+  ;; automatic wrapping of lines and insertion of newlines when the cursor
+  ;; goes over the column limit.
+  (setq-default fill-column 80)
+
+  ;; === Mouse settings
+  ;; Correct copy-paste to clipboard
+  (setq select-enable-clipboard t)
+  ;; after mouse selection in X11, you can paste by `yank' in emacs
+  ;;(setq x-select-enable-primary t)
+  (setq mouse-drag-copy-region  t)
+
+  ;; === General cursor interaction
+  ;; replace highlighted text with what I type
+  (delete-selection-mode 1)
+  ;; Make cursor the width of the character it is under i.e. full width of a TAB
+  (setq x-stretch-cursor t)
+  ;; show trailing whitespace
+  (add-hook 'prog-mode-hook (lambda ()
+                              (setq show-trailing-whitespace t)))
+
+                                        ; helm-swoop
+  (setq helm-swoop-use-fuzzy-match t)
+  (setq helm-swoop-use-line-number-face t)
+  )
+
+
+
+
 ;;;; LSP https://develop.spacemacs.org/layers/+tools/lsp/README.html
 (defun local-settings/lsp-config ()
   "Local Spacemacs User settings for LSP"
@@ -167,6 +178,18 @@
                                           "C" 'callees
                                           "v" 'vars)
   )
+
+;;;; Markdown - https://develop.spacemacs.org/layers/+lang/markdown/README.html
+(defun local-settings/markdown-config ()
+  "Local Spacemacs User settings for Markdown"
+  ;; re-enable orgtbl-mode disabled from https://github.com/syl20bnr/spacemacs/issues/15256
+  (add-hook 'markdown-mode-hook 'orgtbl-mode)
+  ;; Complete the default C-c |
+  (spacemacs/set-leader-keys "o t"   'org-table-create)
+  (spacemacs/set-leader-keys "m t t" 'org-table-create)
+  )
+
+
 
 ;;;; Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
 (defun local-settings/ranger-config ()

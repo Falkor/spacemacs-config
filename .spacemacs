@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Fri 2022-01-28 18:39 svarrette>
+;;; Time-stamp: <Mon 2022-01-31 19:07 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -9,7 +9,7 @@
 ;; |_|  \__,_|_|_|\_\___/|_|    |___/ |____/| .__/ \__,_|\___\___|_| |_| |_|\__,_|\___|___/
 ;;                                          |_|
 ;;
-;;         Copyright (c) Sebastien Varrrette <sebastien.varrrette@gmail.com>
+;;         Copyright (c) 2022 Sebastien Varrrette <sebastien.varrrette@gmail.com>
 ;;
 ;; -- Sebastien Varrette aka Falkor's Spacemacs Configuration --
 ;; -- MIT License --
@@ -24,11 +24,11 @@
 
 ;;;; Constants
 
-(defconst linux?   (eq system-type 'gnu/linux) "Are we on a linux machine?")
-(defconst mac?     (eq system-type 'darwin)    "Are we on a macOS machine?")
-(defconst windows? (not (or linux? mac?))      "Are we on windows machine?")
+(defconst system/linux?   (eq system-type 'gnu/linux) "Are we on a linux machine?")
+(defconst system/mac?     (eq system-type 'darwin)    "Are we on a macOS machine?")
+(defconst system/windows? (not (or system/linux? system/mac?)) "Are we on windows machine?")
 
-;; Helper function for root path
+;; Helper function for root path to a given configuration
 (defun spacemacs/get-conf-path(path)
   "Appends argument at the end of user-emacs-directory (~/.config/emacs)
    using expand-file-name"
@@ -39,7 +39,7 @@
   (expand-file-name path dotspacemacs-directory))
 
 ;; ============================ Let's go! ============================
-(load (local/get-conf-path "settings/layers"))
+(load (local/get-conf-path "settings/layers.el"))
 (require 'local-settings/configuration-layers)
 (load (local/get-conf-path "settings/user-config.el"))
 (require 'local-settings/user-configs)
@@ -706,6 +706,12 @@ before packages are loaded."
   (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
+  ;; Markdown
+  (local-settings/markdown-config)
+  ;; (local-settings/keybindings-user-reserved)
+  ;; (evil-define-key 'normal markdown-mode-map (kbd "C-c-|")  'org-table-create)
+
 
   ;; -- Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
   (local-settings/ranger-config)
