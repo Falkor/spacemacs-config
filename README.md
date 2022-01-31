@@ -29,7 +29,7 @@ It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-confi
 <p align="center">
 <b><a href="#installation">Installation</a></b>
 |
-<b><a href="#configurationoverview">Configuration Overview</a></b>
+<b><a href="#configuration-overview">Configuration Overview</a></b>
 |
 <b><a href="#usage">Usage</a></b>
 |
