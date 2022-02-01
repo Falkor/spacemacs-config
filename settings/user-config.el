@@ -1,11 +1,13 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-01-31 19:14 svarrette>
+;;; Time-stamp: <Tue 2022-02-01 14:18 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
 ;;
 
 (provide 'local-settings/user-configs)
+
+
 
 ;;;; ==== User Reserved Key bindings (SPC o [...])
 (defun local-settings/keybindings-user-reserved ()
@@ -16,13 +18,9 @@ Spacemacs default key bindings. "
   )
 
 
-;;;; Company and LSP -- NOT USED for the moment.
-;;; https://gitter.im/emacs-lsp/lsp-mode?at=5d64447c07d1ff39f88ae388
-;; finally not used
-(defun local-settings/company-lsp-config ()
-  "Local Spacemacs User settings for Company"
-  ;; (require 'xclip)
-  ;; (xclip-mode 1)
+;;;; Auto-completion
+(defun local-settings/auto-completion-config ()
+  "Local Spacemacs User settings for Auto-completion"
 
   (use-package company
     :ensure t
@@ -41,6 +39,10 @@ Spacemacs default key bindings. "
           company-tooltip-align-annotations t
           company-transformers '(company-sort-prefer-same-case-prefix)))
 
+  ;; integrate yasnippet into company
+  (yas-global-mode 1)
+  (global-set-key (kbd "C-<return>") 'hippie-expand)
+
   (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
 
   (defun company-mode/backend-with-yas (backend)
@@ -50,6 +52,15 @@ Spacemacs default key bindings. "
               '(:with company-yasnippet))))
 
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  )
+
+
+;;;; Company and LSP -- NOT USED for the moment.
+;;; https://gitter.im/emacs-lsp/lsp-mode?at=5d64447c07d1ff39f88ae388
+;; finally not used
+(defun local-settings/company-lsp-config ()
+  "Local Spacemacs User settings for Company"
+
 
   ;; (use-package lsp-mode
   ;;   :ensure t
@@ -105,6 +116,19 @@ Spacemacs default key bindings. "
   )
 
 
+;;;;; === Compiling  https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
+(defun local-settings/compile-config ()
+  "Local Spacemacs User settings for compilation "
+  (setq compilation-window-height 10)
+
+  ;; Compile - 'SPC c m' to run helm-make
+  (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
+  (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
+  (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
+  (global-set-key (kbd "<f6>")     'compile)
+  )
+
+
 ;;;; === Display ====
 (defun local-settings/display ()
   "Local Spacemacs User settings for general Look and Feel"
@@ -132,6 +156,81 @@ Spacemacs default key bindings. "
 
 
   )
+
+(defun local-settings/evil-bindings ()
+  "Local Spacemacs User settings for Evil bindings customizations"
+  ;; === Search and replace
+  ;; Better vim-compliant search with <up> and <down> key
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
+  ;; DO to insert mode on double-click DOES NOT WORK
+  ;; (define-key evil-normal-state-map [double-mouse-1]
+  ;;   (lambda ((custom-set-variables
+  ;;     (interactive)
+  ;;     (evil-insert)))
+
+  ;; Reminder: From visual mode:  three different "visual" states:
+  ;;    Char: 'v'   from normal mode
+  ;;    Line  'S-v' from normal mode
+  ;;    Block 'C-v' from normal mode
+  ;; Shift-arrow to also select text in normal mode
+  ;; Alternative: v for visual then arrow
+  (define-key evil-normal-state-map (kbd "S-<left>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (backward-char)))
+  (define-key evil-normal-state-map (kbd "S-<right>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (forward-char)))
+  (define-key evil-normal-state-map (kbd "S-<down>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-next-line)))
+  (define-key evil-normal-state-map (kbd "S-<up>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-previous-line)))
+  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
+  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
+
+  ;; Remap C-e to end of line
+  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+
+  ;; revert C-w to delete previous word even in insert
+  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+
+  ;; Backspace in visual mode also delete selected region
+  (define-key evil-visual-state-map (kbd "<backspace>") 'delete-forward-char)
+
+  ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
+  (setq evil-cross-lines t)
+  )
+
+;;;;; ===  Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
+(defun local-settings/geolocation-config ()
+  "Local Spacemacs User settings for geolocation"
+  (setq calendar-location-name "Thionville, France"
+        calendar-latitude 49.3
+        calendar-longitude 6.2)
+  ;; OpenWeatherMap API key, to define in settings/private.el
+  ;; (setq sunshine-appid "your-apikey")
+  ;; Get you city ID from city.list.json.gz under http://bulk.openweathermap.org/sample/
+  (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
+  (setq sunshine-units      'metric)
+  (setq sunshine-show-icons t)
+  )
+
 
 ;;;; === General Look and Feel ===
 (defun local-settings/look-and-feel ()
@@ -179,6 +278,30 @@ Spacemacs default key bindings. "
                                           "v" 'vars)
   )
 
+;;;; Magit -  https://develop.spacemacs.org/layers/LAYERS.html#git
+(defun local-settings/magit-config ()
+  "Local Spacemacs User settings for Magit"
+  (setq-default git-magit-status-fullscreen t)
+  ;; (setq magit-commit-arguments '("--signoff"))  ;; DOES NOT WORK
+  (setq magit-stage-all-confirm   nil)
+  (setq magit-unstage-all-confirm nil)
+  (setq magit-commit-all-when-nothing-staged t)
+  ;; When in magit-section-movement-hook (after commit), remap the existing
+  ;; keys to something more natural to me. Existing bindings:
+  ;;   C-k to go to the section backward (magit-section-backward)
+  ;;   C-j to go to the section forward  (magit-section-forward)
+  ;;
+  ;; Other shortcuts good to know when under magit-status:
+  ;;   gt  go to untracked
+  ;;
+  (evil-define-key 'normal magit-mode-map (kbd "C-p")  'magit-section-backward)
+  (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
+  ;; commit enter in insert mode -- C-c C-c to write the commit message
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
+  )
+
+
 ;;;; Markdown - https://develop.spacemacs.org/layers/+lang/markdown/README.html
 (defun local-settings/markdown-config ()
   "Local Spacemacs User settings for Markdown"
@@ -222,9 +345,9 @@ Spacemacs default key bindings. "
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;; to enable it in all programming-related modes
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		                    :foreground "red"
-		                    :inherit 'error
-		                    :box t)
+                        :foreground "red"
+                        :inherit 'error
+                        :box t)
     )
   ;;(require 'paren)
   ;;(show-paren-mode t)

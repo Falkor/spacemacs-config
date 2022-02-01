@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-01-31 19:07 svarrette>
+;;; Time-stamp: <Tue 2022-02-01 15:06 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -586,62 +586,7 @@ before packages are loaded."
   ;; ====================================
   ;; === Evil Bindings Customizations ===
   ;; ====================================
-  ;; === Search and replace
-  ;; Better vim-compliant search with <up> and <down> key
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
-  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
-
-  ;; DO to insert mode on double-click DOES NOT WORK
-  ;; (define-key evil-normal-state-map [double-mouse-1]
-  ;;   (lambda ((custom-set-variables
-  ;;     (interactive)
-  ;;     (evil-insert)))
-
-  ;; Reminder: From visual mode:  three different "visual" states:
-  ;;    Char: 'v'   from normal mode
-  ;;    Line  'S-v' from normal mode
-  ;;    Block 'C-v' from normal mode
-  ;; Shift-arrow to also select text in normal mode
-  ;; Alternative: v for visual then arrow
-  (define-key evil-normal-state-map (kbd "S-<left>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (backward-char)))
-  (define-key evil-normal-state-map (kbd "S-<right>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (forward-char)))
-  (define-key evil-normal-state-map (kbd "S-<down>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-next-line)))
-  (define-key evil-normal-state-map (kbd "S-<up>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-previous-line)))
-  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
-  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
-
-  ;; Remap C-e to end of line
-  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-
-  ;; revert C-w to delete previous word even in insert
-  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
-  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
-
-  ;; Backspace in visual mode also delete selected region
-  (define-key evil-visual-state-map (kbd "<backspace>") 'delete-forward-char)
-
-  ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
-  (setq evil-cross-lines t)
+  (local-settings/evil-bindings)
 
   ;; ===============
   ;; === Display ===
@@ -654,17 +599,15 @@ before packages are loaded."
   ;; === Layers Customizations ===
   ;; =============================
   ;;;; Auto-completion
-  (local-settings/company-lsp-config)
-  (yas-global-mode 1)
-  (global-set-key (kbd "C-<return>") 'hippie-expand)
-
-  (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
+  (local-settings/auto-completion-config)
+  ;; (local-settings/company-lsp-config)
 
 
   ;;;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
-  (setq compilation-window-height 10)
+  (local-settings/compile-config)
 
-  ;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
+
+;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
   (setq copy-as-format-default "markdown")
 
   ;;;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
@@ -673,39 +616,14 @@ before packages are loaded."
                                 (dtrt-indent-adapt)))
 
   ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
-  (setq calendar-location-name "Thionville, France"
-        calendar-latitude 49.3
-        calendar-longitude 6.2)
-  ;; OpenWeatherMap API key, to define in settings/private.el
-  ;; (setq sunshine-appid "your-apikey")
-  ;; Get you city ID from city.list.json.gz under http://bulk.openweathermap.org/sample/
-  (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
-  (setq sunshine-units      'metric)
-  (setq sunshine-show-icons t)
+  (local-settings/geolocation-config)
 
   ;;;; LSP
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   ;; (local-settings/lsp-config)
 
-
   ;; -- [Ma]git -  https://develop.spacemacs.org/layers/LAYERS.html#git
-  (setq-default git-magit-status-fullscreen t)
-  ;; (setq magit-commit-arguments '("--signoff"))  ;; DOES NOT WORK
-  (setq magit-stage-all-confirm   nil)
-  (setq magit-unstage-all-confirm nil)
-  (setq magit-commit-all-when-nothing-staged t)
-  ;; When in magit-section-movement-hook (after commit), remap the existing
-  ;; keys to something more natural to me. Existing bindings:
-  ;;   C-k to go to the section backward (magit-section-backward)
-  ;;   C-j to go to the section forward  (magit-section-forward)
-  ;;
-  ;; Other shortcuts good to know when under magit-status:
-  ;;   gt  go to untracked
-  ;;
-  (evil-define-key 'normal magit-mode-map (kbd "C-p")  'magit-section-backward)
-  (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
-  ;; commit enter in insert mode -- C-c C-c to write the commit message
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  (local-settings/magit-config)
 
   ;; Markdown
   (local-settings/markdown-config)
@@ -777,11 +695,6 @@ before packages are loaded."
   ;; open recent files SPC f r
   (global-set-key (kbd "C-x C-r") 'lazy-helm/helm-recentf)
 
-  ;; Compile - 'SPC c m' to run helm-make
-  (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
-  (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
-  (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
-  (global-set-key (kbd "<f6>")     'compile)
 
   ;; ===========================
   ;; === Complementary Tools ===
