@@ -182,8 +182,38 @@ Indeed, a help buffer ([`which-key`](https://github.com/justbur/emacs-which-key)
 
 [Custom key bindings](https://develop.spacemacs.org/doc/DOCUMENTATION.html) for the common modes will be documented here.
 
+#### Magit
 
+To interact with github or gitlab forges, you will have to store the tokens - see [official instructions](https://magit.vc/manual/ghub.html#Getting-Started) or [practicallu forge configs](https://github.com/practicalli/spacemacs/blob/main/source-control/forge-configuration.md)
 
+```bash
+git config --global github.user USERNAME
+git config --global gitlab.user USERNAME
+```
+
+To [create a token](https://magit.vc/manual/forge.html#Token-Creation), use the web interface of the forge/host you want to connect to.
+Here is a list of pages to do this for certain popular hosts:
+
+* [GitHub personal access tokens](https://github.com/settings/tokens) - 3 scopes are required:
+    - `repo`: grants full read/write access to private and public repositories.
+    - `user`: grants access to profile information.
+    - `read:org`: grants read-only access to organization membership.
+* [GitLab personal access tokens](https://gitlab.com/-/profile/personal_access_tokens)
+    - `api` is the only required scope.
+
+Once you have your token, you will have to store it in GPG encrypted form under `~/.spacemacs.d/.authinfo.gpg`
+
+* Create a file `~/.spacemacs.d/.authinfo` with the following content (adapt USERNAME and TOKEN accordingly) -- no comment!
+
+```
+machine api.github.com login USERNAME^forge password YOURTOKEN
+```
+
+* Use `SPC SPC epa-encrypt-file` to encrypt the file with gpg
+    - kill the buffer and check that Emacs is able to open and read the file
+    - if yes: delete the file `~/.spacemacs.d/.authinfo`
+
+You can check your correct settings by restarting Emacs, enter magit status (SPC g s) and press '@' to enter forge mode, 'a' to add the current repository.
 
 ## Screenshots
 

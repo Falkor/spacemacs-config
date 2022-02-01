@@ -44,6 +44,14 @@
 (load (local/get-conf-path "settings/user-config.el"))
 (require 'local-settings/user-configs)
 
+;; https://github.com/practicalli/spacemacs/blob/main/source-control/forge-configuration.md
+;; Authentication source - Set the files that are searched for writing tokens
+(setq local/authinfo (local/get-conf-path ".authinfo.gpg"))
+(when (file-exists-p local/authinfo)
+  (setq auth-sources
+        '((:source "~/.spacemacs.d/.authinfo.gpg"))))
+
+;; private settings
 (setq local/private-settings (local/get-conf-path "settings/private.el"))
 (when (file-exists-p local/private-settings)
   (load local/private-settings))
