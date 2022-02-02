@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 21:37 svarrette>
+;;; Time-stamp: <Tue 2022-02-01 17:15 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -95,7 +95,7 @@
     (osx :variables
          osx-option-as 'none       ;; Very important to allow for all keys \
          osx-right-option-as 'meta)
-    pass
+    ;; pass
     perl5
     php
     prettier
@@ -103,7 +103,7 @@
     puppet
     (python :variables
             python-formatter 'black
-            python-format-on-save t
+            python-format-on-save nil
             ;; python-save-before-test nil
             python-sort-imports-on-save t
             )
