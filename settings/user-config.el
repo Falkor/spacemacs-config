@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Tue 2022-02-01 14:18 svarrette>
+;;; Time-stamp: <Wed 2022-02-02 21:12 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -133,12 +133,27 @@ Spacemacs default key bindings. "
 (defun local-settings/display ()
   "Local Spacemacs User settings for general Look and Feel"
   ;; spaceline-all-the-icons
+  ;; See also
+  ;; https://git.madhouse-project.org/algernon/emacs.d/src/branch/master/layers/+look-n-feel/algernon-modeline/packages.el
+  (spaceline-all-the-icons--setup-package-updates)
+  (spaceline-all-the-icons--setup-git-ahead)
+
+  (setq spaceline-all-the-icons-highlight-file-name t
+        spaceline-all-the-icons-file-name-highlight "#f3ea98"
+        spaceline-all-the-icons-hide-long-buffer-path t
+        )
+
+  ;; Toggles
   ;; Custom components of the theme
   ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
+  (spaceline-toggle-all-the-icons-buffer-size-off)
   (spaceline-toggle-all-the-icons-buffer-position-on)
+
   (spaceline-toggle-all-the-icons-dedicated-on)
   ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
   (spaceline-toggle-all-the-icons-weather-on)
+
+
 
   ;; !!!!!!!!!!!!!!!!
   ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
@@ -299,6 +314,16 @@ Spacemacs default key bindings. "
   ;; commit enter in insert mode -- C-c C-c to write the commit message
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
 
+
+  ;; Make custom gitlab instance (gitlab.uni.lu) recognized as elligible forge
+  ;; repository - C h v to check the value of forge-alist
+  (with-eval-after-load 'forge
+    ;; Each entry must follow (GITHOST APIHOST ID CLASS)
+    (add-to-list 'forge-alist
+                 '("gitlab.uni.lu"
+                   "gitlab.uni.lu/api/v4"
+                   "gitlab.uni.lu"
+                   forge-gitlab-repository)))
   )
 
 
