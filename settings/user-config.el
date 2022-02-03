@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Wed 2022-02-02 21:12 svarrette>
+;;; Time-stamp: <Wed 2022-02-02 22:00 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -127,6 +127,7 @@ Spacemacs default key bindings. "
   (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
   (global-set-key (kbd "<f6>")     'compile)
   )
+
 
 
 ;;;; === Display ====

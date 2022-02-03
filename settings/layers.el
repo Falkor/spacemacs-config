@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Tue 2022-02-01 17:15 svarrette>
+;;; Time-stamp: <Wed 2022-02-02 22:08 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -47,7 +47,7 @@
     evil-better-jumper
     (geolocation :variables
                  ;; geolocation-enable-automatic-theme-changer t
-                 geolocation-enable-location-service t
+                 ;; geolocation-enable-location-service t
                  geolocation-enable-weather-forecast t)
     (git :variables
          git-enable-magit-delta-plugin t   ;; brew install git-delta
