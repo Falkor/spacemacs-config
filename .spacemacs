@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Thu 2022-02-03 08:13 svarrette>
+;;; Time-stamp: <Mon 2022-02-07 10:44 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -236,7 +236,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'markdown-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
@@ -625,6 +625,10 @@ before packages are loaded."
 
   ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
   (local-settings/geolocation-config)
+
+
+  ;;;; LaTeX
+  (local-settings/latex-config)
 
   ;;;; LSP
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/

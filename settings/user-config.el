@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Wed 2022-02-02 22:00 svarrette>
+;;; Time-stamp: <Mon 2022-02-07 10:44 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -277,7 +277,10 @@ Spacemacs default key bindings. "
   )
 
 
-
+;;;; LaTeX - https://develop.spacemacs.org/layers/+lang/latex/README.html
+(defun local-settings/latex-config ()
+  (setq TeX-auto-local ".texinfo")
+  )
 
 ;;;; LSP https://develop.spacemacs.org/layers/+tools/lsp/README.html
 (defun local-settings/lsp-config ()
