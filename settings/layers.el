@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Wed 2022-02-02 22:08 svarrette>
+;;; Time-stamp: <Tue 2022-03-01 15:59 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -41,7 +41,7 @@
     (dash :variables
           dash-autoload-common-docsets nil)
     dap
-    dtrt-indent
+    ;; dtrt-indent
     ;;emacs-lisp
     ess
     evil-better-jumper
@@ -131,7 +131,10 @@
                    shell-scripts-format-on-save t)
     (solidity :variables
               solidity-flycheck-solc-checker-active t)
-    ;; spell-checking
+    (spell-checking :variables
+                    spell-checking-enable-by-default nil
+                    enable-flyspell-auto-completion t
+                    spell-checking-enable-auto-dictionary t)
     syntax-checking
     ;; Still using auto-insert-tlkd for the moment.
     ;; (templates :variables
