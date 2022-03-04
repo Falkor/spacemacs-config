@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-02-07 10:44 svarrette>
+;;; Time-stamp: <Fri 2022-03-04 09:15 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -233,7 +233,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
    ;; (default `text-mode')
-   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+   dotspacemacs-new-empty-buffer-major-mode 'markdown-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'markdown-mode
@@ -279,7 +279,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("MesloLGS NF"
-                               :size 12
+                               :size 13
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
