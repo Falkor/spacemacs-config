@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Fri 2022-03-04 09:15 svarrette>
+;;; Time-stamp: <Tue 2022-04-12 09:46 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -503,7 +503,7 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues, instead of calculating the frame title by
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%t: %b"
+   dotspacemacs-frame-title-format "%t: %a"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -622,6 +622,9 @@ before packages are loaded."
   (add-hook 'prog-mode-hook #'(lambda ()
                                 (dtrt-indent-mode)
                                 (dtrt-indent-adapt)))
+
+  ;;;; Easybuild / Easyconfigs
+  (add-to-list 'auto-mode-alist '("\\.eb\\'" . python-mode))
 
   ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
   (local-settings/geolocation-config)
