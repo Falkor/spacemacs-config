@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-02-07 10:44 svarrette>
+;;; Time-stamp: <Thu 2022-04-28 13:52 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -341,6 +341,11 @@ Spacemacs default key bindings. "
   (spacemacs/set-leader-keys "m t t" 'org-table-create)
   )
 
+
+;;;; Python - https://develop.spacemacs.org/layers/+lang/python/README.html
+(defun local-settings/python-config ()
+  (setq-default python-indent-offset 4)
+  )
 
 
 ;;;; Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html

@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Tue 2022-04-12 09:46 svarrette>
+;;; Time-stamp: <Thu 2022-04-28 10:25 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -645,6 +645,8 @@ before packages are loaded."
   ;; (local-settings/keybindings-user-reserved)
   ;; (evil-define-key 'normal markdown-mode-map (kbd "C-c-|")  'org-table-create)
 
+  ;; Python
+  (local-settings/python-config)
 
   ;; -- Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
   (local-settings/ranger-config)

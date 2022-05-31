@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Tue 2022-03-01 15:59 svarrette>
+;;; Time-stamp: <Thu 2022-04-28 13:53 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -106,6 +106,7 @@
             python-format-on-save nil
             ;; python-save-before-test nil
             python-sort-imports-on-save t
+            python-fill-column 99
             )
     (ranger :variables
             ranger-override-dired 'ranger
