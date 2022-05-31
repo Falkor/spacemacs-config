@@ -645,6 +645,9 @@ before packages are loaded."
   ;; (local-settings/keybindings-user-reserved)
   ;; (evil-define-key 'normal markdown-mode-map (kbd "C-c-|")  'org-table-create)
 
+  ;; undo-tree 
+  (local-settings/undo-tree-config)
+
   ;; Python
   (local-settings/python-config)
 

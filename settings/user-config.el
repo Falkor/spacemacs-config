@@ -341,6 +341,15 @@ Spacemacs default key bindings. "
   (spacemacs/set-leader-keys "m t t" 'org-table-create)
   )
 
+;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
+(defun local-settings/undo-tree-config ()
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        `(("." . ,(concat spacemacs-cache-directory "undo"))))
+  (unless (file-exists-p (concat spacemacs-cache-directory "undo"))
+    (make-directory (concat spacemacs-cache-directory "undo")))
+  ;; (setq undo-tree-history-directory-alist '(("." . "undo"))))
+  )
 
 ;;;; Python - https://develop.spacemacs.org/layers/+lang/python/README.html
 (defun local-settings/python-config ()
