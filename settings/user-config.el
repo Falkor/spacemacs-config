@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Thu 2022-04-28 13:52 svarrette>
+;;; Time-stamp: <Mon 2022-09-19 07:31 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -343,12 +343,15 @@ Spacemacs default key bindings. "
 
 ;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
 (defun local-settings/undo-tree-config ()
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist
-        `(("." . ,(concat spacemacs-cache-directory "undo"))))
-  (unless (file-exists-p (concat spacemacs-cache-directory "undo"))
-    (make-directory (concat spacemacs-cache-directory "undo")))
-  ;; (setq undo-tree-history-directory-alist '(("." . "undo"))))
+  ;; See https://emacs.stackexchange.com/questions/63430/restore-emacs-default-undo-redo-behavior-in-spacemacs
+  ;; Restore undo
+  (global-undo-tree-mode 0)
+  ;; (setq undo-tree-auto-save-history t
+  ;;       undo-tree-history-directory-alist
+  ;;       `(("." . ,(concat spacemacs-cache-directory "undo"))))
+  ;; (unless (file-exists-p (concat spacemacs-cache-directory "undo"))
+  ;;   (make-directory (concat spacemacs-cache-directory "undo")))
+  ;; ;; (setq undo-tree-history-directory-alist '(("." . "undo"))))
   )
 
 ;;;; Python - https://develop.spacemacs.org/layers/+lang/python/README.html
