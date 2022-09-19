@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-09-19 07:31 svarrette>
+;;; Time-stamp: <Mon 2022-09-19 08:27 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -383,9 +383,11 @@ Spacemacs default key bindings. "
     :config
     (progn
       (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+            ;; (add-hook 'sh-mode-hook             #'smartparens-mode)
       ;;(push 'yas-installed-snippets-dir yas-snippet-dirs)
       )
     )
+  (smartparens-global-mode t)
   ;; Better highlight matching parenthesis
   (use-package rainbow-delimiters
     :config
