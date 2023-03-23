@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-09-19 08:27 svarrette>
+;;; Time-stamp: <Mon 2022-09-19 08:40 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -339,6 +339,8 @@ Spacemacs default key bindings. "
   ;; Complete the default C-c |
   (spacemacs/set-leader-keys "o t"   'org-table-create)
   (spacemacs/set-leader-keys "m t t" 'org-table-create)
+
+  (setq markdown-gfm-use-electric-backquote nil)
   )
 
 ;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
