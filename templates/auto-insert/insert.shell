@@ -1,50 +1,59 @@
 #! /bin/bash
-# Time-stamp: <Wed 2021-04-14 17:23 svarrette>
+# Time-stamp: <Wed 2023-05-17 19:23 svarrette>
 ################################################################################
 # %b - %@
 ################################################################################
+# set -o nounset -o errexit -o pipefail
+set -o errexit -o pipefail
+
 # cosmetics
 COLOR_BOLD="\033[1m"
-COLOR_YELLOW="\033[0;33m"
 COLOR_VIOLET="\033[0;35m"
 COLOR_RESET="\033[0m"
+
 # Local variables
-SCRIPTDIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TOP_DIR="$(  cd "$( dirname "${BASH_SOURCE[0]}" )" && git rev-parse --show-toplevel)"
-CMD_PREFIX=
-DEBUG=
+#SCRIPTDIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+#TOP_DIR="$(  cd "$( dirname "${BASH_SOURCE[0]}" )" && git rev-parse --show-toplevel)"
+CMD_PREFIX="echo"
 
 ################################################################################
-info()  { echo -e "${COLOR_BOLD}$*${COLOR_RESET}"; }
-debug() { [ -n "$DEBUG" ] && echo -e "${COLOR_YELLOW}DEBUG${COLOR_RESET} $*"; }
-error() { echo -e "${COLOR_BOLD}*** ERROR *** $*${COLOR_RESET}"; }
-print_error_and_exit() { error $*; exit 1; }
+info()    { echo -e "${COLOR_BOLD}$*${COLOR_RESET}"; }
+error()   { echo -e "${COLOR_BOLD}*** ERROR *** $*${COLOR_RESET}"; }
+warning() { echo -e "${COLOR_VIOLET}/!\\ WARNING: $*${COLOR_RESET}"; }
+print_error_and_exit() { error "$*"; exit 1; }
 usage() {
     cat <<EOF
 NAME
-  $(basename $0): 
+  $(basename "$0"):
+
 USAGE
-  $0 [-n] [--debug]
+  $0 [-x]
+
 OPTIONS:
-  -n --dry-run: Dry run mode
-  --debug:      Debug Mode
+  -n --dry-run:   Dry run mode
+  -x --exec      REALLY run the command (do not just echo them)
+
+By default, expose the command in dry-run mode (just echo them).
+Typical usage:
+     $(basename "$0") [-x]
+
 AUTHOR
   %U %a
-  Web page: %o 
+  Web page: %o
 COPYRIGHT
-  This is free software; see the source for copying conditions. There is 
+  This is free software; see the source for copying conditions. There is
   NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 EOF
 }
 ################################################################################
-# Other toolbox functions 
+# Other toolbox functions
 #####
 # execute a local command
 ###
 execute() {
     [ $# -eq 0 ] && print_error_and_exit "[$FUNCNAME] missing command argument"
     debug "[$FUNCNAME] $*"
-    $CMD_PREFIX $* 
+    $CMD_PREFIX "$*"
     local exit_status=$?
     debug "[$FUNCNAME] exit status: $exit_status"
     return $exit_status
@@ -53,9 +62,9 @@ execute() {
 # ask to continue. exit 1 if the answer is no
 ##
 really_continue() {
-    echo -e -n "[${COLOR_VIOLET}WARNING${COLOR_BACK}] $* Are you sure you want to continue? [Y|n] "
-    read ans
-    case $ans in 
+    echo -e -n "[${COLOR_VIOLET}/!\\ WARNING:${COLOR_RESET}] Are you sure you want to continue? [Y|n] "
+    read -r ans
+    case $ans in
     n*|N*) exit 1;;
     esac
 }
@@ -66,11 +75,19 @@ really_continue() {
 while [ $# -ge 1 ]; do
     case $1 in
         -h | --help) usage; exit 0;;
-        --debug) DEBUG='--debug';;
-        -n | --dry-run) CMD_PREFIX=echo;;
-        *) OPTS=$*; break;;
+        -n | --dry-run) CMD_PREFIX="echo";;
+        -x | --exec)    CMD_PREFIX=;;
+        *) OPTS="$*"; break;;
     esac
     shift
 done
 
-${CMD_PREFIX} echo cmd ${OPTS}
+CMD="whoami ${OPTS}"
+
+#################################################
+warning "about to execute the following command:"
+echo "${CMD}" | sed 's/\s-/\n\t\t-/g'
+
+[ -n "${CMD_PREFIX}" ] && warning "/!\\ DRY-RUN MODE!!! - consider '$0 -x' to execute" && exit 0
+really_continue
+${CMD_PREFIX} ${CMD}
