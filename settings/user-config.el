@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-09-19 08:40 svarrette>
+;;; Time-stamp: <Tue 2023-07-18 10:19 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -187,6 +187,7 @@ Spacemacs default key bindings. "
   ;;     (interactive)
   ;;     (evil-insert)))
 
+
   ;; Reminder: From visual mode:  three different "visual" states:
   ;;    Char: 'v'   from normal mode
   ;;    Line  'S-v' from normal mode
@@ -274,6 +275,12 @@ Spacemacs default key bindings. "
                                         ; helm-swoop
   (setq helm-swoop-use-fuzzy-match t)
   (setq helm-swoop-use-line-number-face t)
+
+  ;; ==== Rectangular selection ===
+  ;; Common User Access (CUA)
+  (setq cua-rectangle-mark-key (kbd "C-S-<return>"))
+  (cua-selection-mode 1)
+
   )
 
 
