@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Tue 2023-07-18 10:19 svarrette>
+;;; Time-stamp: <Mon 2023-08-28 14:41 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -281,6 +281,11 @@ Spacemacs default key bindings. "
   (setq cua-rectangle-mark-key (kbd "C-S-<return>"))
   (cua-selection-mode 1)
 
+  )
+
+;;;; Java - https://develop.spacemacs.org/layers/+lang/java/README.html
+(defun local-settings/java-config ()
+  (setq-default c-indent-offset 2)
   )
 
 

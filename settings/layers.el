@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Thu 2022-04-28 13:53 svarrette>
+;;; Time-stamp: <Mon 2023-08-28 14:13 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -63,7 +63,7 @@
     helpful
     html
     (java :variables
-          java-backend 'meghanada)
+          java-backend 'lsp)
     (latex :variables
            latex-enable-magic nil)
     ;; lsp configured SEPARATELY outside the default layer within settings/user-config.el
