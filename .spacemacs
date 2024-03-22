@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Fri 2023-10-06 08:18 svarrette>
+;;; Time-stamp: <Wed 2024-01-24 16:54 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -661,6 +661,9 @@ before packages are loaded."
 
   ;; -- Rebox - https://develop.spacemacs.org/layers/+tools/rebox/README.html
   (setq rebox-style-loop '(71 72 73))
+
+  ;; -- Shell-scripting
+  (local-settings/shell-script-config)
 
   ;; -- Treemacs
   ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826

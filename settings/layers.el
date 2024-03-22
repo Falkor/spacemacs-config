@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2023-08-28 14:13 svarrette>
+;;; Time-stamp: <Wed 2024-01-24 15:36 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -41,7 +41,7 @@
     (dash :variables
           dash-autoload-common-docsets nil)
     dap
-    ;; dtrt-indent
+    dtrt-indent
     ;;emacs-lisp
     ess
     evil-better-jumper
@@ -53,7 +53,7 @@
          git-enable-magit-delta-plugin t   ;; brew install git-delta
          git-enable-magit-gitflow-plugin t ;; brew install git-flow
          )
-    github
+    ;; github
     (go :variables
         go-backend 'go-mode
         go-format-before-save t)
@@ -65,7 +65,9 @@
     (java :variables
           java-backend 'lsp)
     (latex :variables
-           latex-enable-magic nil)
+           latex-enable-magic nil
+           latex-enable-auto-fill nil
+           latex-backend 'lsp)
     ;; lsp configured SEPARATELY outside the default layer within settings/user-config.el
     ;; LSP is not compliant with company-lsp : see https://github.com/tigersoldier/company-lsp/issues/119
     (lsp :variables
@@ -92,12 +94,12 @@
     nav-flash
     (org :variables
          org-enable-github-support t)
-    (osx :variables
-         osx-option-as 'none       ;; Very important to allow for all keys \
-         osx-right-option-as 'meta)
+    ;; (osx :variables
+    ;;      osx-option-as 'none       ;; Very important to allow for all keys \
+    ;;      osx-right-option-as 'meta)
     ;; pass
     perl5
-    php
+    ;; php
     prettier
     protobuf
     puppet
@@ -129,7 +131,8 @@
            shell-default-position 'bottom
            close-window-with-terminal t)
     (shell-scripts :variables
-                   shell-scripts-format-on-save t)
+           shell-scripts-backend 'lsp
+           shell-scripts-format-on-save t)
     (solidity :variables
               solidity-flycheck-solc-checker-active t)
     (spell-checking :variables

@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2023-08-28 14:41 svarrette>
+;;; Time-stamp: <Wed 2024-01-24 18:07 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -169,7 +169,9 @@ Spacemacs default key bindings. "
   ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
   ;; (xterm-mouse-mode -1)
-
+  ;; see
+  ;; https://www.reddit.com/r/emacs/comments/5fptl7/using_evils_visualmode_it_automatically_adds_the/
+  (fset 'evil-visual-update-x-selection 'ignore)
 
   )
 
@@ -333,13 +335,13 @@ Spacemacs default key bindings. "
 
   ;; Make custom gitlab instance (gitlab.uni.lu) recognized as elligible forge
   ;; repository - C h v to check the value of forge-alist
-  (with-eval-after-load 'forge
-    ;; Each entry must follow (GITHOST APIHOST ID CLASS)
-    (add-to-list 'forge-alist
-                 '("gitlab.uni.lu"
-                   "gitlab.uni.lu/api/v4"
-                   "gitlab.uni.lu"
-                   forge-gitlab-repository)))
+  ;; (with-eval-after-load 'forge
+  ;;   ;; Each entry must follow (GITHOST APIHOST ID CLASS)
+  ;;   (add-to-list 'forge-alist
+  ;;                '("gitlab.uni.lu"
+  ;;                  "gitlab.uni.lu/api/v4"
+  ;;                  "gitlab.uni.lu"
+  ;;                  forge-gitlab-repository)))
   )
 
 
@@ -353,6 +355,8 @@ Spacemacs default key bindings. "
   (spacemacs/set-leader-keys "m t t" 'org-table-create)
 
   (setq markdown-gfm-use-electric-backquote nil)
+  ;; Bugfix smartparens is buggy with markdown edition
+  (add-hook 'markdown-mode-hook #'turn-off-smartparens-mode)
   )
 
 ;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
@@ -381,8 +385,10 @@ Spacemacs default key bindings. "
   (setq ranger-ignored-extensions '("mkv" "iso" "mp4"))
   )
 
-
-
+;;;; Shell scripting - https://develop.spacemacs.org/layers/+lang/shell-scripts/README.html
+(defun local-settings/shell-script-config ()
+  (setq-default sh-basic-offset 2)
+  )
 
 
 ;;;; Smart Parentheses

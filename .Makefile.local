@@ -33,7 +33,11 @@ define Darvin_PACKAGE_LIST
 	sqlite3
 endef
 define Linux_PACKAGE_LIST
-	# TODO
+	python3-bashate
+
+
+
+
 endef
 define Windows_PACKAGE_LIST
 	# TODO
