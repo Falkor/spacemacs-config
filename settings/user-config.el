@@ -356,7 +356,9 @@ Spacemacs default key bindings. "
 
   (setq markdown-gfm-use-electric-backquote nil)
   ;; Bugfix smartparens is buggy with markdown edition
-  (add-hook 'markdown-mode-hook #'turn-off-smartparens-mode)
+  ;; (add-hook 'markdown-mode-hook #'turn-off-smartparens-mode)
+  ;; see https://github.com/syl20bnr/spacemacs/issues/10858
+  (add-hook 'markdown-mode-hook 'spacemacs/toggle-smartparens-off)
   )
 
 ;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774

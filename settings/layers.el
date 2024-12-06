@@ -116,8 +116,8 @@
     rebox
     restructuredtext
     (ruby :variables
-          ruby-backend         'lsp
-          ruby-enable-enh-ruby-mode t
+          ;; ruby-backend         'lsp
+          ;; ruby-enable-enh-ruby-mode t
           ruby-prettier-on-save t
           ruby-test-runner     'rspec
           ruby-version-manager 'rvm
