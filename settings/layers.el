@@ -130,9 +130,9 @@
            shell-default-height 30
            shell-default-position 'bottom
            close-window-with-terminal t)
-    (shell-scripts :variables
-           shell-scripts-backend 'lsp
-           shell-scripts-format-on-save t)
+    ;;(shell-scripts :variables
+    ;;       shell-scripts-backend 'lsp
+    ;;       shell-scripts-format-on-save t)
     (solidity :variables
               solidity-flycheck-solc-checker-active t)
     (spell-checking :variables
