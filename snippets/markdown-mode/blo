@@ -1,0 +1,7 @@
+#contributor : Sebastien Varrette <sebastien.varrette@gmail.com>
+#name : pandoc ::: {.block} #### ... :::
+# --
+::: {.${1:type}block}
+#### $0
+
+:::
