@@ -358,14 +358,14 @@ Spacemacs default key bindings. "
   ;; Bugfix smartparens is buggy with markdown edition
   ;; (add-hook 'markdown-mode-hook #'turn-off-smartparens-mode)
   ;; see https://github.com/syl20bnr/spacemacs/issues/10858
-  (add-hook 'markdown-mode-hook 'spacemacs/toggle-smartparens-off)
+  ;; (add-hook 'markdown-mode-hook 'spacemacs/toggle-smartparens-off)
   )
 
 ;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
 (defun local-settings/undo-tree-config ()
   ;; See https://emacs.stackexchange.com/questions/63430/restore-emacs-default-undo-redo-behavior-in-spacemacs
   ;; Restore undo
-  (global-undo-tree-mode 0)
+  ;; (global-undo-tree-mode 0)
   ;; (setq undo-tree-auto-save-history t
   ;;       undo-tree-history-directory-alist
   ;;       `(("." . ,(concat spacemacs-cache-directory "undo"))))
@@ -390,6 +390,7 @@ Spacemacs default key bindings. "
 ;;;; Shell scripting - https://develop.spacemacs.org/layers/+lang/shell-scripts/README.html
 (defun local-settings/shell-script-config ()
   (setq-default sh-basic-offset 2)
+  (setq-default tab-width  2)
   )
 
 
@@ -404,7 +405,7 @@ Spacemacs default key bindings. "
            ("C-(" . sp-splice-sexp))
     :config
     (progn
-      (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+      ;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
             ;; (add-hook 'sh-mode-hook             #'smartparens-mode)
       ;;(push 'yas-installed-snippets-dir yas-snippet-dirs)
       )

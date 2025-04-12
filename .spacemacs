@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2024-11-18 22:58 svarrette>
+;;; Time-stamp: <Thu 2025-04-10 18:51 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -88,7 +88,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers local-settings/dotspacemacs-configuration-layers
 
    ;; List of additional packages that will be installed without being wrapped
-   ;; in a layer (rust vimscript
+   ;; in a layer (toml
+   rust vimscript
    ;; generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
    ;; this file). If you need some configuration for these packages, then
@@ -744,37 +745,94 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("8efa3d21b3fa1ac084798fae4e89848ec26ae5c724b9417caf4922f4b2e31c2a" "a7b20039f50e839626f8d6aa96df62afebb56a5bbd1192f557cb2efb5fcfb662" default))
+   '("8efa3d21b3fa1ac084798fae4e89848ec26ae5c724b9417caf4922f4b2e31c2a"
+     "a7b20039f50e839626f8d6aa96df62afebb56a5bbd1192f557cb2efb5fcfb662" default))
  '(evil-want-Y-yank-to-eol nil)
  '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#4f97d7")
-     ("OKAY" . "#4f97d7")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
+   '(("TODO" . "#dc752f") ("NEXT" . "#dc752f") ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7") ("OKAY" . "#4f97d7") ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f") ("DONE" . "#86dc2f") ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
  '(next-error-recenter '(4))
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(mermaid-mode dtrt-indent mic-paren yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry transient pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode lsp-treemacs bui lsp-mode lv cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic keycast guide-key vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company solo-jazz-theme zonokai-emacs zenburn-theme zen-and-art-theme ws-butler writeroom-mode winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme restart-emacs request rebecca-theme rainbow-delimiters railscasts-theme quickrun purple-haze-theme professional-theme popwin planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pcre2el password-generator paradox overseer organic-green-theme org-superstar open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum link-hint light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gandalf-theme font-lock+ flycheck-package flycheck-elsa flx-ido flatui-theme flatland-theme farmhouse-theme fancy-battery eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emr elisp-slime-nav editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes django-theme dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode chocolate-theme cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line))
+   '(ace-jump-helm-line ace-link afternoon-theme aggressive-indent alect-themes
+                        ample-theme ample-zen-theme anaconda-mode
+                        anti-zenburn-theme apropospriate-theme auto-compile
+                        auto-highlight-symbol badwolf-theme
+                        birds-of-paradise-plus-theme blacken bubbleberry-theme
+                        bui busybee-theme centered-cursor-mode
+                        cherry-blossom-theme chocolate-theme clean-aindent-mode
+                        clues-theme color-theme-sanityinc-solarized
+                        color-theme-sanityinc-tomorrow column-enforce-mode
+                        company company-anaconda company-emoji concurrent
+                        counsel counsel-gtags ctable cyberpunk-theme cython-mode
+                        dakrone-theme dap-mode darkburn-theme darkmine-theme
+                        darkokai-theme darktooth-theme deferred define-word
+                        devdocs diminish dired-quick-sort django-theme
+                        doom-themes dotenv-mode dracula-theme drag-stuff
+                        dtrt-indent dumb-jump editorconfig elisp-slime-nav
+                        emoji-cheat-sheet-plus emr epc espresso-theme
+                        eval-sexp-fu evil-anzu evil-args evil-cleverparens
+                        evil-collection evil-easymotion evil-ediff evil-escape
+                        evil-exchange evil-goggles evil-iedit-state
+                        evil-indent-plus evil-lion evil-lisp-state evil-matchit
+                        evil-mc evil-nerd-commenter evil-numbers evil-surround
+                        evil-textobj-line evil-tutor evil-unimpaired
+                        evil-visual-mark-mode evil-visualstar exotica-theme
+                        expand-region eyebrowse fancy-battery farmhouse-theme
+                        flatland-theme flatui-theme flx-ido flycheck-elsa
+                        flycheck-package font-lock+ gandalf-theme ggtags gh-md
+                        golden-ratio google-translate gotham-theme
+                        grandshell-theme gruber-darker-theme gruvbox-theme
+                        guide-key hc-zenburn-theme hcl-mode helm-ag helm-cscope
+                        helm-descbinds helm-flx helm-gtags helm-ls-git helm-make
+                        helm-mode-manager helm-org helm-projectile helm-purpose
+                        helm-pydoc helm-swoop helm-themes helm-xref hemisu-theme
+                        heroku-theme highlight-indentation highlight-numbers
+                        highlight-parentheses hl-todo hungry-delete hybrid-mode
+                        importmagic indent-guide info+ inkpot-theme inspector
+                        ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes
+                        keycast light-soap-theme link-hint live-py-mode
+                        lorem-ipsum lsp-mode lsp-pyright lsp-python-ms
+                        lsp-treemacs lush-theme lv macrostep madhat2r-theme
+                        majapahit-theme markdown-mode markdown-toc
+                        material-theme mermaid-mode mic-paren minimal-theme
+                        mmm-mode modus-themes moe-theme molokai-theme
+                        monochrome-theme monokai-theme multi-line mustang-theme
+                        nameless naquadah-theme noctilux-theme nose
+                        obsidian-theme occidental-theme oldlace-theme
+                        omtose-phellack-theme open-junk-file org-superstar
+                        organic-green-theme overseer paradox password-generator
+                        pcre2el phoenix-dark-mono-theme phoenix-dark-pink-theme
+                        pip-requirements pipenv pippel planet-theme poetry
+                        popwin professional-theme purple-haze-theme py-isort
+                        pydoc pyenv-mode pytest pythonic pyvenv quickrun
+                        railscasts-theme rainbow-delimiters rebecca-theme
+                        request restart-emacs reverse-theme seti-theme
+                        smyx-theme soft-charcoal-theme soft-morning-theme
+                        soft-stone-theme solarized-theme solo-jazz-theme
+                        soothe-theme spacegray-theme spaceline-all-the-icons
+                        sphinx-doc stickyfunc-enhance string-inflection
+                        subatomic-theme subatomic256-theme sublime-themes
+                        sunny-day-theme swiper symbol-overlay symon
+                        tango-2-theme tango-plus-theme tangotango-theme
+                        tao-theme toc-org toxi-theme transient treemacs-evil
+                        treemacs-icons-dired treemacs-persp treemacs-projectile
+                        twilight-anti-bright-theme twilight-bright-theme
+                        twilight-theme ujelly-theme underwater-theme undo-tree
+                        use-package uuidgen valign vi-tilde-fringe vmd-mode
+                        volatile-highlights which-key white-sand-theme winum
+                        writeroom-mode ws-butler xcscope yapfify
+                        zen-and-art-theme zenburn-theme zonokai-emacs))
  '(paradox-github-token t)
  '(safe-local-variable-values
    '((buffer-file-coding-system . utf-8-unix)
      (TeX-command-extra-options . "-shell-escape")
-     (ispell-dictionary . "english")
-     (javascript-backend . tide)
-     (javascript-backend . tern)
-     (javascript-backend . lsp)))
+     (ispell-dictionary . "english") (javascript-backend . tide)
+     (javascript-backend . tern) (javascript-backend . lsp)))
  '(warning-suppress-types '((comp) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
