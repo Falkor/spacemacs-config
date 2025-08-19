@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Thu 2025-04-10 18:51 svarrette>
+;;; Time-stamp: <Tue 2025-08-19 14:03 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -9,7 +9,7 @@
 ;; |_|  \__,_|_|_|\_\___/|_|    |___/ |____/| .__/ \__,_|\___\___|_| |_| |_|\__,_|\___|___/
 ;;                                          |_|
 ;;
-;;         Copyright (c) 2022 Sebastien Varrrette <sebastien.varrrette@gmail.com>
+;;         Copyright (c) 2022-2025 Sebastien Varrrette <sebastien.varrrette@gmail.com>
 ;;
 ;; -- Sebastien Varrette aka Falkor's Spacemacs Configuration --
 ;; -- MIT License --
@@ -21,8 +21,37 @@
 ;; Resources:
 ;;   - https://github.com/Falkor/emacs-config2 (previous Emacs config)
 ;;   - https://github.com/ekaschalk/.spacemacs.d
+;;
+;; Installation Notes, assuming you have installed emacs on your system:
+;; 1. Clone or download Spacemacs
+;;     git clone https://github.com/syl20bnr/spacemacs ~/.config/emacs
+;;
+;; 2. Clone this spacemacs configuration. Ex using HTTPS:
+;;     git clone https://github.com/Falkor/spacemacs-config.git ~/.config/spacemacs
+;;
+;; 3. Set the SPACEMACSDIR environment variable to the ~/.config/spacemacs directory so
+;;    that Spacemacs will find this location
+;;       # SPACEMACSDIR and XDG configurations
+;;       export XDG_CONFIG_HOME=$HOME/.config
+;;       export XDG_DATA_HOME=$HOME/.local/share
+;;       export XDG_STATE_HOME=$HOME/.local/state
+;;       export XDG_CACHE_HOME=$HOME/.cache
+;;       #
+;;       # Set XDG location of Emacs Spacemacs configuration
+;;       export SPACEMACSDIR="$XDG_CONFIG_HOME/spacemacs"
+;;
+;; 4. Install Meslo Source Code Pro font on your system
+;;
+;; 5. run emacs and install icon fonts
+;;    Once Spacemacs is running, issue the following commands to install a wide range of fonts.
+;;        SPC SPC all-the-icons-install-fonts
+;;        SPC SPC spaceline-all-the-icons
+;;
+;;    Space q r to restart Spacemacs and see the finished results;;
+;;
+;; for up-to-date instructions, see projet README.md
 
-;;;; Constants
+;; Constants
 
 (defconst system/linux?   (eq system-type 'gnu/linux) "Are we on a linux machine?")
 (defconst system/mac?     (eq system-type 'darwin)    "Are we on a macOS machine?")
@@ -46,10 +75,10 @@
 
 ;; https://github.com/practicalli/spacemacs/blob/main/source-control/forge-configuration.md
 ;; Authentication source - Set the files that are searched for writing tokens
-(setq local/authinfo (local/get-conf-path ".authinfo.gpg"))
-(when (file-exists-p local/authinfo)
-  (setq auth-sources
-        '((:source "~/.spacemacs.d/.authinfo.gpg"))))
+;; (setq local/authinfo (local/get-conf-path ".authinfo.gpg"))
+;; (when (file-exists-p local/authinfo)
+;;   (setq auth-sources
+;;         '((:source "~/.spacemacs.d/.authinfo.gpg"))))
 
 ;; private settings
 (setq local/private-settings (local/get-conf-path "settings/private.el"))
@@ -88,8 +117,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers local-settings/dotspacemacs-configuration-layers
 
    ;; List of additional packages that will be installed without being wrapped
-   ;; in a layer (toml
-   rust vimscript
+   ;; in a layer
    ;; generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
    ;; this file). If you need some configuration for these packages, then
@@ -744,102 +772,39 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("8efa3d21b3fa1ac084798fae4e89848ec26ae5c724b9417caf4922f4b2e31c2a"
-     "a7b20039f50e839626f8d6aa96df62afebb56a5bbd1192f557cb2efb5fcfb662" default))
- '(evil-want-Y-yank-to-eol nil)
- '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f") ("NEXT" . "#dc752f") ("THEM" . "#2d9574")
-     ("PROG" . "#4f97d7") ("OKAY" . "#4f97d7") ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f") ("DONE" . "#86dc2f") ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
- '(next-error-recenter '(4))
- '(org-fontify-done-headline nil)
- '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(ace-jump-helm-line ace-link afternoon-theme aggressive-indent alect-themes
-                        ample-theme ample-zen-theme anaconda-mode
-                        anti-zenburn-theme apropospriate-theme auto-compile
-                        auto-highlight-symbol badwolf-theme
-                        birds-of-paradise-plus-theme blacken bubbleberry-theme
-                        bui busybee-theme centered-cursor-mode
-                        cherry-blossom-theme chocolate-theme clean-aindent-mode
-                        clues-theme color-theme-sanityinc-solarized
-                        color-theme-sanityinc-tomorrow column-enforce-mode
-                        company company-anaconda company-emoji concurrent
-                        counsel counsel-gtags ctable cyberpunk-theme cython-mode
-                        dakrone-theme dap-mode darkburn-theme darkmine-theme
-                        darkokai-theme darktooth-theme deferred define-word
-                        devdocs diminish dired-quick-sort django-theme
-                        doom-themes dotenv-mode dracula-theme drag-stuff
-                        dtrt-indent dumb-jump editorconfig elisp-slime-nav
-                        emoji-cheat-sheet-plus emr epc espresso-theme
-                        eval-sexp-fu evil-anzu evil-args evil-cleverparens
-                        evil-collection evil-easymotion evil-ediff evil-escape
-                        evil-exchange evil-goggles evil-iedit-state
-                        evil-indent-plus evil-lion evil-lisp-state evil-matchit
-                        evil-mc evil-nerd-commenter evil-numbers evil-surround
-                        evil-textobj-line evil-tutor evil-unimpaired
-                        evil-visual-mark-mode evil-visualstar exotica-theme
-                        expand-region eyebrowse fancy-battery farmhouse-theme
-                        flatland-theme flatui-theme flx-ido flycheck-elsa
-                        flycheck-package font-lock+ gandalf-theme ggtags gh-md
-                        golden-ratio google-translate gotham-theme
-                        grandshell-theme gruber-darker-theme gruvbox-theme
-                        guide-key hc-zenburn-theme hcl-mode helm-ag helm-cscope
-                        helm-descbinds helm-flx helm-gtags helm-ls-git helm-make
-                        helm-mode-manager helm-org helm-projectile helm-purpose
-                        helm-pydoc helm-swoop helm-themes helm-xref hemisu-theme
-                        heroku-theme highlight-indentation highlight-numbers
-                        highlight-parentheses hl-todo hungry-delete hybrid-mode
-                        importmagic indent-guide info+ inkpot-theme inspector
-                        ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes
-                        keycast light-soap-theme link-hint live-py-mode
-                        lorem-ipsum lsp-mode lsp-pyright lsp-python-ms
-                        lsp-treemacs lush-theme lv macrostep madhat2r-theme
-                        majapahit-theme markdown-mode markdown-toc
-                        material-theme mermaid-mode mic-paren minimal-theme
-                        mmm-mode modus-themes moe-theme molokai-theme
-                        monochrome-theme monokai-theme multi-line mustang-theme
-                        nameless naquadah-theme noctilux-theme nose
-                        obsidian-theme occidental-theme oldlace-theme
-                        omtose-phellack-theme open-junk-file org-superstar
-                        organic-green-theme overseer paradox password-generator
-                        pcre2el phoenix-dark-mono-theme phoenix-dark-pink-theme
-                        pip-requirements pipenv pippel planet-theme poetry
-                        popwin professional-theme purple-haze-theme py-isort
-                        pydoc pyenv-mode pytest pythonic pyvenv quickrun
-                        railscasts-theme rainbow-delimiters rebecca-theme
-                        request restart-emacs reverse-theme seti-theme
-                        smyx-theme soft-charcoal-theme soft-morning-theme
-                        soft-stone-theme solarized-theme solo-jazz-theme
-                        soothe-theme spacegray-theme spaceline-all-the-icons
-                        sphinx-doc stickyfunc-enhance string-inflection
-                        subatomic-theme subatomic256-theme sublime-themes
-                        sunny-day-theme swiper symbol-overlay symon
-                        tango-2-theme tango-plus-theme tangotango-theme
-                        tao-theme toc-org toxi-theme transient treemacs-evil
-                        treemacs-icons-dired treemacs-persp treemacs-projectile
-                        twilight-anti-bright-theme twilight-bright-theme
-                        twilight-theme ujelly-theme underwater-theme undo-tree
-                        use-package uuidgen valign vi-tilde-fringe vmd-mode
-                        volatile-highlights which-key white-sand-theme winum
-                        writeroom-mode ws-butler xcscope yapfify
-                        zen-and-art-theme zenburn-theme zonokai-emacs))
- '(paradox-github-token t)
- '(safe-local-variable-values
-   '((buffer-file-coding-system . utf-8-unix)
-     (TeX-command-extra-options . "-shell-escape")
-     (ispell-dictionary . "english") (javascript-backend . tide)
-     (javascript-backend . tern) (javascript-backend . lsp)))
- '(warning-suppress-types '((comp) (use-package))))
+   '(ace-link aggressive-indent all-the-icons auto-compile auto-highlight-symbol
+              avy-jump-helm-line centered-cursor-mode clean-aindent-mode
+              column-enforce-mode define-word devdocs diminish dired-quick-sort
+              disable-mouse doom-themes dotenv-mode drag-stuff dumb-jump
+              elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu evil-anzu
+              evil-args evil-cleverparens evil-collection evil-easymotion
+              evil-escape evil-evilified-state evil-exchange evil-goggles
+              evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
+              evil-matchit evil-mc evil-nerd-commenter evil-numbers
+              evil-surround evil-textobj-line evil-tutor evil-unimpaired
+              evil-visual-mark-mode evil-visualstar expand-region eyebrowse
+              fancy-battery golden-ratio hcl-mode helm-ag helm-comint
+              helm-descbinds helm-make helm-mode-manager helm-org
+              helm-projectile helm-purpose helm-swoop helm-themes helm-xref
+              hide-comnt highlight-indentation highlight-numbers
+              highlight-parentheses hl-todo holy-mode hungry-delete hybrid-mode
+              indent-guide info+ inspector link-hint lorem-ipsum macrostep
+              multi-line nameless open-junk-file org-superstar overseer
+              page-break-lines paradox password-generator pcre2el popwin
+              quickrun rainbow-delimiters restart-emacs space-doc spaceline
+              spaceline-all-the-icons spacemacs-purpose-popwin
+              spacemacs-whitespace-cleanup string-edit-at-point
+              string-inflection symbol-overlay symon term-cursor toc-org
+              treemacs-evil treemacs-icons-dired treemacs-persp
+              treemacs-projectile undo-fu undo-fu-session uuidgen
+              vi-tilde-fringe volatile-highlights vundo wgrep winum
+              writeroom-mode ws-butler))
+ '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+ )
 )

@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Wed 2024-01-24 15:36 svarrette>
+;;; Time-stamp: <Tue 2025-08-19 10:26 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -144,7 +144,7 @@
     ;; (templates :variables
     ;;            templates-use-default-templates t
     ;;            templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
-    themes-megapack
+    ;; themes-megapack
     (treemacs :variables
               treemacs-lock-width t
               treemacs-use-git-mode 'deferred
@@ -173,8 +173,9 @@
     evil-smartparens
     mic-paren
     time-stamp
-    solo-jazz-theme
+    ;; solo-jazz-theme
     ws-butler
+    hcl-mode
     ))
 
 ;; List of packages that cannot be updated.

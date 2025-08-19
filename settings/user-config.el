@@ -234,6 +234,7 @@ Spacemacs default key bindings. "
 
   ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
   (setq evil-cross-lines t)
+
   )
 
 ;;;;; ===  Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
