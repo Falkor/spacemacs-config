@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: operator[]
+# key: []
+# uuid: []
+# group: operator overloading
+# --
+${1:Type}& operator[](${2:int index})
+{
+        $0
+}

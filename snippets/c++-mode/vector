@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: vector
+# key: vec
+# uuid: vec
+# --
+`(setq --cpp-ns (if (doom-snippets-c++-using-std-p) "" "std::"))
+--cpp-ns`vector<${1:type}> ${2:var}${3:(${4:10}, $1($5))};

@@ -1,0 +1,13 @@
+# contributor : S. Varrette
+# name : Falkor/retrieve file or file system status
+# key : stat
+# condition: ansible
+# --
+- name: Check ${1:filename} stat
+  ansible.builtin.stat:
+    path: "$0{{ ${1:$(replace-regexp-in-string "-" "_" yas-text)} }}"
+  register: ${1:$(replace-regexp-in-string "-" "_" yas-text)}_file
+
+- name: Debug $1 stat
+  ansible.builtin.debug:
+    var: ${1:$(replace-regexp-in-string "-" "_" yas-text)} $1_file

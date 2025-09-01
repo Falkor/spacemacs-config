@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: module
+# key: mod
+# uuid: mod
+# --
+class ${1:Class} : public cSimpleModule
+{
+   $0
+}
