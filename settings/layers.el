@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Tue 2025-08-19 10:26 svarrette>
+;;; Time-stamp: <Sun 2025-08-24 18:05 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -113,7 +113,7 @@
     (ranger :variables
             ranger-override-dired 'ranger
             ranger-show-preview t)
-    rebox
+    ;; rebox
     restructuredtext
     (ruby :variables
           ;; ruby-backend         'lsp
@@ -141,9 +141,9 @@
                     spell-checking-enable-auto-dictionary t)
     syntax-checking
     ;; Still using auto-insert-tlkd for the moment.
-    ;; (templates :variables
-    ;;            templates-use-default-templates t
-    ;;            templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
+    (templates :variables
+               templates-use-default-templates t
+               templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
     ;; themes-megapack
     (treemacs :variables
               treemacs-lock-width t

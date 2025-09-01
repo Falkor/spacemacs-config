@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Wed 2024-01-24 18:07 svarrette>
+;;; Time-stamp: <Sun 2025-08-24 17:28 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -265,6 +265,7 @@ Spacemacs default key bindings. "
   ;; after mouse selection in X11, you can paste by `yank' in emacs
   ;;(setq x-select-enable-primary t)
   (setq mouse-drag-copy-region  t)
+  (setq mouse-yank-at-point t)
 
   ;; === General cursor interaction
   ;; replace highlighted text with what I type
@@ -294,6 +295,9 @@ Spacemacs default key bindings. "
 
 ;;;; LaTeX - https://develop.spacemacs.org/layers/+lang/latex/README.html
 (defun local-settings/latex-config ()
+  (add-to-list 'auto-mode-alist '("\\.tex\\'" . latex-mode))
+  (add-to-list 'auto-mode-alist '("\\.sty\\'" . latex-mode))
+
   (setq TeX-auto-local ".texinfo")
   )
 

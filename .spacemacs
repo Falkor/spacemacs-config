@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Tue 2025-08-19 14:03 svarrette>
+;;; Time-stamp: <Sun 2025-08-24 17:33 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -643,8 +643,7 @@ before packages are loaded."
   ;;;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
   (local-settings/compile-config)
 
-
-;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
+  ;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
   (setq copy-as-format-default "markdown")
 
   ;;;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
@@ -658,7 +657,7 @@ before packages are loaded."
   ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
   (local-settings/geolocation-config)
 
-  ;;;; LaTeX
+  ;;;; Java
   (local-settings/java-config)
 
   ;;;; LaTeX
@@ -699,6 +698,10 @@ before packages are loaded."
   ;; Single Click in Treemacs
   (with-eval-after-load 'treemacs
     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+
+  ;; -- YAML
+  (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 
 
   ;; ==============================

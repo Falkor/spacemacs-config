@@ -185,7 +185,7 @@ A working congiration will be organized within two main directories
 
 | __Emacs Variable__       | __Value__         | __Description__                            |
 |--------------------------|-------------------|--------------------------------------------|
-| `dotspacemacs-directory` | `~/.spacemacs.d/` | Local [Falkor's] customizations repository |
+| `dotspacemacs-directory` | `~/.config/spacemacs/` | Local [Falkor's] customizations repository |
 | `user-emacs-directory`   | `.config/emacs/`  | User [Spac]Emacs directory                 |
 
 The general layout will be as follows:
