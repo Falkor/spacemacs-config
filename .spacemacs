@@ -662,6 +662,8 @@ before packages are loaded."
 
   ;;;; LaTeX
   (local-settings/latex-config)
+  (add-to-list 'auto-mode-alist '("\\.tex\\'" . latex-mode))
+  (add-to-list 'auto-mode-alist '("\\.sty\\'" . latex-mode))
 
   ;;;; LSP
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
@@ -755,7 +757,8 @@ before packages are loaded."
   ;; open recent files SPC f r
   (global-set-key (kbd "C-x C-r") 'lazy-helm/helm-recentf)
 
-
+  ;; Delete trailing whitespace on save
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   ;; ===========================
   ;; === Complementary Tools ===
   ;; ===========================
