@@ -9,6 +9,11 @@
 set -o errexit -o pipefail
 #set -x
 
+# cosmetics
+COLOR_BOLD="\033[1m"
+COLOR_VIOLET="\033[0;35m"
+COLOR_RESET="\033[0m"
+
 # Local variables
 #SCRIPTDIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #TOP_DIR="$(  cd "$( dirname "${BASH_SOURCE[0]}" )" && git rev-parse --show-toplevel)"
@@ -16,26 +21,26 @@ CMD_PREFIX="echo"
 OPTS=
 
 ################################################################################
+# info()    { echo -e "\${COLOR_BOLD}$*\${COLOR_RESET}"; }
+# error()   { echo -e "\${COLOR_BOLD}*** ERROR *** $*\${COLOR_RESET}"; }
+# warning() { echo -e "\${COLOR_VIOLET}/!\\ WARNING:\${COLOR_RESET} $*"; }
 warning() { echo -e "/!\\ WARNING: $*"; }
 error() { echo -e "*** ERROR *** $*"; }
-print_error_and_exit() {
-  error "$*"
-  exit 1
-}
+print_error_and_exit() { error "$*"; exit 1; }
 usage() {
   cat <<EOF
-$(basename "$0"):
+$(basename "\$0"):
 
 USAGE
-  $0 [-x]
+  \$0 [-x]
 
 OPTIONS:
   -n --dry-run    Dry run mode (**DEFAULT** mode): echo the commands to be run
   -x --exec       Really execute the commands, i.e. don't just echo them
 
 EXAMPLE
-  $(basename "$0")  # Dry-run: show commands to be executed 
-  $(basename "$0") -x 
+  $(basename "\$0")    # Dry-run: show commands to be executed
+  $(basename "\$0") -x
 EOF
 }
 ################################################################################
@@ -43,10 +48,10 @@ EOF
 # print warning when running in echo mode (default behaviour)
 ##
 warning_dry_run() {
-  if [ -n "${CMD_PREFIX}" ]; then
+  if [ -n "\${CMD_PREFIX}" ]; then
     echo ""
     warning "DRY-RUN MODE!!! Suffix with '-x' to REALLY execute the commands, i.e. use:"
-    warning "   $0 [...] -x"
+    warning "   \$0 [...] -x"
     exit 0
   fi
 }
@@ -54,10 +59,10 @@ warning_dry_run() {
 # ask to continue. exit 1 if the answer is no
 ##
 really_continue() {
-  echo -e -n "[${COLOR_VIOLET}/!\\ WARNING:${COLOR_RESET}] Are you sure you want to continue? [Y|n] "
+  echo -e -n "[\${COLOR_VIOLET}/!\\ WARNING:\${COLOR_RESET}] Are you sure you want to continue? [Y|n] "
   read -r ans
   case $ans in
-  n* | N*) exit 1 ;;
+    n* | N*) exit 1 ;;
   esac
 }
 
@@ -66,17 +71,11 @@ really_continue() {
 [[ "$*" =~ [[:space:]]"-x" ]] && CMD_PREFIX=
 # Check for options
 while [ $# -ge 1 ]; do
-  case $1 in
-  -h | --help)
-    usage
-    exit 0
-    ;;
+  case \$1 in
+  -h | --help) usage; exit 0;;
   -n | --dry-run) CMD_PREFIX="echo" ;;
-  -x | --exec) CMD_PREFIX= ;;
-  *)
-    OPTS="$*"
-    break
-    ;;
+  -x | --exec)    CMD_PREFIX= ;;
+  *) OPTS="$*"; break;;
   esac
   shift
 done
@@ -85,12 +84,16 @@ done
 # [...]
 
 # Let's go
-CMD="whoami ${OPTS}"
-
+CMD="whoami"
+# [...]
+CMD+=" \${OPTS}" # don't forget ' '
+# Alternative usage: just prefix all your commands with \{CMD_PREFIX}
+#
 #################################################
 warning "about to execute the following command:"
 # shellcheck disable=SC2001
-echo "${CMD}" | sed 's/\s-/\n\t\t-/g'
+echo "\${CMD}" | sed 's/\s-/\n\t\t-/g'
 warning_dry_run
 really_continue
-${CMD}
+
+\${CMD}
