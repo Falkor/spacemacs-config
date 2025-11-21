@@ -1,0 +1,14 @@
+#contributor : Sebastien Varrette <sebastien.varrette@gmail.com
+#name : pandoc ::: columns  ... :::
+# --
+\vspace*{-0.9em}
+::: columns
+:::: {.column width=${1:ratio}%}
+
+$0
+
+::::
+:::: {.column width=${1}%}
+
+::::
+:::

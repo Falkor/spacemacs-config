@@ -1,0 +1,13 @@
+#contributor : Sebastien Varrette
+#name : \cbegin{<width>\textwidth}  ... \column{0.33\textwidth} \cend
+# --
+\vspace*{-0.5em}
+\cbegin{0.${1:ratio}\textwidth}
+
+$0
+
+\column{0.$1\textwidth}
+
+
+\cend
+

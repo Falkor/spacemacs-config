@@ -1,0 +1,11 @@
+#contributor : Sebastien Varrette
+#name : \wbegin{<title>}  ... \wend (alertblock)
+# Designed for Pandoc Expansion with Falkorbeamer style toward alertblock
+# --
+\vspace*{-0.5em}
+\wbegin{${1:title}}
+
+$0
+
+\wend
+

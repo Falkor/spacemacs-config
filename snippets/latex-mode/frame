@@ -1,8 +1,9 @@
-#contributor : Sebastien Varrette <sebastien.varrette@uni.lu> 
-#name : \frame{ ... } 
+# -*- mode: snippet -*-
+# name: frame
+# key: fr
+# uuid: fr
 # --
-%.......
-\frame{
-   \frametitle{${1:Frame Title}}
-   $0
-}
+\begin{frame}${1:[$2]}
+        ${3:\frametitle{$4}}
+        ${0:`%`}
+\end{frame}

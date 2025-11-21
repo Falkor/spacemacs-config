@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2022-01-31 19:07 svarrette>
+;;; Time-stamp: <Mon 2025-10-06 23:11 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -9,7 +9,7 @@
 ;; |_|  \__,_|_|_|\_\___/|_|    |___/ |____/| .__/ \__,_|\___\___|_| |_| |_|\__,_|\___|___/
 ;;                                          |_|
 ;;
-;;         Copyright (c) 2022 Sebastien Varrrette <sebastien.varrrette@gmail.com>
+;;         Copyright (c) 2022-2025 Sebastien Varrrette <sebastien.varrrette@gmail.com>
 ;;
 ;; -- Sebastien Varrette aka Falkor's Spacemacs Configuration --
 ;; -- MIT License --
@@ -21,8 +21,37 @@
 ;; Resources:
 ;;   - https://github.com/Falkor/emacs-config2 (previous Emacs config)
 ;;   - https://github.com/ekaschalk/.spacemacs.d
+;;
+;; Installation Notes, assuming you have installed emacs on your system:
+;; 1. Clone or download Spacemacs
+;;     git clone https://github.com/syl20bnr/spacemacs ~/.config/emacs
+;;
+;; 2. Clone this spacemacs configuration. Ex using HTTPS:
+;;     git clone https://github.com/Falkor/spacemacs-config.git ~/.config/spacemacs
+;;
+;; 3. Set the SPACEMACSDIR environment variable to the ~/.config/spacemacs directory so
+;;    that Spacemacs will find this location
+;;       # SPACEMACSDIR and XDG configurations
+;;       export XDG_CONFIG_HOME=$HOME/.config
+;;       export XDG_DATA_HOME=$HOME/.local/share
+;;       export XDG_STATE_HOME=$HOME/.local/state
+;;       export XDG_CACHE_HOME=$HOME/.cache
+;;       #
+;;       # Set XDG location of Emacs Spacemacs configuration
+;;       export SPACEMACSDIR="$XDG_CONFIG_HOME/spacemacs"
+;;
+;; 4. Install Meslo Source Code Pro font on your system
+;;
+;; 5. run emacs and install icon fonts
+;;    Once Spacemacs is running, issue the following commands to install a wide range of fonts.
+;;        SPC SPC all-the-icons-install-fonts
+;;        SPC SPC spaceline-all-the-icons
+;;
+;;    Space q r to restart Spacemacs and see the finished results;;
+;;
+;; for up-to-date instructions, see projet README.md
 
-;;;; Constants
+;; Constants
 
 (defconst system/linux?   (eq system-type 'gnu/linux) "Are we on a linux machine?")
 (defconst system/mac?     (eq system-type 'darwin)    "Are we on a macOS machine?")
@@ -44,6 +73,14 @@
 (load (local/get-conf-path "settings/user-config.el"))
 (require 'local-settings/user-configs)
 
+;; https://github.com/practicalli/spacemacs/blob/main/source-control/forge-configuration.md
+;; Authentication source - Set the files that are searched for writing tokens
+;; (setq local/authinfo (local/get-conf-path ".authinfo.gpg"))
+;; (when (file-exists-p local/authinfo)
+;;   (setq auth-sources
+;;         '((:source "~/.spacemacs.d/.authinfo.gpg"))))
+
+;; private settings
 (setq local/private-settings (local/get-conf-path "settings/private.el"))
 (when (file-exists-p local/private-settings)
   (load local/private-settings))
@@ -80,7 +117,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers local-settings/dotspacemacs-configuration-layers
 
    ;; List of additional packages that will be installed without being wrapped
-   ;; in a layer (generally the packages are installed only and should still be
+   ;; in a layer
+   ;; generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
    ;; this file). If you need some configuration for these packages, then
    ;; consider creating a layer. You can also put the configuration in
@@ -225,10 +263,10 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
    ;; (default `text-mode')
-   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+   dotspacemacs-new-empty-buffer-major-mode 'markdown-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'markdown-mode
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
@@ -271,7 +309,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("MesloLGS NF"
-                               :size 12
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -335,7 +373,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-auto-save-file-location 'cache
 
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
-   dotspacemacs-max-rollback-slots 5
+   dotspacemacs-max-rollback-slots 10
 
    ;; If non-nil, the paste transient-state is enabled. While enabled, after you
    ;; paste something, pressing `C-j' and `C-k' several times cycles through the
@@ -410,7 +448,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Show the scroll bar while scrolling. The auto hide time can be configured
    ;; by setting this variable to a number. (default t)
-   dotspacemacs-scroll-bar-while-scrolling t
+   dotspacemacs-scroll-bar-while-scrolling nil
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -495,7 +533,7 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues, instead of calculating the frame title by
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a %t"
+   dotspacemacs-frame-title-format "%t: %a"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -539,7 +577,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If nil the home buffer shows the full path of agenda items
    ;; and todos. If non-nil only the file name is shown.
-   dotspacemacs-home-shorten-agenda-source nil
+   dotspacemacs-home-shorten-agenda-source t
 
    ;; If non-nil then byte-compile some of Spacemacs files.
    dotspacemacs-byte-compile nil))
@@ -561,7 +599,6 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (setq evil-want-keybinding nil)
-
   )
 
 (defun dotspacemacs/user-load ()
@@ -586,62 +623,7 @@ before packages are loaded."
   ;; ====================================
   ;; === Evil Bindings Customizations ===
   ;; ====================================
-  ;; === Search and replace
-  ;; Better vim-compliant search with <up> and <down> key
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
-  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
-
-  ;; DO to insert mode on double-click DOES NOT WORK
-  ;; (define-key evil-normal-state-map [double-mouse-1]
-  ;;   (lambda ((custom-set-variables
-  ;;     (interactive)
-  ;;     (evil-insert)))
-
-  ;; Reminder: From visual mode:  three different "visual" states:
-  ;;    Char: 'v'   from normal mode
-  ;;    Line  'S-v' from normal mode
-  ;;    Block 'C-v' from normal mode
-  ;; Shift-arrow to also select text in normal mode
-  ;; Alternative: v for visual then arrow
-  (define-key evil-normal-state-map (kbd "S-<left>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (backward-char)))
-  (define-key evil-normal-state-map (kbd "S-<right>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (forward-char)))
-  (define-key evil-normal-state-map (kbd "S-<down>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-next-line)))
-  (define-key evil-normal-state-map (kbd "S-<up>")
-    (lambda ()
-      (interactive)
-      (evil-visual-char)
-      (evil-previous-line)))
-  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
-  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
-
-  ;; Remap C-e to end of line
-  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-
-  ;; revert C-w to delete previous word even in insert
-  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
-  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
-  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
-
-  ;; Backspace in visual mode also delete selected region
-  (define-key evil-visual-state-map (kbd "<backspace>") 'delete-forward-char)
-
-  ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
-  (setq evil-cross-lines t)
+  (local-settings/evil-bindings)
 
   ;; ===============
   ;; === Display ===
@@ -654,64 +636,55 @@ before packages are loaded."
   ;; === Layers Customizations ===
   ;; =============================
   ;;;; Auto-completion
-  (local-settings/company-lsp-config)
-  (yas-global-mode 1)
-  (global-set-key (kbd "C-<return>") 'hippie-expand)
-
-  (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
+  (local-settings/auto-completion-config)
+  ;; (local-settings/company-lsp-config)
 
 
   ;;;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
-  (setq compilation-window-height 10)
+  (local-settings/compile-config)
 
   ;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
   (setq copy-as-format-default "markdown")
 
-  ;;;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
-  (add-hook 'prog-mode-hook #'(lambda ()
-                                (dtrt-indent-mode)
-                                (dtrt-indent-adapt)))
+  ;;;; -- drt-indent - https://spacemacs.org/layers/+misc/dtrt-indent/README.html
+  ;;(add-hook 'prog-mode-hook #'(lambda ()
+  ;;                              (dtrt-indent-mode)
+  ;;                              (dtrt-indent-adapt)))
+
+  ;;;; Easybuild / Easyconfigs
+  (add-to-list 'auto-mode-alist '("\\.eb\\'" . python-mode))
 
   ;;;; Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
-  (setq calendar-location-name "Thionville, France"
-        calendar-latitude 49.3
-        calendar-longitude 6.2)
-  ;; OpenWeatherMap API key, to define in settings/private.el
-  ;; (setq sunshine-appid "your-apikey")
-  ;; Get you city ID from city.list.json.gz under http://bulk.openweathermap.org/sample/
-  (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
-  (setq sunshine-units      'metric)
-  (setq sunshine-show-icons t)
+  (local-settings/geolocation-config)
+
+  ;;;; Java
+  (local-settings/java-config)
+
+  ;;;; LaTeX
+  (local-settings/latex-config)
+  (add-to-list 'auto-mode-alist '("\\.tex\\'" . latex-mode))
+  (add-to-list 'auto-mode-alist '("\\.sty\\'" . latex-mode))
 
   ;;;; LSP
   ;; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   ;; (local-settings/lsp-config)
 
-
   ;; -- [Ma]git -  https://develop.spacemacs.org/layers/LAYERS.html#git
-  (setq-default git-magit-status-fullscreen t)
-  ;; (setq magit-commit-arguments '("--signoff"))  ;; DOES NOT WORK
-  (setq magit-stage-all-confirm   nil)
-  (setq magit-unstage-all-confirm nil)
-  (setq magit-commit-all-when-nothing-staged t)
-  ;; When in magit-section-movement-hook (after commit), remap the existing
-  ;; keys to something more natural to me. Existing bindings:
-  ;;   C-k to go to the section backward (magit-section-backward)
-  ;;   C-j to go to the section forward  (magit-section-forward)
-  ;;
-  ;; Other shortcuts good to know when under magit-status:
-  ;;   gt  go to untracked
-  ;;
-  (evil-define-key 'normal magit-mode-map (kbd "C-p")  'magit-section-backward)
-  (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
-  ;; commit enter in insert mode -- C-c C-c to write the commit message
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  (local-settings/magit-config)
 
   ;; Markdown
   (local-settings/markdown-config)
   ;; (local-settings/keybindings-user-reserved)
   ;; (evil-define-key 'normal markdown-mode-map (kbd "C-c-|")  'org-table-create)
 
+  ;; Mermaid diagrams  -- see https://mermaid.js.org/
+  (add-to-list 'auto-mode-alist '("\\.mmd\\'" . markdown-mode))
+
+  ;; undo-tree
+  (local-settings/undo-tree-config)
+
+  ;; Python
+  (local-settings/python-config)
 
   ;; -- Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
   (local-settings/ranger-config)
@@ -719,11 +692,18 @@ before packages are loaded."
   ;; -- Rebox - https://develop.spacemacs.org/layers/+tools/rebox/README.html
   (setq rebox-style-loop '(71 72 73))
 
+  ;; -- Shell-scripting
+  (local-settings/shell-script-config)
+
   ;; -- Treemacs
   ;; https://issueexplorer.com/issue/Alexander-Miller/treemacs/826
   ;; Single Click in Treemacs
   (with-eval-after-load 'treemacs
     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+
+  ;; -- YAML
+  (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 
 
   ;; ==============================
@@ -777,12 +757,8 @@ before packages are loaded."
   ;; open recent files SPC f r
   (global-set-key (kbd "C-x C-r") 'lazy-helm/helm-recentf)
 
-  ;; Compile - 'SPC c m' to run helm-make
-  (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
-  (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
-  (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
-  (global-set-key (kbd "<f6>")     'compile)
-
+  ;; Delete trailing whitespace on save
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   ;; ===========================
   ;; === Complementary Tools ===
   ;; ===========================
@@ -797,44 +773,44 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(custom-safe-themes
-     '("8efa3d21b3fa1ac084798fae4e89848ec26ae5c724b9417caf4922f4b2e31c2a" "a7b20039f50e839626f8d6aa96df62afebb56a5bbd1192f557cb2efb5fcfb662" default))
-   '(evil-want-Y-yank-to-eol nil)
-   '(hl-todo-keyword-faces
-     '(("TODO" . "#dc752f")
-       ("NEXT" . "#dc752f")
-       ("THEM" . "#2d9574")
-       ("PROG" . "#4f97d7")
-       ("OKAY" . "#4f97d7")
-       ("DONT" . "#f2241f")
-       ("FAIL" . "#f2241f")
-       ("DONE" . "#86dc2f")
-       ("NOTE" . "#b1951d")
-       ("KLUDGE" . "#b1951d")
-       ("HACK" . "#b1951d")
-       ("TEMP" . "#b1951d")
-       ("FIXME" . "#dc752f")
-       ("XXX+" . "#dc752f")
-       ("\\?\\?\\?+" . "#dc752f")))
-   '(next-error-recenter '(4))
-   '(org-fontify-done-headline nil)
-   '(org-fontify-todo-headline nil)
-   '(package-selected-packages
-     '(mic-paren yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry transient pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode lsp-treemacs bui lsp-mode lv cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic keycast guide-key vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company solo-jazz-theme zonokai-emacs zenburn-theme zen-and-art-theme ws-butler writeroom-mode winum white-sand-theme which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme symon symbol-overlay sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection string-edit spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme restart-emacs request rebecca-theme rainbow-delimiters railscasts-theme quickrun purple-haze-theme professional-theme popwin planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pcre2el password-generator paradox overseer organic-green-theme org-superstar open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme nameless mustang-theme multi-line monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum link-hint light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inspector inkpot-theme info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gandalf-theme font-lock+ flycheck-package flycheck-elsa flx-ido flatui-theme flatland-theme farmhouse-theme fancy-battery eziam-theme eyebrowse expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme emr elisp-slime-nav editorconfig dumb-jump drag-stuff dracula-theme dotenv-mode doom-themes django-theme dired-quick-sort diminish devdocs define-word darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme clean-aindent-mode chocolate-theme cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-highlight-symbol auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-link ace-jump-helm-line))
-   )
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(company-tooltip-common
-     ((t (:inherit company-tooltip :weight bold :underline nil))))
-   '(company-tooltip-common-selection
-     ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
-   )
-  )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(ace-link aggressive-indent all-the-icons auto-compile auto-highlight-symbol
+              avy-jump-helm-line centered-cursor-mode clean-aindent-mode
+              column-enforce-mode define-word devdocs diminish dired-quick-sort
+              disable-mouse dockerfile-mode doom-themes dotenv-mode drag-stuff
+              dumb-jump elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu
+              evil-anzu evil-args evil-cleverparens evil-collection
+              evil-easymotion evil-escape evil-evilified-state evil-exchange
+              evil-goggles evil-iedit-state evil-indent-plus evil-lion
+              evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
+              evil-numbers evil-surround evil-textobj-line evil-tutor
+              evil-unimpaired evil-visual-mark-mode evil-visualstar
+              expand-region eyebrowse fancy-battery golden-ratio hcl-mode
+              helm-ag helm-comint helm-descbinds helm-make helm-mode-manager
+              helm-org helm-projectile helm-purpose helm-swoop helm-themes
+              helm-xref hide-comnt highlight-indentation highlight-numbers
+              highlight-parentheses hl-todo holy-mode hungry-delete hybrid-mode
+              indent-guide info+ inspector link-hint lorem-ipsum macrostep
+              multi-line nameless open-junk-file org-superstar overseer
+              page-break-lines paradox password-generator pcre2el popwin
+              quickrun rainbow-delimiters restart-emacs space-doc spaceline
+              spaceline-all-the-icons spacemacs-purpose-popwin
+              spacemacs-whitespace-cleanup string-edit-at-point
+              string-inflection symbol-overlay symon term-cursor toc-org
+              treemacs-evil treemacs-icons-dired treemacs-persp
+              treemacs-projectile undo-fu undo-fu-session uuidgen
+              vi-tilde-fringe volatile-highlights vundo wgrep winum
+              writeroom-mode ws-butler))
+ '(paradox-github-token t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)

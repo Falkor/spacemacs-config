@@ -1,0 +1,5 @@
+#contributor : Sebastien Varrette <sebastien.varrette@gmail.com>
+#name : vsp
+# --
+\vspace*{-${1:n}em}
+$0

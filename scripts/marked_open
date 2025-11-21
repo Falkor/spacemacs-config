@@ -1,10 +1,11 @@
 #! /bin/bash
-# Time-stamp: <Wed 2021-04-14 17:32 svarrette>
+# Time-stamp: <Mon 2022-12-12 10:38 svarrette>
 ################################################################################
 # Open a file with Marked 2 - https://marked2app.com/
 ################################################################################
 CMD_PREFIX=
-APP="/Applications/Marked.app"
+# APP="/Applications/Marked.app"
+APP="typora"
 
 print_error_and_exit() { error $*; exit 1; }
 usage() {
@@ -28,4 +29,5 @@ while [ $# -ge 1 ]; do
 done
 [ ! -d "${APP}" ] && print_error_and_exit "Unable to find application file '${APP}'"
 
-${CMD_PREFIX} open -a "${APP}" ${OPTS}
+# ${CMD_PREFIX} open -a "${APP}" ${OPTS}
+${CMD_PREFIX} ${APP} ${OPTS}

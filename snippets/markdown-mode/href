@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Sebastien Varrette
+# name: \href{.url.}{.text.}
+# key: href
+# uuid: href
+# --
+\href{${1:url}}{${2:text}}

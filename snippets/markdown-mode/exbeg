@@ -1,0 +1,11 @@
+#contributor : Sebastien Varrette
+#name : \exbegin{<title>}  ... \exend (exampleblock)
+# Designed for Pandoc Expansion with Falkorbeamer style toward exampleblock
+# --
+\vspace*{-0.5em}
+\exbegin{${1:title}}
+
+$0
+
+\exend
+

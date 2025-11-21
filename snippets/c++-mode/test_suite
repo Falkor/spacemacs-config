@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: test_suite
+# key: ts
+# uuid: ts
+# group: testing
+# --
+BOOST_AUTO_TEST_SUITE( ${1:test_suite1} )
+
+$0
+
+BOOST_AUTO_TEST_SUITE_END()

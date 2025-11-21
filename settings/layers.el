@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Fri 2022-01-28 21:37 svarrette>
+;;; Time-stamp: <Fri 2025-11-21 10:04 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -30,8 +30,10 @@
                      better-defaults-move-to-beginning-of-code-first t
                      better-defaults-move-to-end-of-code-first t)
     bibtex
+    ;; https://www.spacemacs.org/layers/+lang/c-c++/README.html
     (c-c++ :variables
-           c-c++-backend 'lsp-clangd
+           c-c++-backend 'lsp-ccls
+           c-c++-lsp-enable-semantic-highlight 'rainbow
            c-c++-dap-adapters '(dap-lldb dap-cpptools)
            c-c++-enable-organize-includes-on-save t
            c-c++-enable-auto-newline t)
@@ -47,13 +49,13 @@
     evil-better-jumper
     (geolocation :variables
                  ;; geolocation-enable-automatic-theme-changer t
-                 geolocation-enable-location-service t
+                 ;; geolocation-enable-location-service t
                  geolocation-enable-weather-forecast t)
     (git :variables
          git-enable-magit-delta-plugin t   ;; brew install git-delta
          git-enable-magit-gitflow-plugin t ;; brew install git-flow
          )
-    github
+    ;; github
     (go :variables
         go-backend 'go-mode
         go-format-before-save t)
@@ -63,9 +65,11 @@
     helpful
     html
     (java :variables
-          java-backend 'meghanada)
+          java-backend 'lsp)
     (latex :variables
-           latex-enable-magic nil)
+           latex-enable-magic nil
+           latex-enable-auto-fill nil
+           latex-backend 'lsp)
     ;; lsp configured SEPARATELY outside the default layer within settings/user-config.el
     ;; LSP is not compliant with company-lsp : see https://github.com/tigersoldier/company-lsp/issues/119
     (lsp :variables
@@ -92,32 +96,33 @@
     nav-flash
     (org :variables
          org-enable-github-support t)
-    (osx :variables
-         osx-option-as 'none       ;; Very important to allow for all keys \
-         osx-right-option-as 'meta)
-    pass
+    ;; (osx :variables
+    ;;      osx-option-as 'none       ;; Very important to allow for all keys \
+    ;;      osx-right-option-as 'meta)
+    ;; pass
     perl5
-    php
+    ;; php
     prettier
     protobuf
     puppet
     (python :variables
             python-formatter 'black
-            python-format-on-save t
+            python-format-on-save nil
             ;; python-save-before-test nil
             python-sort-imports-on-save t
+            python-fill-column 99
             )
     (ranger :variables
             ranger-override-dired 'ranger
             ranger-show-preview t)
-    rebox
+    ;; rebox
     restructuredtext
     (ruby :variables
-          ruby-backend         'lsp
+          ;; ruby-backend         'robe
           ruby-enable-enh-ruby-mode t
           ruby-prettier-on-save t
           ruby-test-runner     'rspec
-          ruby-version-manager 'rvm
+          ;; ruby-version-manager 'rvm
           )
     ;; org
     (shell :variables
@@ -128,16 +133,23 @@
            shell-default-position 'bottom
            close-window-with-terminal t)
     (shell-scripts :variables
-                   shell-scripts-format-on-save t)
+           shell-scripts-backend nil)
+
+    ;;(shell-scripts :variables
+    ;;       shell-scripts-backend 'lsp
+    ;;       shell-scripts-format-on-save t)
     (solidity :variables
               solidity-flycheck-solc-checker-active t)
-    ;; spell-checking
+    (spell-checking :variables
+                    spell-checking-enable-by-default nil
+                    enable-flyspell-auto-completion t
+                    spell-checking-enable-auto-dictionary t)
     syntax-checking
     ;; Still using auto-insert-tlkd for the moment.
-    ;; (templates :variables
-    ;;            templates-use-default-templates t
-    ;;            templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
-    themes-megapack
+    (templates :variables
+               templates-use-default-templates t
+               templates-private-directory (concat dotspacemacs-directory "templates/yatemplates"))
+    ;; themes-megapack
     (treemacs :variables
               treemacs-lock-width t
               treemacs-use-git-mode 'deferred
@@ -166,8 +178,9 @@
     evil-smartparens
     mic-paren
     time-stamp
-    solo-jazz-theme
+    ;; solo-jazz-theme
     ws-butler
+    hcl-mode
     ))
 
 ;; List of packages that cannot be updated.

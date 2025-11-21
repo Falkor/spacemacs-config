@@ -1,11 +1,13 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Mon 2022-01-31 19:14 svarrette>
+;;; Time-stamp: <Sun 2025-08-24 17:28 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
 ;;
 
 (provide 'local-settings/user-configs)
+
+
 
 ;;;; ==== User Reserved Key bindings (SPC o [...])
 (defun local-settings/keybindings-user-reserved ()
@@ -16,13 +18,9 @@ Spacemacs default key bindings. "
   )
 
 
-;;;; Company and LSP -- NOT USED for the moment.
-;;; https://gitter.im/emacs-lsp/lsp-mode?at=5d64447c07d1ff39f88ae388
-;; finally not used
-(defun local-settings/company-lsp-config ()
-  "Local Spacemacs User settings for Company"
-  ;; (require 'xclip)
-  ;; (xclip-mode 1)
+;;;; Auto-completion
+(defun local-settings/auto-completion-config ()
+  "Local Spacemacs User settings for Auto-completion"
 
   (use-package company
     :ensure t
@@ -41,6 +39,10 @@ Spacemacs default key bindings. "
           company-tooltip-align-annotations t
           company-transformers '(company-sort-prefer-same-case-prefix)))
 
+  ;; integrate yasnippet into company
+  (yas-global-mode 1)
+  (global-set-key (kbd "C-<return>") 'hippie-expand)
+
   (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
 
   (defun company-mode/backend-with-yas (backend)
@@ -50,6 +52,15 @@ Spacemacs default key bindings. "
               '(:with company-yasnippet))))
 
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  )
+
+
+;;;; Company and LSP -- NOT USED for the moment.
+;;; https://gitter.im/emacs-lsp/lsp-mode?at=5d64447c07d1ff39f88ae388
+;; finally not used
+(defun local-settings/company-lsp-config ()
+  "Local Spacemacs User settings for Company"
+
 
   ;; (use-package lsp-mode
   ;;   :ensure t
@@ -105,16 +116,45 @@ Spacemacs default key bindings. "
   )
 
 
+;;;;; === Compiling  https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
+(defun local-settings/compile-config ()
+  "Local Spacemacs User settings for compilation "
+  (setq compilation-window-height 10)
+
+  ;; Compile - 'SPC c m' to run helm-make
+  (spacemacs/set-leader-keys "c c" 'compile)              ;; inverse default setting 'SPC c c' and 'SPC c C'
+  (spacemacs/set-leader-keys "c C" 'helm-make-projectile) ;; with below
+  (global-set-key (kbd "C-x C-e")  'compile) ;; SPC c C
+  (global-set-key (kbd "<f6>")     'compile)
+  )
+
+
+
 ;;;; === Display ====
 (defun local-settings/display ()
   "Local Spacemacs User settings for general Look and Feel"
   ;; spaceline-all-the-icons
+  ;; See also
+  ;; https://git.madhouse-project.org/algernon/emacs.d/src/branch/master/layers/+look-n-feel/algernon-modeline/packages.el
+  (spaceline-all-the-icons--setup-package-updates)
+  (spaceline-all-the-icons--setup-git-ahead)
+
+  (setq spaceline-all-the-icons-highlight-file-name t
+        spaceline-all-the-icons-file-name-highlight "#f3ea98"
+        spaceline-all-the-icons-hide-long-buffer-path t
+        )
+
+  ;; Toggles
   ;; Custom components of the theme
   ;; https://github.com/domtronn/spaceline-all-the-icons.el#disabled-segments
+  (spaceline-toggle-all-the-icons-buffer-size-off)
   (spaceline-toggle-all-the-icons-buffer-position-on)
+
   (spaceline-toggle-all-the-icons-dedicated-on)
   ;;(spaceline-toggle-all-the-icons-buffer-encoding-abbrev-on)
   (spaceline-toggle-all-the-icons-weather-on)
+
+
 
   ;; !!!!!!!!!!!!!!!!
   ;; !! https://github.com/domtronn/spaceline-all-the-icons.el/issues/55
@@ -129,9 +169,88 @@ Spacemacs default key bindings. "
   ;;(setq initial-frame-alist '((top . 30) (left . 700) (width . 212) (height . 81)))
   ;; Use Mouse to copy/paste
   ;; (xterm-mouse-mode -1)
-
+  ;; see
+  ;; https://www.reddit.com/r/emacs/comments/5fptl7/using_evils_visualmode_it_automatically_adds_the/
+  (fset 'evil-visual-update-x-selection 'ignore)
 
   )
+
+(defun local-settings/evil-bindings ()
+  "Local Spacemacs User settings for Evil bindings customizations"
+  ;; === Search and replace
+  ;; Better vim-compliant search with <up> and <down> key
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  ;; (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+  ;; (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
+  ;; DO to insert mode on double-click DOES NOT WORK
+  ;; (define-key evil-normal-state-map [double-mouse-1]
+  ;;   (lambda ((custom-set-variables
+  ;;     (interactive)
+  ;;     (evil-insert)))
+
+
+  ;; Reminder: From visual mode:  three different "visual" states:
+  ;;    Char: 'v'   from normal mode
+  ;;    Line  'S-v' from normal mode
+  ;;    Block 'C-v' from normal mode
+  ;; Shift-arrow to also select text in normal mode
+  ;; Alternative: v for visual then arrow
+  (define-key evil-normal-state-map (kbd "S-<left>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (backward-char)))
+  (define-key evil-normal-state-map (kbd "S-<right>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (forward-char)))
+  (define-key evil-normal-state-map (kbd "S-<down>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-next-line)))
+  (define-key evil-normal-state-map (kbd "S-<up>")
+    (lambda ()
+      (interactive)
+      (evil-visual-char)
+      (evil-previous-line)))
+  (define-key evil-visual-state-map (kbd "S-<left>")   #'backward-char)
+  (define-key evil-visual-state-map (kbd "S-<right>")  #'forward-char)
+
+  ;; Remap C-e to end of line
+  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+
+  ;; revert C-w to delete previous word even in insert
+  (define-key evil-normal-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-visual-state-map (kbd "C-!") 'evil-windows-map)
+  (define-key evil-normal-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+  (define-key evil-visual-state-map (kbd "C-w") 'spacemacs/backward-kill-word-or-region)
+
+  ;; Backspace in visual mode also delete selected region
+  (define-key evil-visual-state-map (kbd "<backspace>") 'delete-forward-char)
+
+  ;; Emacs-like movement of cursor with Evil (left in '^' goes to end of previous line)
+  (setq evil-cross-lines t)
+
+  )
+
+;;;;; ===  Geolocation - https://develop.spacemacs.org/layers/+tools/geolocation/README.html
+(defun local-settings/geolocation-config ()
+  "Local Spacemacs User settings for geolocation"
+  (setq calendar-location-name "Thionville, France"
+        calendar-latitude 49.3
+        calendar-longitude 6.2)
+  ;; OpenWeatherMap API key, to define in settings/private.el
+  ;; (setq sunshine-appid "your-apikey")
+  ;; Get you city ID from city.list.json.gz under http://bulk.openweathermap.org/sample/
+  (setq sunshine-location   "57100,FR") ;; City ID (Thionville): 2972811
+  (setq sunshine-units      'metric)
+  (setq sunshine-show-icons t)
+  )
+
 
 ;;;; === General Look and Feel ===
 (defun local-settings/look-and-feel ()
@@ -146,6 +265,7 @@ Spacemacs default key bindings. "
   ;; after mouse selection in X11, you can paste by `yank' in emacs
   ;;(setq x-select-enable-primary t)
   (setq mouse-drag-copy-region  t)
+  (setq mouse-yank-at-point t)
 
   ;; === General cursor interaction
   ;; replace highlighted text with what I type
@@ -159,10 +279,27 @@ Spacemacs default key bindings. "
                                         ; helm-swoop
   (setq helm-swoop-use-fuzzy-match t)
   (setq helm-swoop-use-line-number-face t)
+
+  ;; ==== Rectangular selection ===
+  ;; Common User Access (CUA)
+  (setq cua-rectangle-mark-key (kbd "C-S-<return>"))
+  (cua-selection-mode 1)
+
+  )
+
+;;;; Java - https://develop.spacemacs.org/layers/+lang/java/README.html
+(defun local-settings/java-config ()
+  (setq-default c-indent-offset 2)
   )
 
 
+;;;; LaTeX - https://develop.spacemacs.org/layers/+lang/latex/README.html
+(defun local-settings/latex-config ()
+  (add-to-list 'auto-mode-alist '("\\.tex\\'" . latex-mode))
+  (add-to-list 'auto-mode-alist '("\\.sty\\'" . latex-mode))
 
+  (setq TeX-auto-local ".texinfo")
+  )
 
 ;;;; LSP https://develop.spacemacs.org/layers/+tools/lsp/README.html
 (defun local-settings/lsp-config ()
@@ -179,6 +316,40 @@ Spacemacs default key bindings. "
                                           "v" 'vars)
   )
 
+;;;; Magit -  https://develop.spacemacs.org/layers/LAYERS.html#git
+(defun local-settings/magit-config ()
+  "Local Spacemacs User settings for Magit"
+  (setq-default git-magit-status-fullscreen t)
+  ;; (setq magit-commit-arguments '("--signoff"))  ;; DOES NOT WORK
+  (setq magit-stage-all-confirm   nil)
+  (setq magit-unstage-all-confirm nil)
+  (setq magit-commit-all-when-nothing-staged t)
+  ;; When in magit-section-movement-hook (after commit), remap the existing
+  ;; keys to something more natural to me. Existing bindings:
+  ;;   C-k to go to the section backward (magit-section-backward)
+  ;;   C-j to go to the section forward  (magit-section-forward)
+  ;;
+  ;; Other shortcuts good to know when under magit-status:
+  ;;   gt  go to untracked
+  ;;
+  (evil-define-key 'normal magit-mode-map (kbd "C-p")  'magit-section-backward)
+  (evil-define-key 'normal magit-mode-map (kbd "C-n")  'magit-section-forward)
+  ;; commit enter in insert mode -- C-c C-c to write the commit message
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
+
+  ;; Make custom gitlab instance (gitlab.uni.lu) recognized as elligible forge
+  ;; repository - C h v to check the value of forge-alist
+  ;; (with-eval-after-load 'forge
+  ;;   ;; Each entry must follow (GITHOST APIHOST ID CLASS)
+  ;;   (add-to-list 'forge-alist
+  ;;                '("gitlab.uni.lu"
+  ;;                  "gitlab.uni.lu/api/v4"
+  ;;                  "gitlab.uni.lu"
+  ;;                  forge-gitlab-repository)))
+  )
+
+
 ;;;; Markdown - https://develop.spacemacs.org/layers/+lang/markdown/README.html
 (defun local-settings/markdown-config ()
   "Local Spacemacs User settings for Markdown"
@@ -187,8 +358,31 @@ Spacemacs default key bindings. "
   ;; Complete the default C-c |
   (spacemacs/set-leader-keys "o t"   'org-table-create)
   (spacemacs/set-leader-keys "m t t" 'org-table-create)
+
+  (setq markdown-gfm-use-electric-backquote nil)
+  ;; Bugfix smartparens is buggy with markdown edition
+  ;; (add-hook 'markdown-mode-hook #'turn-off-smartparens-mode)
+  ;; see https://github.com/syl20bnr/spacemacs/issues/10858
+  ;; (add-hook 'markdown-mode-hook 'spacemacs/toggle-smartparens-off)
   )
 
+;;;; Undo-tree - see https://github.com/syl20bnr/spacemacs/issues/774
+(defun local-settings/undo-tree-config ()
+  ;; See https://emacs.stackexchange.com/questions/63430/restore-emacs-default-undo-redo-behavior-in-spacemacs
+  ;; Restore undo
+  ;; (global-undo-tree-mode 0)
+  ;; (setq undo-tree-auto-save-history t
+  ;;       undo-tree-history-directory-alist
+  ;;       `(("." . ,(concat spacemacs-cache-directory "undo"))))
+  ;; (unless (file-exists-p (concat spacemacs-cache-directory "undo"))
+  ;;   (make-directory (concat spacemacs-cache-directory "undo")))
+  ;; ;; (setq undo-tree-history-directory-alist '(("." . "undo"))))
+  )
+
+;;;; Python - https://develop.spacemacs.org/layers/+lang/python/README.html
+(defun local-settings/python-config ()
+  (setq-default python-indent-offset 4)
+  )
 
 
 ;;;; Ranger - https://develop.spacemacs.org/layers/+tools/ranger/README.html
@@ -198,8 +392,11 @@ Spacemacs default key bindings. "
   (setq ranger-ignored-extensions '("mkv" "iso" "mp4"))
   )
 
-
-
+;;;; Shell scripting - https://develop.spacemacs.org/layers/+lang/shell-scripts/README.html
+(defun local-settings/shell-script-config ()
+  (setq-default sh-basic-offset 2)
+  (setq-default tab-width  2)
+  )
 
 
 ;;;; Smart Parentheses
@@ -213,18 +410,20 @@ Spacemacs default key bindings. "
            ("C-(" . sp-splice-sexp))
     :config
     (progn
-      (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+      ;;(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+            ;; (add-hook 'sh-mode-hook             #'smartparens-mode)
       ;;(push 'yas-installed-snippets-dir yas-snippet-dirs)
       )
     )
+  (smartparens-global-mode t)
   ;; Better highlight matching parenthesis
   (use-package rainbow-delimiters
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;; to enable it in all programming-related modes
     (set-face-attribute 'rainbow-delimiters-unmatched-face nil
-		                    :foreground "red"
-		                    :inherit 'error
-		                    :box t)
+                        :foreground "red"
+                        :inherit 'error
+                        :box t)
     )
   ;;(require 'paren)
   ;;(show-paren-mode t)

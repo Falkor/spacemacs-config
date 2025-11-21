@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: main
+# condition: (doom-snippets-bolp)
+# --
+int main(${1:int argc, char *argv[]}) {
+    `%`$0
+    return 0;
+}

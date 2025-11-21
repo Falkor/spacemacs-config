@@ -1,0 +1,6 @@
+#contributor : Sebastien Varrette
+#name: \begin{textblock}{0.<width>}(0.<x>,0.<y>)...\imgw{1}{...}...\end{textblock}
+# --
+\begin{textblock}{0.${1:width}}(0.${2:x},0.${3:y})
+\imgw{1}{$0}
+\end{textblock}

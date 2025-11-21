@@ -1,0 +1,9 @@
+#contributor : Sebastien Varrette
+#name : \vbegin{<n>}  ...markdown code... \vend
+# --
+\vbegin{${1:n}}
+
+$0
+
+\vend
+
