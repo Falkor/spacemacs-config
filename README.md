@@ -1,5 +1,5 @@
 
-![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![Falkor/spacemacs-config issues](https://img.shields.io/github/issues/Falkor/spacemacs-config.svg)](https://github.com/Falkor/spacemacs-config/issues)
+![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![GitHub](https://img.shields.io/github/license/Falkor/spacemacs-config?color=green)](https://github.com/Falkor/spacemacs-config/blob/devel/LICENSE) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![GitHub issues](https://img.shields.io/github/issues/Falkor/spacemacs-config)](https://github.com/Falkor/spacemacs-config/issues) [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Falkor/spacemacs-config?label=version)](https://github.com/Falkor/spacemacs-config/tags) ![GitHub Repo stars](https://img.shields.io/github/stars/Falkor/spacemacs-config?style=social) ![GitHub forks](https://img.shields.io/github/forks/Falkor/spacemacs-config?style=social)
 
        _____     _ _              _       ____
       |  ___|_ _| | | _____  _ __( )___  / ___| _ __   __ _  ___ ___ _ __ ___   __ _  ___ ___
@@ -27,7 +27,6 @@ __Personal settings and customization for [Spacemacs](https://www.spacemacs.org/
 
 It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-config2) made for Emacs 24 which is now obsoblete. [spacemacs cheatsheet](https://jeffreyfreeman.me/files/spacemacs-ultimate-cheatsheet.pdf)
 
-![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![GitHub](https://img.shields.io/github/license/Falkor/spacemacs-config?color=green)](https://github.com/Falkor/spacemacs-config/blob/devel/LICENSE) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![GitHub issues](https://img.shields.io/github/issues/Falkor/spacemacs-config)](https://github.com/Falkor/spacemacs-config/issues) [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Falkor/spacemacs-config?label=version)](https://github.com/Falkor/spacemacs-config/tags) ![GitHub Repo stars](https://img.shields.io/github/stars/Falkor/spacemacs-config?style=social) ![GitHub forks](https://img.shields.io/github/forks/Falkor/spacemacs-config?style=social)
 
 <p align="center">
 <b><a href="#installation">Installation</a></b>
@@ -298,7 +297,7 @@ You can check your correct settings by restarting Emacs, enter magit status (SPC
 
 ## Screenshots
 
-![](doc/images/screenshot_falkor_spacemacs.png)
+![](docs/images/screenshot_falkor_spacemacs.png)
 
 ### Theme and Modeline
 
@@ -308,10 +307,10 @@ The modeline is based on [Spacelines-all-the-icons](https://github.com/domtronn/
 
 Example of a modified buffer in insert state (press '`i`' as in Vim):
 
-![](doc/images/screenshot_falkor_spacemacs_modeline_insert.png)
+![](docs/images/screenshot_falkor_spacemacs_modeline_insert.png)
 
 Idem but un normal state (`ESC`)
 
-![](doc/images/screenshot_falkor_spacemacs_modeline_normal.png)
+![](docs/images/screenshot_falkor_spacemacs_modeline_normal.png)
 
 [▲ back to top](#readme)
