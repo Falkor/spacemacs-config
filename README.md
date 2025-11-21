@@ -104,7 +104,7 @@ make install-packages
 Here is an example of some system dependencies to satisfy:
 
 | __Spacemacs Layer__                                                    | __Required dependency__                                       |                                                         |
-|------------------------------------------------------------------------+---------------------------------------------------------------+---------------------------------------------------------|
+|------------------------------------------------------------------------|---------------------------------------------------------------|-------------------------------------------------------  |
 | [Ma]git                                                                | [Delta](https://dandavison.github.io/delta/installation.html) | `brew install git-delta`. Install deb package on Debian |
 | python                                                                 | black, flake8, ipython,                                       |                                                         |
 | [ruby](https://develop.spacemacs.org/layers/+lang/ruby/README.html)    | prettier, solargraph                                          |                                                         |
@@ -114,7 +114,7 @@ Here is an example of some system dependencies to satisfy:
 | solidity                                                               | solc                                                          | `brew install solidity`                                 |
 | dash                                                                   | Dash, sqlite3                                                 | `brew install dash5 sqlite3`                            |
 
-In addition, a few NPM dependencies may be installed to satisfy the [LSP layer](https://spacemacs.org/layers/+tools/lsp/README.html)``
+In addition, a few NPM dependencies may be installed to satisfy the [LSP layer](https://spacemacs.org/layers/+tools/lsp/README.html).
 
 
 ### Clone Spacemacs
