@@ -22,7 +22,7 @@ __Personal settings and customization for [Spacemacs](https://www.spacemacs.org/
 > The best editor is neither Emacs nor Vim, it's Emacs and Vim!
 > [Spacemacs](https://www.spacemacs.org/) is a new way of experiencing Emacs -- it's a sophisticated and polished set-up, focused on ergonomics, mnemonics and consistency.
 
-It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-config2) made for Emacs 24 which is now obsoblete.
+It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-config2) made for Emacs 24 which is now obsoblete. [spacemacs cheatsheet](https://jeffreyfreeman.me/files/spacemacs-ultimate-cheatsheet.pdf)
 
 ![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![GitHub](https://img.shields.io/github/license/Falkor/spacemacs-config?color=green)](https://github.com/Falkor/spacemacs-config/blob/devel/LICENSE) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![GitHub issues](https://img.shields.io/github/issues/Falkor/spacemacs-config)](https://github.com/Falkor/spacemacs-config/issues) [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Falkor/spacemacs-config?label=version)](https://github.com/Falkor/spacemacs-config/tags) ![GitHub Repo stars](https://img.shields.io/github/stars/Falkor/spacemacs-config?style=social) ![GitHub forks](https://img.shields.io/github/forks/Falkor/spacemacs-config?style=social)
 
@@ -36,7 +36,7 @@ It superseeds my [previous emacs settings](https://github.com/Falkor/emacs-confi
 <b><a href="#screenshots">Screenshots</a></b>
 </p>
 
-This repository is inspired from the excellent work performed by [Spacemacs Practicalli](https://practical.li/spacemacs/). 
+This repository is inspired from the excellent work performed by [Spacemacs Practicalli](https://practical.li/spacemacs/).
 
 > [Emacs](https://www.gnu.org/software/emacs/) has been a shining beacon of Free and Open Source software from the early 1970's and has grown to be a versatile set of development tools for all languages. This long history has given [Emacs](https://www.gnu.org/software/emacs/) the ability to interact with almost every aspect of your digital life.
 >
@@ -44,14 +44,14 @@ This repository is inspired from the excellent work performed by [Spacemacs Prac
 
 ## Installation
 
-### Pre-requisites 
+### Pre-requisites
 
 #### Emacs
 
 Spacemacs is a configuration for Emacs, so naturally Emacs should be installed before Spacemacs can be used.
 Emacs is available for Linux, MacOSX and Windows.  The [Spacemacs Readme suggested ways to install Emacs](https://github.com/syl20bnr/spacemacs/tree/develop#emacs)
 
-```bash 
+```bash
 ### Linux: Debian/RHEL -like
 sudo { apt | dnf | ...}  install emacs
 ### Mac OS - using Homebrew
@@ -64,11 +64,11 @@ brew tap railwaycat/emacsmacport
 brew install --cask emacs-mac-spacemacs-icon
 ```
 
-#### Complementary command line tools 
+#### Complementary command line tools
 
 In addition, several command line tools are expected. See [practical instructions](https://practical.li/spacemacs/install-spacemacs/pre-install/#helm-locate)
 
-see also `make bootstrap-linux`. Here is an overview of the system dependencies to satisfy: 
+see also `make bootstrap-linux`. Here is an overview of the system dependencies to satisfy:
 
 | __Spacemacs Layer__                                                    | __Required dependency__                                       |                                                         |
 |------------------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------|
@@ -86,26 +86,26 @@ In addition, a few NPM dependencies will be installed to satisfy the [LSP layer]
 
 ### Clone Spacemacs
 
- __Install Spacemacs__ into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) `~/.config/emacs` 
+ __Install Spacemacs__ into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) `~/.config/emacs`
 
-```bash 
+```bash
 git clone https://github.com/syl20bnr/spacemacs ~/.config/emacs.spacemacs.d
 ln -s emacs.spacemacs.d ~/.config/emacs
 ```
 
 _Note_:  using symbolic links for `~/.config/emacs` allows you to quickly switch between spacemacs  and any other emacs setup (Ex: [Doom Emacs](https://github.com/hlissner/doom-emacs), [My previous `Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) ... )
 
-Ensure you use the [develop](https://develop.spacemacs.org/) branch of spacemacs. 
+Ensure you use the [develop](https://develop.spacemacs.org/) branch of spacemacs.
 
-Set the `SPACEMACSDIR` environment variable to the `~/.config/spacemacs` directory so that Spacemacs will find this location. 
+Set the `SPACEMACSDIR` environment variable to the `~/.config/spacemacs` directory so that Spacemacs will find this location.
 For that, add the following context to yout favorite shell configuration:
 
-```bash 
+```bash
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
-    
+
 # Set XDG location of Emacs Spacemacs configuration
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 ```
@@ -125,16 +125,16 @@ ln -s ~/git/github.com/Falkor/spacemacs-config ~/.config/spacemacs.falkor.d
 ln -s spacemacs.falkor.d ~/.config/spacemacs
 ```
 
-### Install nice fonts 
+### Install nice fonts
 
-Several nice fonts are required for the [Spacelines-all-the-icons](https://github.com/domtronn/spaceline-all-the-icons.el) mode-line. 
+Several nice fonts are required for the [Spacelines-all-the-icons](https://github.com/domtronn/spaceline-all-the-icons.el) mode-line.
 
 see also `dotspacemacs-default-font` in [`init.el`](.spacemacs)
 
-#### Linux / Debian 
+#### Linux / Debian
 
-```bash 
-sudo apt install fonts-font-awesome fonts-anonymous-pro fonts-anonymous-pro fonts-noto-color-emoji 
+```bash
+sudo apt install fonts-font-awesome fonts-anonymous-pro fonts-anonymous-pro fonts-noto-color-emoji
 # Install complementary Nerd fonts
 # see https://github.com/officialrajdeepsingh/nerd-fonts-installer
 # check installer first!!!
@@ -146,7 +146,7 @@ git clone https://github.com/adobe-fonts/source-code-pro.git ~/.fonts/adobe-font
 fc-cache -f -v ~/.fonts/adobe-fonts/source-code-pro
 ```
 
-#### Mac OS X 
+#### Mac OS X
 
 ```bash
 brew tap homebrew/cask-fonts

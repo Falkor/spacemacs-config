@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sun 2025-08-24 17:33 svarrette>
+;;; Time-stamp: <Mon 2025-10-06 23:11 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -646,10 +646,10 @@ before packages are loaded."
   ;;;; -- Copy-as Format  - https://develop.spacemacs.org/layers/+misc/copy-as-format/README.html
   (setq copy-as-format-default "markdown")
 
-  ;;;; -- drt-indent - https://develop.spacemacs.org/layers/+misc/dtrt-indent/README.html
-  (add-hook 'prog-mode-hook #'(lambda ()
-                                (dtrt-indent-mode)
-                                (dtrt-indent-adapt)))
+  ;;;; -- drt-indent - https://spacemacs.org/layers/+misc/dtrt-indent/README.html
+  ;;(add-hook 'prog-mode-hook #'(lambda ()
+  ;;                              (dtrt-indent-mode)
+  ;;                              (dtrt-indent-adapt)))
 
   ;;;; Easybuild / Easyconfigs
   (add-to-list 'auto-mode-alist '("\\.eb\\'" . python-mode))
@@ -782,18 +782,18 @@ This function is called at the very end of Spacemacs initialization."
    '(ace-link aggressive-indent all-the-icons auto-compile auto-highlight-symbol
               avy-jump-helm-line centered-cursor-mode clean-aindent-mode
               column-enforce-mode define-word devdocs diminish dired-quick-sort
-              disable-mouse doom-themes dotenv-mode drag-stuff dumb-jump
-              elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu evil-anzu
-              evil-args evil-cleverparens evil-collection evil-easymotion
-              evil-escape evil-evilified-state evil-exchange evil-goggles
-              evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
-              evil-matchit evil-mc evil-nerd-commenter evil-numbers
-              evil-surround evil-textobj-line evil-tutor evil-unimpaired
-              evil-visual-mark-mode evil-visualstar expand-region eyebrowse
-              fancy-battery golden-ratio hcl-mode helm-ag helm-comint
-              helm-descbinds helm-make helm-mode-manager helm-org
-              helm-projectile helm-purpose helm-swoop helm-themes helm-xref
-              hide-comnt highlight-indentation highlight-numbers
+              disable-mouse dockerfile-mode doom-themes dotenv-mode drag-stuff
+              dumb-jump elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu
+              evil-anzu evil-args evil-cleverparens evil-collection
+              evil-easymotion evil-escape evil-evilified-state evil-exchange
+              evil-goggles evil-iedit-state evil-indent-plus evil-lion
+              evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
+              evil-numbers evil-surround evil-textobj-line evil-tutor
+              evil-unimpaired evil-visual-mark-mode evil-visualstar
+              expand-region eyebrowse fancy-battery golden-ratio hcl-mode
+              helm-ag helm-comint helm-descbinds helm-make helm-mode-manager
+              helm-org helm-projectile helm-purpose helm-swoop helm-themes
+              helm-xref hide-comnt highlight-indentation highlight-numbers
               highlight-parentheses hl-todo holy-mode hungry-delete hybrid-mode
               indent-guide info+ inspector link-hint lorem-ipsum macrostep
               multi-line nameless open-junk-file org-superstar overseer

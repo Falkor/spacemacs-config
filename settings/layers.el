@@ -130,6 +130,9 @@
            shell-default-height 30
            shell-default-position 'bottom
            close-window-with-terminal t)
+    (shell-scripts :variables
+           shell-scripts-backend nil)
+
     ;;(shell-scripts :variables
     ;;       shell-scripts-backend 'lsp
     ;;       shell-scripts-format-on-save t)
