@@ -1,0 +1,128 @@
+# -*- mode: makefile -*-
+# Insert 'include .Makefile.git' in your main Makefile to enable these rules.
+# /!\ IMPORTANT: adapt prod/devel branch below to match the repo settings!!!
+#
+# This Makefile provides the following targets:
+# make setup-gitflow
+# make setup-git-submodule
+# make up
+# make git-submodule-update
+# make start-{major,minor,patch}-version-bump
+# make release
+# make info-{git,version}
+
+# Git setup
+GITFLOW_BRANCH_PRODUCTION = production
+GITFLOW_BRANCH_DEVELOP    = devel
+GIT_BRANCH_CURRENT = $(shell git rev-parse --abbrev-ref HEAD)
+IS_GIT_REPO_DIRTY  = $(shell git diff --shortstat 2> /dev/null | tail -n1 )
+HAS_GITFLOW        = $(shell git flow version 2>/dev/null || [ $$? -eq 0 ])
+
+# Repository versionning management
+VERSION       = $(shell [ -f VERSION ] && head VERSION || echo '0.0.1')
+VERSION_MAJOR = $(shell echo $(VERSION) | sed "s/^\([0-9]*\).*/\1/")
+VERSION_MINOR   = $(shell echo $(VERSION) | sed "s/[0-9]*\.\([0-9]*\).*/\1/")
+VERSION_PATCH   = $(shell echo $(VERSION) | sed "s/[0-9]*\.[0-9]*\.\([0-9]*\).*/\1/")
+NEXT_MAJOR_VERSION = $(shell expr $(MAJOR) + 1).0.0
+NEXT_MINOR_VERSION = $(VERSION_MAJOR).$(shell expr $(MINOR) + 1).0
+NEXT_PATCH_VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(shell expr $(PATCH) + 1)
+
+### git-flow setup
+.PHONY: setup-gitflow
+setup-gitflow:
+	git config gitflow.branch.master     $(GITFLOW_BRANCH_PRODUCTION)
+	git config gitflow.branch.develop    $(GITFLOW_BRANCH_DEVELOP)
+	git config gitflow.prefix.feature    feature/
+	git config gitflow.prefix.bugfix     bugfix/
+	git config gitflow.prefix.release    release/
+	git config gitflow.prefix.hotfix     hotfix/
+	git config gitflow.prefix.support    support/
+	git config gitflow.prefix.versiontag v
+
+########################################
+### Repository life cycle management ###
+########################################
+.PHONY: up update
+up update:
+	$(if $(IS_GIT_REPO_DIRTY), $(error "Unable to pull latest commits: Dirty Git repository"))
+	@echo "=> Pulling and updating the local branch '$(GITFLOW_BRANCH_DEVELOP)'"
+	git switch $(GITFLOW_BRANCH_DEVELOP)
+	git pull origin $(GITFLOW_BRANCH_DEVELOP)
+	@echo "=> Pulling and updating the local branch '$(GITFLOW_BRANCH_PRODUCTION)'"
+	git switch $(GITFLOW_BRANCH_PRODUCTION)
+	git pull origin $(GITFLOW_BRANCH_PRODUCTION)
+	@echo "=> return back to '$(GIT_BRANCH_CURRENT)' branch"
+	git switch $(GIT_BRANCH_CURRENT)
+
+
+
+### Git submodules
+.PHONY: setup-git-submodule git-submodule-update git-submodule-upgrade
+setup-git-submodule:
+	@if [ -f '.gitmodules' ]; then \
+		$(MAKE) git-submodule-update; \
+	fi
+
+git-submodule-update:
+	@echo "=> initializing and updating (NOT upgrading) git submodule"
+	git submodule init
+	git submodule update
+
+git-submodule-upgrade: git-submodule-update
+	@echo "=> Upgrading **ALL** git submodule to the latest version"
+	git submodule foreach 'git fetch origin; git switch $$(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$$(git rev-parse --abbrev-ref HEAD); git submodule update --recursive; git clean -dfx'
+	-@for submoddir in $(shell git submodule status | awk '{ print $$2 }' | xargs echo); do \
+		git commit -s -m "Upgrading Git submodule '$$submoddir' to the latest version" $$submoddir || true; \
+	done
+
+# Gnu Make Macro to centralize bump management
+# Usage: $(eval $(call __VERSION_BUMP,<name>,<version>))
+define __VERSION_BUMP
+.PHONY: __start-version-bump-$1
+__start-version-bump-$1:
+	$$(if $$(HAS_GITFLOW),,$$(error "Unable to find git-flow on your system. Kindly install it"))
+	$$(if $$(GIT_DIRTY), $$(error "Unable to bump version: Dirty Git repository"))
+	@echo "Start the '$1' release of the repository from $$(VERSION) to $2"
+	git pull origin
+	git flow release start $2
+	@sleep 1
+	echo $2 > VERSION
+	git commit -s -m "$1 bump to version $2" VERSION
+	@echo "=> run 'make release' once you finished the version bump"
+endef
+
+$(eval $(call __VERSION_BUMP,patch,$(NEXT_PATCH_VERSION)))
+$(eval $(call __VERSION_BUMP,minor,$(NEXT_MINOR_VERSION)))
+$(eval $(call __VERSION_BUMP,major,$(NEXT_MAJOR_VERSION)))
+
+.PHONY: start-major-version-bump  start-minor-version-bump start-patch-version-bump release
+start-major-version-bump: __start-version-bump-major
+start-minor-version-bump: __start-version-bump-minor
+start-patch-version-bump: __start-version-bump-patch
+
+release:
+	$(if $(HAS_GITFLOW),, $(error "Unable to find git-flow on your system. Kindly install it"))
+	git flow release finish -s $(VERSION:%rc=%)
+	git switch $(GITFLOW_BRANCH_PRODUCTION)
+	git push origin
+	git switch $(GITFLOW_BRANCH_DEVELOP)
+	git push origin
+	git push origin --tags
+
+info-git:
+	@echo "==== Git info ==="
+	@echo "GITFLOW_BRANCH_PRODUCTION = $(GITFLOW_BRANCH_PRODUCTION)"
+	@echo "GITFLOW_BRANCH_DEVELOP    = $(GITFLOW_BRANCH_DEVELOP)"
+	@echo "GIT_BRANCH_CURRENT = $(GIT_BRANCH_CURRENT)"
+	@echo "IS_GIT_REPO_DIRTY  = $(IS_GIT_REPO_DIRTY)"
+	@echo "HAS_GITFLOW        = $(HAS_GITFLOW)"
+
+info-version:
+	@echo "=== repository versionning info ==="
+	@echo "VERSION       = $(VERSION)"
+	@echo "VERSION_MAJOR = $(VERSION_MAJOR)"
+	@echo "VERSION_MINOR = $(VERSION_MINOR)"
+	@echo "VERSION_PATCH = $(VERSION_PATCH)"
+	@echo "NEXT_MAJOR_VERSION = $(NEXT_MAJOR_VERSION)"
+	@echo "NEXT_MINOR_VERSION = $(NEXT_MINOR_VERSION)"
+	@echo "NEXT_PATCH_VERSION = $(NEXT_PATCH_VERSION)"

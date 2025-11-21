@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- Settings -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Sun 2025-08-24 18:05 svarrette>
+;;; Time-stamp: <Fri 2025-11-21 10:04 svarrette>
 ;;;; Commentary
 
 ;; Defines the layers to configure
@@ -30,8 +30,10 @@
                      better-defaults-move-to-beginning-of-code-first t
                      better-defaults-move-to-end-of-code-first t)
     bibtex
+    ;; https://www.spacemacs.org/layers/+lang/c-c++/README.html
     (c-c++ :variables
-           c-c++-backend 'lsp-clangd
+           c-c++-backend 'lsp-ccls
+           c-c++-lsp-enable-semantic-highlight 'rainbow
            c-c++-dap-adapters '(dap-lldb dap-cpptools)
            c-c++-enable-organize-includes-on-save t
            c-c++-enable-auto-newline t)

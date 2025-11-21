@@ -1,3 +1,6 @@
+
+![By Falkor](https://img.shields.io/badge/by-Falkor-blue.svg) [![github](https://img.shields.io/badge/git-github-lightgray.svg)](https://github.com/Falkor/spacemacs-config) [![Falkor/spacemacs-config issues](https://img.shields.io/github/issues/Falkor/spacemacs-config.svg)](https://github.com/Falkor/spacemacs-config/issues)
+
        _____     _ _              _       ____
       |  ___|_ _| | | _____  _ __( )___  / ___| _ __   __ _  ___ ___ _ __ ___   __ _  ___ ___
       | |_ / _` | | |/ / _ \| '__|// __| \___ \| '_ \ / _` |/ __/ _ \ '_ ` _ \ / _` |/ __/ __|
@@ -44,58 +47,104 @@ This repository is inspired from the excellent work performed by [Spacemacs Prac
 
 ## Installation
 
+```bash
+# TL;DR;
+make setup
+# Mac OS specific: select emacs backend
+make install-emacs-darwin-mac-plus # Default on 'make install-emacs'
+make install-emacs-darwin-macport  # alternative
+```
+
+The `make setup` will actually perform the following actions:
+
+```bash
+make setup-xdg        # setup XDG directories ~/.config etc.
+make install-packages # install complementary system packages
+make install-fonts    # install some nerd fonts
+make install-emacs    # actually done on linux with 'make install-packages' - multiple options (mac-plus (default),macport) on Mac OS
+make install-spacemacs         # install (or update) latest version of spacemacs under ~/.config/emacs
+make install-spacemacs-config  # install the present spacemacs configuration under     ~/.config/spacemacs
+```
+
 ### Pre-requisites
 
 #### Emacs
 
 Spacemacs is a configuration for Emacs, so naturally Emacs should be installed before Spacemacs can be used.
-Emacs is available for Linux, MacOSX and Windows.  The [Spacemacs Readme suggested ways to install Emacs](https://github.com/syl20bnr/spacemacs/tree/develop#emacs)
+Emacs is available for Linux, MacOSX and Windows. The [Spacemacs Readme suggested ways to install Emacs](https://github.com/syl20bnr/spacemacs/tree/develop#emacs) - see also [the practical.li guide](https://practical.li/spacemacs/install-spacemacs/pre-install/#install-emacs). On Mac OS, you have [several options](https://github.com/syl20bnr/spacemacs#macos).
 
 ```bash
 ### Linux: Debian/RHEL -like
 sudo { apt | dnf | ...}  install emacs
+
 ### Mac OS - using Homebrew
 # Option 1: Emacs plus https://github.com/d12frosted/homebrew-emacs-plus
 brew tap d12frosted/emacs-plus
-brew install emacs-plus --with-spacemacs-icon
-brew linkapps emacs-plus
+brew install emacs-plus@29 --with-spacemacs-icon
 # Option 2: emacs-mac
 brew tap railwaycat/emacsmacport
 brew install --cask emacs-mac-spacemacs-icon
 ```
 
+Alternative using the root `Makefile`:
+
+```bash
+make install-emacs
+```
+
+
 #### Complementary command line tools
 
-In addition, several command line tools are expected. See [practical instructions](https://practical.li/spacemacs/install-spacemacs/pre-install/#helm-locate)
+In addition, several command line tools are expected. See [practical instructions](https://practical.li/spacemacs/install-spacemacs/pre-install/#helm-locate).
+You can install them on your system with  (see [`.Makefile.local`](.Makefile.local) for the current list through the `*_PACKAGE_LIST` variables):
 
-see also `make bootstrap-linux`. Here is an overview of the system dependencies to satisfy:
+```bash
+make install-packages
+```
+
+Here is an example of some system dependencies to satisfy:
 
 | __Spacemacs Layer__                                                    | __Required dependency__                                       |                                                         |
-|------------------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------|
+|------------------------------------------------------------------------+---------------------------------------------------------------+---------------------------------------------------------|
 | [Ma]git                                                                | [Delta](https://dandavison.github.io/delta/installation.html) | `brew install git-delta`. Install deb package on Debian |
 | python                                                                 | black, flake8, ipython,                                       |                                                         |
 | [ruby](https://develop.spacemacs.org/layers/+lang/ruby/README.html)    | prettier, solargraph                                          |                                                         |
-| C-C++                                                                  | rtags                                                         |                                                         |
+| [C-C++](https://www.spacemacs.org/layers/+lang/c-c++/README.html)      | rtags, cscope, ccls                                           |                                                         |
 | [CMake](https://develop.spacemacs.org/layers/+tools/cmake/README.html) | cmake                                                         |                                                         |
 | shell                                                                  | shellcheck                                                    |                                                         |
 | solidity                                                               | solc                                                          | `brew install solidity`                                 |
 | dash                                                                   | Dash, sqlite3                                                 | `brew install dash5 sqlite3`                            |
 
-In addition, a few NPM dependencies will be installed to satisfy the [LSP layer](https://develop.spacemacs.org/layers/+tools/lsp/README.html)``
+In addition, a few NPM dependencies may be installed to satisfy the [LSP layer](https://spacemacs.org/layers/+tools/lsp/README.html)``
 
 
 ### Clone Spacemacs
 
- __Install Spacemacs__ into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) `~/.config/emacs`
+__Install Spacemacs__ into your [XDG emacs directory](https://wiki.archlinux.org/title/XDG_Base_Directory) `~/.config/emacs`
 
 ```bash
+make install-spacemacs         # install (or update) latest version of spacemacs under ~/.config/emacs
+# Or, manually:
 git clone https://github.com/syl20bnr/spacemacs ~/.config/emacs.spacemacs.d
+cd ~/.config
 ln -s emacs.spacemacs.d ~/.config/emacs
 ```
 
 _Note_:  using symbolic links for `~/.config/emacs` allows you to quickly switch between spacemacs  and any other emacs setup (Ex: [Doom Emacs](https://github.com/hlissner/doom-emacs), [My previous `Falkor/emacs-config2`](https://github.com/Falkor/emacs-config2) ... )
 
 Ensure you use the [develop](https://develop.spacemacs.org/) branch of spacemacs.
+
+### Clone my personnal Spacemacs configuration
+
+```bash
+make install-spacemacs-config  # install the present spacemacs configuration under     ~/.config/spacemacs
+# Or, manually:
+git clone https://github.com/Falkor/spacemacs-config.git ~/.config/spacemacs.falkor.d
+cd ~/.config
+ln -s spacemacs.falkor.d ~/.config/spacemacs
+```
+
+### Configure your shell profile accordingly
 
 Set the `SPACEMACSDIR` environment variable to the `~/.config/spacemacs` directory so that Spacemacs will find this location.
 For that, add the following context to yout favorite shell configuration:
@@ -107,51 +156,23 @@ export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
 
 # Set XDG location of Emacs Spacemacs configuration
-export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+if [ -d "${XDG_CONFIG_HOME}/spacemacs" ]; then
+   # Set XDG location of Emacs Spacemacs configuration
+   export SPACEMACSDIR="$XDG_CONFIG_HOME/spacemacs"
+fi
 ```
 
-### Clone my personnal Spacemacs configuration
-
-```bash
-git clone https://github.com/Falkor/spacemacs-config.git ~/.config/spacemacs.falkor.d
-ln -s spacemacs.falkor.d ~/.config/spacemacs
-
-# Alternative setup (my preferred way to keep things organised):
-#     clone into ~/git/github.com/Falkor/spacemacs-config and symlink where appropriate
-mkdir -p ~/git/github.com/Falkor/
-cd ~/git/github.com/Falkor/
-git clone https://github.com/Falkor/spacemacs-config.git
-ln -s ~/git/github.com/Falkor/spacemacs-config ~/.config/spacemacs.falkor.d
-ln -s spacemacs.falkor.d ~/.config/spacemacs
-```
-
-### Install nice fonts
+### Install complementary fonts
 
 Several nice fonts are required for the [Spacelines-all-the-icons](https://github.com/domtronn/spaceline-all-the-icons.el) mode-line.
-
-see also `dotspacemacs-default-font` in [`init.el`](.spacemacs)
-
-#### Linux / Debian
+Note that you would need them for setting up a [nice Git prompt for your shell](https://svarrette-anssi.gitlab.io/tutorial-git/TP/config/#configuring-a-git-prompt-in-your-shell).
 
 ```bash
-sudo apt install fonts-font-awesome fonts-anonymous-pro fonts-anonymous-pro fonts-noto-color-emoji
-# Install complementary Nerd fonts
-# see https://github.com/officialrajdeepsingh/nerd-fonts-installer
-# check installer first!!!
-bash -c  "$(curl -fsSL https://raw.githubusercontent.com/officialrajdeepsingh/nerd-fonts-installer/main/install.sh)"
-# => Meslo etc.
-# Install Abode Source Code pro
-mkdir -p ~/.fonts/adobe-fonts/source-code-pro
-git clone https://github.com/adobe-fonts/source-code-pro.git ~/.fonts/adobe-fonts/source-code-pro
-fc-cache -f -v ~/.fonts/adobe-fonts/source-code-pro
+make install-fonts
 ```
 
-#### Mac OS X
+See also `dotspacemacs-default-font` in [`init.el`](.spacemacs) to see the selected font
 
-```bash
-brew tap homebrew/cask-fonts
-brew install --cask font-source-code-pro font-meslo-lg-nerd-font
-```
 
 ### Disable system keyboard shortcut CTRL-SPC
 
@@ -159,10 +180,9 @@ You will also need to **disable** if needed a keyboard shortcut set by default o
 
 Go into **System Preferences / Keybord / Shortcuts / Input Source** and uncheck the settings.
 
+### Run emacs for the first time
 
-### Emacs Packages
-
-Spacemacs automatically downloads Emacs packages when Emacs is run, creating a compiled `.elc` file for each Emacs lisp file.
+Now it's time to run `emacs`: Spacemacs will then automatically downloads required Emacs packages, creating a compiled `.elc** file for each Emacs lisp file etc.
 
 If Emacs supports native compilation, then the compilation process can take longer, although Emacs should run many tasks faster or more efficiently.
 
@@ -170,7 +190,7 @@ If Emacs supports native compilation, then the compilation process can take long
 
 The proposed spacemacs configuration relies on the modern looking doom modeline theme, which requires fonts icons.
 
-Once Spacemacs is running, issue the following commands to install a wide range of fonts.
+**Once Spacemacs is running, issue the following commands to install a wide range of fonts**.
 
 - `SPC SPC all-the-icons-install-fonts`
 - `SPC SPC spaceline-all-the-icons`
@@ -183,10 +203,10 @@ Spacemacs is now up and running. You probably wish to check [Spacemacs Basics se
 
 A working congiration will be organized within two main directories
 
-| __Emacs Variable__       | __Value__         | __Description__                            |
-|--------------------------|-------------------|--------------------------------------------|
+| __Emacs Variable__       | __Value__              | __Description__                            |
+|--------------------------|------------------------|--------------------------------------------|
 | `dotspacemacs-directory` | `~/.config/spacemacs/` | Local [Falkor's] customizations repository |
-| `user-emacs-directory`   | `.config/emacs/`  | User [Spac]Emacs directory                 |
+| `user-emacs-directory`   | `~/.config/emacs/`     | User [Spac]Emacs directory                 |
 
 The general layout will be as follows:
 
