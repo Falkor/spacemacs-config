@@ -63,14 +63,14 @@ warning_dry_run() {
 ask(){
   [ -n "\${FORCE}" ] && return 0 # aka don't ask...
   echo -n -e "\${COLOR_VIOLET}/!\ WARNING:\${COLOR_RESET} $* [Y|n] "
-  read                                          #   0: true     1:false
+  read -r                                         #   0: true     1:false
   [[ -z "$REPLY" || $REPLY =~ ^[Yy].*$ ]] && return 0 || return 1
 }
 # As above, but return 0 (true) if No is answered
 avoid(){
   [ -n "\${FORCE}" ] && return 0 # aka don't ask...
   echo -n -e "\${COLOR_VIOLET}/!\ WARNING:\${COLOR_RESET} $* [y|N] "
-  read                                          #   0: true     1:false
+  read -r                                         #   0: true     1:false
   [[ -z "$REPLY" || $REPLY =~ ^[Nn].*$ ]] && return 0 || return 1
 }
 ####
@@ -94,6 +94,7 @@ done
 
 # Safeguards
 # check availability of the used commands
+# # shellcheck disable=SC2043
 # for cmd in python3; do
 #   [ ! -x "$(command -v \${cmd} 2>/dev/null)" ] && print_error_and_exit "Unable to find the command \${cmd}. Exiting"
 # done
