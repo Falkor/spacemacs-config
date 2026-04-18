@@ -32,13 +32,18 @@
     bibtex
     ;; https://www.spacemacs.org/layers/+lang/c-c++/README.html
     (c-c++ :variables
+           ;; c-c++-backend 'rtags
            c-c++-backend 'lsp-ccls
-           c-c++-lsp-enable-semantic-highlight 'rainbow
            c-c++-dap-adapters '(dap-lldb dap-cpptools)
+           c-c++-enable-clang-support t
            c-c++-enable-organize-includes-on-save t
-           c-c++-enable-auto-newline t)
+           c-c++-enable-rtags-support t
+           ;;c-c++-lsp-enable-semantic-highlight nil
+           c-c++-lsp-enable-semantic-highlight 'rainbow
+           c-c++-enable-auto-newline nil)
     common-lisp
     copy-as-format
+    cscope
     csv
     (dash :variables
           dash-autoload-common-docsets nil)

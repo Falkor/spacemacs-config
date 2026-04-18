@@ -287,6 +287,97 @@ Spacemacs default key bindings. "
 
   )
 
+;;;; C/C++ - https://www.spacemacs.org/layers/+lang/c-c++/README.html
+(defun local-settings/c-cpp-config ()
+  ;;;; https://gist.github.com/jstaursky/74cd3a30c1540142dc374f62187a0fc5
+  ;;(use-package rtags
+  ;;  ;; Note that if you recompile and create new compile_commands.json
+  ;;  ;; you will need to run "rc -J ." for rtags to reflect the changes.
+  ;;  ;; REMEMBER RTAGS DOES NOT WORK FOR PROJECTS INSIDE /tmp
+  ;;  :init
+  ;;  ;;(add-hook  'c++-mode-hook  #'rtags-start-process-unless-running)
+  ;;  ;;(add-hook  'c-mode-hook    #'rtags-start-process-unless-running)
+  ;;  (add-hook 'rtags-jump-hook 'evil-set-jump)
+
+  ;;  (setq rtags-completions-enabled t)
+  ;;  (setq lsp-enable-file-watchers nil)
+
+  ;;  (defun my/c-c++-tags-find-symbol-at-point (&optional prefix)
+  ;;    (interactive "P")
+  ;;    (if (and (not (rtags-find-symbol-at-point prefix))
+  ;;             rtags-last-request-not-indexed)
+  ;;        (evil-jump-to-tag)))
+
+
+  ;;  (defun my/c-c++-tags-find-references-at-point (&optional prefix)
+  ;;    (interactive "P")
+  ;;    (if (and (not (rtags-find-references-at-point prefix))
+  ;;             rtags-last-request-not-indexed)
+  ;;        (evil-jump-to-tag)))
+
+  ;;  (defun my/c-c++-tags-find-symbol ()
+  ;;    (interactive)
+  ;;    (call-interactively  'rtags-find-symbol))
+
+  ;;  ;; take keybindings of rtags backend
+  ;;  (defun spacemacs/rtags-define-keys-for-mode (mode)
+  ;;    (spacemacs/set-leader-keys-for-major-mode mode
+  ;;      "g."  'my/c-c++-tags-find-symbol-at-point
+  ;;      "g,"  'my/c-c++-tags-find-references-at-point
+  ;;      "g/"  'rtags-find-all-references-at-point
+  ;;      "g<"  '(lambda () (interactive) (call-interactively 'rtags-find-references))
+  ;;      "g>"  '(lambda () (interactive) (call-interactively 'rtags-find-symbol))
+
+  ;;      ;;".f"  'rtags-find-symbol-at-point
+  ;;      ;;".r"  'rtags-references-tree
+  ;;      ;;".R"  'rtags-rename-symbol
+  ;;      ".T"  'rtags-taglist
+  ;;      ".h"  'rtags-print-class-hierarchy
+  ;;      ".v"  'rtags-find-virtuals-at-point
+  ;;      ;;".c"  'c-toggle-comment-style
+  ;;      )
+  ;;    )
+
+  ;;  (spacemacs/rtags-define-keys-for-mode 'c-mode)
+  ;;  (spacemacs/rtags-define-keys-for-mode 'c++-mode)
+
+  ;;  ;;(spacemacs/declare-prefix-for-mode  'c++-mode  "m."   "my cmds")
+  ;;  (spacemacs/declare-prefix-for-mode  'c++-mode  "mg,"  "rtags-find-references-at-point")
+  ;;  (spacemacs/declare-prefix-for-mode  'c++-mode  "mg."  "rtags-find-symbol-at-point")
+  ;;  (spacemacs/declare-prefix-for-mode  'c++-mode  "mg<"  "rtags-find-references")
+  ;;  (spacemacs/declare-prefix-for-mode  'c++-mode  "mg>"  "rtags-find-symbol")
+
+
+  ;;  ;;(spacemacs/declare-prefix-for-mode  'c-mode    "m."   "my cmds")
+  ;;  (spacemacs/declare-prefix-for-mode  'c-mode    "mg,"  "rtags-find-references-at-point")
+  ;;  (spacemacs/declare-prefix-for-mode  'c-mode    "mg."  "rtags-find-symbol-at-point")
+  ;;  (spacemacs/declare-prefix-for-mode  'c-mode    "mg<"  "rtags-find-references")
+  ;;  (spacemacs/declare-prefix-for-mode  'c-mode    "mg>"  "rtags-find-symbol")
+
+  ;;  :config
+
+  ;;  (advice-add 'rtags-show-in-other-window
+  ;;   :around
+  ;;    (lambda (oldfn &rest args)
+  ;;      (let ((window (selected-window))) (apply oldfn args)
+  ;;           (run-at-time ".1 sec" nil
+  ;;                        `(lambda () (select-window (get-mru-window 'visible nil t))
+  ;;                           (recenter)
+  ;;                           (select-window ,window))))))
+
+  ;;  (advice-add 'rtags-find-symbol-at-point
+  ;;   :around (lambda (oldfn &rest args)
+  ;;             (apply oldfn args)
+  ;;             (run-at-time ".1 sec" nil #'recenter)
+  ;;             (redraw-display)))
+
+  ;;  (advice-add 'rtags-references-tree
+  ;;   :after (lambda () (pop-to-buffer rtags-buffer-name)))
+
+  ;;  ) ; End use-package rtags
+  )
+
+
 ;;;; Java - https://develop.spacemacs.org/layers/+lang/java/README.html
 (defun local-settings/java-config ()
   (setq-default c-indent-offset 2)
