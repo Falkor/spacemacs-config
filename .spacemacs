@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Mon 2025-10-06 23:11 svarrette>
+;;; Time-stamp: <Sat 2026-04-18 12:29 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -123,7 +123,7 @@ This function should only modify configuration layer settings."
    ;; this file). If you need some configuration for these packages, then
    ;; consider creating a layer. You can also put the configuration in
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
-   ;; `:location' property: '(your-package :location "~/path/to/your-package/")
+   ;; `:location' property: (your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    ;;  see settings/layers.el
    dotspacemacs-additional-packages  local-settings/dotspacemacs-additional-packages
@@ -639,7 +639,6 @@ before packages are loaded."
   (local-settings/auto-completion-config)
   ;; (local-settings/company-lsp-config)
 
-
   ;;;; -- Compiling - https://develop.spacemacs.org/doc/DOCUMENTATION.html#compiling
   (local-settings/compile-config)
 
@@ -650,6 +649,9 @@ before packages are loaded."
   ;;(add-hook 'prog-mode-hook #'(lambda ()
   ;;                              (dtrt-indent-mode)
   ;;                              (dtrt-indent-adapt)))
+
+  ;;;; -- C/C++
+  (local-settings/c-cpp-config)
 
   ;;;; Easybuild / Easyconfigs
   (add-to-list 'auto-mode-alist '("\\.eb\\'" . python-mode))
@@ -798,8 +800,8 @@ This function is called at the very end of Spacemacs initialization."
               indent-guide info+ inspector link-hint lorem-ipsum macrostep
               multi-line nameless open-junk-file org-superstar overseer
               page-break-lines paradox password-generator pcre2el popwin
-              quickrun rainbow-delimiters restart-emacs space-doc spaceline
-              spaceline-all-the-icons spacemacs-purpose-popwin
+              quickrun rainbow-delimiters restart-emacs rtags space-doc
+              spaceline spaceline-all-the-icons spacemacs-purpose-popwin
               spacemacs-whitespace-cleanup string-edit-at-point
               string-inflection symbol-overlay symon term-cursor toc-org
               treemacs-evil treemacs-icons-dired treemacs-persp
