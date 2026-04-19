@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sat 2026-04-18 12:29 svarrette>
+;;; Time-stamp: <Sun 2026-04-19 18:57 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -120,12 +120,7 @@ This function should only modify configuration layer settings."
    ;; in a layer
    ;; generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
-   ;; this file). If you need some configuration for these packages, then
-   ;; consider creating a layer. You can also put the configuration in
-   ;; `dotspacemacs/user-config'. To use a local version of a package, use the
-   ;; `:location' property: (your-package :location "~/path/to/your-package/")
-   ;; Also include the dependencies as they will not be resolved automatically.
-   ;;  see settings/layers.el
+   ;; this file). 
    dotspacemacs-additional-packages  local-settings/dotspacemacs-additional-packages
 
    ;; A list of packages that cannot be updated.
@@ -775,44 +770,44 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(ace-link aggressive-indent all-the-icons auto-compile auto-highlight-symbol
-              avy-jump-helm-line centered-cursor-mode clean-aindent-mode
-              column-enforce-mode define-word devdocs diminish dired-quick-sort
-              disable-mouse dockerfile-mode doom-themes dotenv-mode drag-stuff
-              dumb-jump elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu
-              evil-anzu evil-args evil-cleverparens evil-collection
-              evil-easymotion evil-escape evil-evilified-state evil-exchange
-              evil-goggles evil-iedit-state evil-indent-plus evil-lion
-              evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
-              evil-numbers evil-surround evil-textobj-line evil-tutor
-              evil-unimpaired evil-visual-mark-mode evil-visualstar
-              expand-region eyebrowse fancy-battery golden-ratio hcl-mode
-              helm-ag helm-comint helm-descbinds helm-make helm-mode-manager
-              helm-org helm-projectile helm-purpose helm-swoop helm-themes
-              helm-xref hide-comnt highlight-indentation highlight-numbers
-              highlight-parentheses hl-todo holy-mode hungry-delete hybrid-mode
-              indent-guide info+ inspector link-hint lorem-ipsum macrostep
-              multi-line nameless open-junk-file org-superstar overseer
-              page-break-lines paradox password-generator pcre2el popwin
-              quickrun rainbow-delimiters restart-emacs rtags space-doc
-              spaceline spaceline-all-the-icons spacemacs-purpose-popwin
-              spacemacs-whitespace-cleanup string-edit-at-point
-              string-inflection symbol-overlay symon term-cursor toc-org
-              treemacs-evil treemacs-icons-dired treemacs-persp
-              treemacs-projectile undo-fu undo-fu-session uuidgen
-              vi-tilde-fringe volatile-highlights vundo wgrep winum
-              writeroom-mode ws-butler))
- '(paradox-github-token t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(ace-link aggressive-indent all-the-icons auto-compile auto-highlight-symbol
+                avy-jump-helm-line centered-cursor-mode clean-aindent-mode
+                column-enforce-mode define-word devdocs diminish dired-quick-sort
+                disable-mouse dockerfile-mode doom-themes dotenv-mode drag-stuff
+                dumb-jump elisp-def elisp-demos elisp-slime-nav emr eval-sexp-fu
+                evil-anzu evil-args evil-cleverparens evil-collection
+                evil-easymotion evil-escape evil-evilified-state evil-exchange
+                evil-goggles evil-iedit-state evil-indent-plus evil-lion
+                evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
+                evil-numbers evil-surround evil-textobj-line evil-tutor
+                evil-unimpaired evil-visual-mark-mode evil-visualstar
+                expand-region eyebrowse fancy-battery golden-ratio hcl-mode
+                helm-ag helm-comint helm-descbinds helm-make helm-mode-manager
+                helm-org helm-projectile helm-purpose helm-swoop helm-themes
+                helm-xref hide-comnt highlight-indentation highlight-numbers
+                highlight-parentheses hl-todo holy-mode hungry-delete indent-guide
+                info+ inspector link-hint lorem-ipsum macrostep multi-line
+                nameless open-junk-file org-superstar overseer page-break-lines
+                paradox password-generator pcre2el popwin quickrun
+                rainbow-delimiters restart-emacs rtags space-doc spaceline
+                spaceline-all-the-icons spacemacs-purpose-popwin
+                spacemacs-whitespace-cleanup string-edit-at-point
+                string-inflection symbol-overlay symon term-cursor toc-org
+                treemacs-evil treemacs-icons-dired treemacs-persp
+                treemacs-projectile undo-fu undo-fu-session uuidgen
+                vi-tilde-fringe volatile-highlights vundo wgrep winum
+                writeroom-mode ws-butler))
+   '(paradox-github-token t))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
