@@ -1,0 +1,115 @@
+# Time-stamp: <Thu 2026-07-23 17:30 svarrette>
+####################################################################################
+# Makefile (configuration file for GNU make - see http://www.gnu.org/software/make/)
+#                     __  __       _         __ _ _
+#                    |  \/  | __ _| | _____ / _(_) | ___
+#                    | |\/| |/ _` | |/ / _ \ |_| | |/ _ \
+#                    | |  | | (_| |   <  __/  _| | |  __/
+#                    |_|  |_|\__,_|_|\_\___|_| |_|_|\___|
+#
+####################################################################################
+# A generic and modular Makefile piloting a project repository.
+# See https://github.com/Falkor/Makefiles for more examples
+#
+# **Default action upon 'make'**: see TARGETS
+# Usage:
+#     make help  # display all make directives
+#
+####################################################################################
+SHELL = /bin/bash
+
+# Check commands needed for this Makefile - complete as needed (space separated)
+EXECUTABLES = curl
+$(foreach exec,$(EXECUTABLES),\
+  $(if $(shell command -v $(exec) 2>/dev/null),,$(error "$(exec) not available in PATH")))
+
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+SCRIPTS_DIR := scripts
+
+# XDG Base Directory Specification: https://specifications.freedesktop.org/basedir-spec/
+XDG_CACHE_HOME  ?= $(HOME)/.cache
+XDG_CONFIG_HOME ?= $(HOME)/.config
+XDG_DATA_HOME   ?= $(HOME)/.local/share
+
+##################### Main targets #####################
+TARGETS = setup
+SETUP_TARGETS = setup-xdg
+INFO_TARGETS  =
+CLEAN_TARGETS =
+DISTCLEAN_TARGETS = clean-venv
+
+# local hook (before) for 'easy' customization. Ex:
+# SETUP_TARGETS += setup-python
+# all: $(TARGETS)
+ifneq ("$(wildcard .Makefile.local)","")
+include .Makefile.local
+endif
+# As above, but generally meant to be git ignored...
+ifneq ("$(wildcard .Makefile.custom)","")
+include .Makefile.custom
+endif
+
+############### Let's go ##############
+.PHONY: all
+all: $(TARGETS)
+
+### general help: list all available make directives
+.PHONY: help
+help:
+	@echo "=> available directives: "
+	@grep -EHn '^[a-z0-9_-]+[^:$$]*:' $(MAKEFILE_LIST) | grep -v '=' | awk -F: '{print $$3}' | xargs -n1 echo | sort | uniq | awk '{printf "\033[36m   make %-30s\033[0m\n", $$1}'
+
+### Specific setup: XDG Base Directory Specification
+# https://specifications.freedesktop.org/basedir/latest/
+.PHONY: setup-xdg
+setup-xdg:
+	mkdir -p $(XDG_CONFIG_HOME)
+	mkdir -p $(XDG_DATA_HOME)
+	mkdir -p $(XDG_CACHE_HOME)
+
+
+##############################
+### Python VENV management ###
+##############################
+ifneq ("$(wildcard .Makefile.venv)","")
+include .Makefile.venv
+.PHONY: setup-python
+setup-python: setup-python-deps
+# SETUP_TARGETS += setup-python
+DISTCLEAN_TARGETS += clean-venv
+INFO_VENV += info-venv
+
+endif
+
+#######################################
+### Git[flow] Repository management ###
+#######################################
+ifneq ("$(wildcard .Makefile.git)","")
+include .Makefile.git
+SETUP_TARGETS += setup-git-submodule
+INFO_TARGETS  += info-git info-version
+endif
+
+#########################
+### MKdocs Management ###
+#########################
+ifneq ("$(wildcard .Makefile.mkdocs)","")
+include .Makefile.mkdocs
+DISTCLEAN_TARGETS += clean-doc
+endif
+
+############
+### Lint ###
+############
+.PHONY: lint lint-bash
+lint: lint-bash
+lint-bash:
+	shellcheck $(shell find $(SCRIPTS_DIR) -type f)
+
+
+############## footer ###############
+.PHONY: setup clean distclean info
+setup: $(SETUP_TARGETS)
+info:  $(INFO_TARGETS)
+clean: $(CLEAN_TARGETS)
+distclean: $(DISTCLEAN_TARGETS)
