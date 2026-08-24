@@ -1,5 +1,5 @@
 ;;; Setup -*- lexical-binding: t; -*-
-;;; Time-stamp: <Sun 2026-04-19 18:57 svarrette>
+;;; Time-stamp: <Sat 2026-08-22 16:49 svarrette>
 ;;;; Commentary
 
 ;;  _____     _ _              _       ____
@@ -120,7 +120,7 @@ This function should only modify configuration layer settings."
    ;; in a layer
    ;; generally the packages are installed only and should still be
    ;; loaded using load/require/use-package in the user-config section below in
-   ;; this file). 
+   ;; this file).
    dotspacemacs-additional-packages  local-settings/dotspacemacs-additional-packages
 
    ;; A list of packages that cannot be updated.
@@ -135,7 +135,7 @@ This function should only modify configuration layer settings."
    ;; packages as well as their unused dependencies. `used-but-keep-unused'
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
-   ;; (default is `used-only')
+   ;; vimscript default is `used-only')
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
@@ -304,7 +304,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("MesloLGS NF"
-                               :size 14
+                               :size 18
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -787,7 +787,7 @@ This function is called at the very end of Spacemacs initialization."
                 evil-lisp-state evil-matchit evil-mc evil-nerd-commenter
                 evil-numbers evil-surround evil-textobj-line evil-tutor
                 evil-unimpaired evil-visual-mark-mode evil-visualstar
-                expand-region eyebrowse fancy-battery golden-ratio hcl-mode
+                expand-region eyebrowse fancy-battery fpga golden-ratio hcl-mode
                 helm-ag helm-comint helm-descbinds helm-make helm-mode-manager
                 helm-org helm-projectile helm-purpose helm-swoop helm-themes
                 helm-xref hide-comnt highlight-indentation highlight-numbers
@@ -798,8 +798,8 @@ This function is called at the very end of Spacemacs initialization."
                 rainbow-delimiters restart-emacs rtags space-doc spaceline
                 spaceline-all-the-icons spacemacs-purpose-popwin
                 spacemacs-whitespace-cleanup string-edit-at-point
-                string-inflection symbol-overlay symon term-cursor toc-org
-                treemacs-evil treemacs-icons-dired treemacs-persp
+                string-inflection symbol-overlay symon systemd term-cursor toc-org
+                toml-mode treemacs-evil treemacs-icons-dired treemacs-persp
                 treemacs-projectile undo-fu undo-fu-session uuidgen
                 vi-tilde-fringe volatile-highlights vundo wgrep winum
                 writeroom-mode ws-butler))

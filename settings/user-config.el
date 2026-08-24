@@ -1,5 +1,5 @@
 ;;; local-settings's Spacemacs --- User configs -*- mode: emacs-lisp; -*-
-;;; Time-stamp: <Sun 2025-08-24 17:28 svarrette>
+;;; Time-stamp: <Wed 2026-07-29 09:31 svarrette>
 ;;;; Commentary
 
 ;; Special settings, in alphabetical order
@@ -388,6 +388,11 @@ Spacemacs default key bindings. "
 (defun local-settings/latex-config ()
   (add-to-list 'auto-mode-alist '("\\.tex\\'" . latex-mode))
   (add-to-list 'auto-mode-alist '("\\.sty\\'" . latex-mode))
+
+  ;; disable popop
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-sideline-enable nil)
+
 
   (setq TeX-auto-local ".texinfo")
   )

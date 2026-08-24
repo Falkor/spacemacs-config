@@ -181,6 +181,7 @@
   '(bury-successful-compilation
     doom-themes
     evil-smartparens
+    fpga
     mic-paren
     time-stamp
     ;; solo-jazz-theme
